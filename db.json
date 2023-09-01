@@ -1,0 +1,137 @@
+{
+  "event": [
+    {
+      "id": 1,
+      "name": "Company Tour Tokopedia",
+      "date": "15-09-2023",
+      "time": "10:00",
+      "lcoataion": "Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio No.Kav. 11, Karet Semanggi, Kecamatan Setiabudi, Daerah Khusus Ibukota Jakarta 12950BSD, Jakarta",
+      "description": "free to the public"
+    },
+    {
+      "id": 2,
+      "name": "Company Tour Tokopedia",
+      "date": "15-09-2023",
+      "time": "10:00",
+      "lcoataion": "Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio No.Kav. 11, Karet Semanggi, Kecamatan Setiabudi, Daerah Khusus Ibukota Jakarta 12950FX Sudirman",
+      "description": "free to the public"
+    },
+    {
+      "id": 3,
+      "name": "Company Tour Tokopedia",
+      "date": "15-09-2023",
+      "time": "10:00",
+      "lcoataion": "Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio No.Kav. 11, Karet Semanggi, Kecamatan Setiabudi, Daerah Khusus Ibukota Jakarta 12950Plaza Senayan",
+      "description": "free to the public"
+    },
+    {
+      "id": 4,
+      "name": "Company Tour Tokopedia",
+      "date": "15-09-2023",
+      "time": "10:00",
+      "lcoataion": "Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio No.Kav. 11, Karet Semanggi, Kecamatan Setiabudi, Daerah Khusus Ibukota Jakarta 12950",
+      "description": "free to the public"
+    },
+    {
+      "id": 5,
+      "name": "Company Tour Tokopedia",
+      "date": "15-09-2023",
+      "time": "10:00",
+      "lcoataion": "Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio No.Kav. 11, Karet Semanggi, Kecamatan Setiabudi, Daerah Khusus Ibukota Jakarta 12950",
+      "description": "free to the public"
+    },
+    {
+      "id": 6,
+      "name": "Company Tour Tokopedia",
+      "date": "15-09-2023",
+      "time": "10:00",
+      "lcoataion": "Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio No.Kav. 11, Karet Semanggi, Kecamatan Setiabudi, Daerah Khusus Ibukota Jakarta 12950",
+      "description": "free to the public"
+    },
+    {
+      "id": 7,
+      "name": "Company Tour Tokopedia",
+      "date": "15-09-2023",
+      "time": "10:00",
+      "lcoataion": "Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio No.Kav. 11, Karet Semanggi, Kecamatan Setiabudi, Daerah Khusus Ibukota Jakarta 12950",
+      "description": "free to the public"
+    },
+    {
+      "id": 8,
+      "name": "Company Tour Tokopedia",
+      "date": "15-09-2023",
+      "time": "10:00",
+      "lcoataion": "Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio No.Kav. 11, Karet Semanggi, Kecamatan Setiabudi, Daerah Khusus Ibukota Jakarta 12950",
+      "description": "free to the public"
+    },
+    {
+      "id": 9,
+      "name": "Company Tour Tokopedia",
+      "date": "15-09-2023",
+      "time": "10:00",
+      "lcoataion": "Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio No.Kav. 11, Karet Semanggi, Kecamatan Setiabudi, Daerah Khusus Ibukota Jakarta 12950",
+      "description": "free to the public"
+    },
+    {
+      "id": 10,
+      "name": "Company Tour Tokopedia",
+      "date": "15-09-2023",
+      "time": "10:00",
+      "lcoataion": "Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio No.Kav. 11, Karet Semanggi, Kecamatan Setiabudi, Daerah Khusus Ibukota Jakarta 12950",
+      "description": "free to the public"
+    }
+  ],
+
+  "user": [
+    {
+      "id": 1,
+      "name": "Michael Jordan",
+      "email": "michael@mail.com"
+    },
+    {
+      "id": 2,
+      "name": "Kobe Bryant",
+      "email": "kobe@mail.com"
+    },
+    {
+      "id": 3,
+      "name": "Magic Johnson",
+      "email": "magic@mail.com"
+    },
+    {
+      "id": 4,
+      "name": "Tim Duncan",
+      "email": "tim@mail.com"
+    },
+    {
+      "id": 5,
+      "name": "Bill Russell",
+      "email": "bill@mail.com"
+    },
+    {
+      "id": 6,
+      "name": "Kareem Abdul-Jabbar",
+      "email": "kareem@mail.com"
+    },
+    {
+      "id": 7,
+      "name": "Larry Bird",
+      "email": "larry@mail.com"
+    },
+    {
+      "id": 8,
+      "name": " Wilt Chamberlain",
+      "email": "wilt@mail.com"
+    },
+    {
+      "id": 9,
+      "name": "LeBron James",
+      "email": "lebron@mail.com"
+    },
+    {
+      "id": 10,
+      "name": "Hakeem Olajuwon",
+      "email": "hakeem@mail.com"
+    }
+  ]
+}
