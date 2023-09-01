@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const counterSlice = createSlice({
-  name: "count",
+export const globalSlice = createSlice({
+  name: "global",
   initialState: {
     count: 0,
+    rating: 0,
   },
   reducers: {
     increment: (state) => {
@@ -15,8 +16,11 @@ export const counterSlice = createSlice({
     incrementByAmount: (state, action) => {
       state.count = action.payload;
     },
+    setRating: (state, action) => {
+      state.rating = action.payload;
+    },
   },
 });
 
-export const { increment, decrement, incrementByAmount } = counterSlice.actions;
-export default counterSlice.reducer;
+export const { increment, decrement, incrementByAmount, setRating } = globalSlice.actions;
+export default globalSlice.reducer;

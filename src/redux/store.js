@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from "./counter";
+import eventReducer from "./event";
+import globalReducer from "./global";
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    event: eventReducer,
+    global: globalReducer,
   },
 });
