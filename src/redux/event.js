@@ -1,13 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import repositories from "@/repositories/repositories";
 
-export const getAllEvent = createAsyncThunk("product/fetchProductsStatus", async () => {
+export const getAllEvent = createAsyncThunk("events/fetcheventsStatus", async () => {
   const response = await repositories.getAPI("event");
   return response.data;
 });
 
-export const getOneEvent = createAsyncThunk("product/fetchProductsStatus", async (id) => {
-  const response = await repositories.getAPI(`event/${id}`);
+export const getOneEvent = createAsyncThunk("events/fetcheventsStatus", async (id) => {
+  const response = await repositories.getAPI(`events/${id}`);
   return response.data;
 });
 

@@ -1,10 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-import eventReducer from "./event";
 import globalReducer from "./global";
+import eventReducer from "./event";
+import reviewReducer from "./review";
+import userReducer from "./user";
 
 export const store = configureStore({
   reducer: {
-    event: eventReducer,
     global: globalReducer,
+    event: eventReducer,
+    review: reviewReducer,
+    user: userReducer,
   },
 });

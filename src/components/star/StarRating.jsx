@@ -1,14 +1,14 @@
 import { useState } from "react";
-import styles from "./Star.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setRating } from "@/redux/global";
+import styles from "./Star.module.css";
 
 const StarRating = () => {
   const dispatch = useDispatch();
   const { rating } = useSelector((state) => state.global);
   // const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
-  console.log(rating);
+
   return (
     <div className="star-rating">
       {[...Array(5)].map((star, index) => {
@@ -22,7 +22,7 @@ const StarRating = () => {
             onMouseEnter={() => setHover(index)}
             onMouseLeave={() => setHover(rating)}
           >
-            <span className="star">&#9733;</span>
+            <span className="star text-xl">&#9733;</span>
           </button>
         );
       })}

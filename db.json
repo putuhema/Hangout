@@ -1,11 +1,19 @@
 {
-  "event": [
+  "events": [
+    {
+      "id": 0,
+      "name": "Company Tour Tokopedia",
+      "date": "15-09-2023",
+      "time": "10:00",
+      "location": "Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio No.Kav. 11, Karet Semanggi, Kecamatan Setiabudi, Daerah Khusus Ibukota Jakarta 12950",
+      "description": "free to the public"
+    },
     {
       "id": 1,
       "name": "Company Tour Tokopedia",
       "date": "15-09-2023",
       "time": "10:00",
-      "lcoataion": "Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio No.Kav. 11, Karet Semanggi, Kecamatan Setiabudi, Daerah Khusus Ibukota Jakarta 12950BSD, Jakarta",
+      "location": "Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio No.Kav. 11, Karet Semanggi, Kecamatan Setiabudi, Daerah Khusus Ibukota Jakarta 12950BSD, Jakarta",
       "description": "free to the public"
     },
     {
@@ -13,7 +21,7 @@
       "name": "Company Tour Tokopedia",
       "date": "15-09-2023",
       "time": "10:00",
-      "lcoataion": "Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio No.Kav. 11, Karet Semanggi, Kecamatan Setiabudi, Daerah Khusus Ibukota Jakarta 12950FX Sudirman",
+      "location": "Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio No.Kav. 11, Karet Semanggi, Kecamatan Setiabudi, Daerah Khusus Ibukota Jakarta 12950FX Sudirman",
       "description": "free to the public"
     },
     {
@@ -21,7 +29,7 @@
       "name": "Company Tour Tokopedia",
       "date": "15-09-2023",
       "time": "10:00",
-      "lcoataion": "Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio No.Kav. 11, Karet Semanggi, Kecamatan Setiabudi, Daerah Khusus Ibukota Jakarta 12950Plaza Senayan",
+      "location": "Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio No.Kav. 11, Karet Semanggi, Kecamatan Setiabudi, Daerah Khusus Ibukota Jakarta 12950Plaza Senayan",
       "description": "free to the public"
     },
     {
@@ -29,7 +37,7 @@
       "name": "Company Tour Tokopedia",
       "date": "15-09-2023",
       "time": "10:00",
-      "lcoataion": "Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio No.Kav. 11, Karet Semanggi, Kecamatan Setiabudi, Daerah Khusus Ibukota Jakarta 12950",
+      "location": "Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio No.Kav. 11, Karet Semanggi, Kecamatan Setiabudi, Daerah Khusus Ibukota Jakarta 12950",
       "description": "free to the public"
     },
     {
@@ -37,7 +45,7 @@
       "name": "Company Tour Tokopedia",
       "date": "15-09-2023",
       "time": "10:00",
-      "lcoataion": "Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio No.Kav. 11, Karet Semanggi, Kecamatan Setiabudi, Daerah Khusus Ibukota Jakarta 12950",
+      "location": "Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio No.Kav. 11, Karet Semanggi, Kecamatan Setiabudi, Daerah Khusus Ibukota Jakarta 12950",
       "description": "free to the public"
     },
     {
@@ -45,7 +53,7 @@
       "name": "Company Tour Tokopedia",
       "date": "15-09-2023",
       "time": "10:00",
-      "lcoataion": "Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio No.Kav. 11, Karet Semanggi, Kecamatan Setiabudi, Daerah Khusus Ibukota Jakarta 12950",
+      "location": "Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio No.Kav. 11, Karet Semanggi, Kecamatan Setiabudi, Daerah Khusus Ibukota Jakarta 12950",
       "description": "free to the public"
     },
     {
@@ -53,7 +61,7 @@
       "name": "Company Tour Tokopedia",
       "date": "15-09-2023",
       "time": "10:00",
-      "lcoataion": "Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio No.Kav. 11, Karet Semanggi, Kecamatan Setiabudi, Daerah Khusus Ibukota Jakarta 12950",
+      "location": "Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio No.Kav. 11, Karet Semanggi, Kecamatan Setiabudi, Daerah Khusus Ibukota Jakarta 12950",
       "description": "free to the public"
     },
     {
@@ -61,7 +69,7 @@
       "name": "Company Tour Tokopedia",
       "date": "15-09-2023",
       "time": "10:00",
-      "lcoataion": "Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio No.Kav. 11, Karet Semanggi, Kecamatan Setiabudi, Daerah Khusus Ibukota Jakarta 12950",
+      "location": "Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio No.Kav. 11, Karet Semanggi, Kecamatan Setiabudi, Daerah Khusus Ibukota Jakarta 12950",
       "description": "free to the public"
     },
     {
@@ -69,20 +77,16 @@
       "name": "Company Tour Tokopedia",
       "date": "15-09-2023",
       "time": "10:00",
-      "lcoataion": "Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio No.Kav. 11, Karet Semanggi, Kecamatan Setiabudi, Daerah Khusus Ibukota Jakarta 12950",
-      "description": "free to the public"
-    },
-    {
-      "id": 10,
-      "name": "Company Tour Tokopedia",
-      "date": "15-09-2023",
-      "time": "10:00",
-      "lcoataion": "Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio No.Kav. 11, Karet Semanggi, Kecamatan Setiabudi, Daerah Khusus Ibukota Jakarta 12950",
+      "location": "Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio No.Kav. 11, Karet Semanggi, Kecamatan Setiabudi, Daerah Khusus Ibukota Jakarta 12950",
       "description": "free to the public"
     }
   ],
-
-  "user": [
+  "users": [
+    {
+      "id": 0,
+      "name": "Hakeem Olajuwon",
+      "email": "hakeem@mail.com"
+    },
     {
       "id": 1,
       "name": "Michael Jordan",
@@ -127,11 +131,78 @@
       "id": 9,
       "name": "LeBron James",
       "email": "lebron@mail.com"
+    }
+  ],
+  "reviews": [
+    {
+      "id": 0,
+      "rating": 5,
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed arcu turpis, ullamcorper ac luctus nec, posuere quis nisi. Suspendisse potenti. Vestibulum in tincidunt leo. Vestibulum elementum aliquam nisl quis cursus. Aliquam elementum ipsum et massa pretium semper. Maecenas dictum lorem ac ultricies interdum. Suspendisse potenti. Fusce non erat ornare, dictum metus ut, ullamcorper velit. Curabitur consequat magna quis vehicula blandit. Sed sagittis id est rhoncus pharetra.",
+      "eventId": 0,
+      "userId": 0
     },
     {
-      "id": 10,
-      "name": "Hakeem Olajuwon",
-      "email": "hakeem@mail.com"
+      "id": 1,
+      "rating": 5,
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed arcu turpis, ullamcorper ac luctus nec, posuere quis nisi. Suspendisse potenti. Vestibulum in tincidunt leo. Vestibulum elementum aliquam nisl quis cursus. Aliquam elementum ipsum et massa pretium semper. Maecenas dictum lorem ac ultricies interdum. Suspendisse potenti. Fusce non erat ornare, dictum metus ut, ullamcorper velit. Curabitur consequat magna quis vehicula blandit. Sed sagittis id est rhoncus pharetra.",
+      "eventId": 1,
+      "userId": 1
+    },
+    {
+      "id": 2,
+      "rating": 5,
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed arcu turpis, ullamcorper ac luctus nec, posuere quis nisi. Suspendisse potenti. Vestibulum in tincidunt leo. Vestibulum elementum aliquam nisl quis cursus. Aliquam elementum ipsum et massa pretium semper. Maecenas dictum lorem ac ultricies interdum. Suspendisse potenti. Fusce non erat ornare, dictum metus ut, ullamcorper velit. Curabitur consequat magna quis vehicula blandit. Sed sagittis id est rhoncus pharetra.",
+      "eventId": 2,
+      "userId": 2
+    },
+    {
+      "id": 3,
+      "rating": 5,
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed arcu turpis, ullamcorper ac luctus nec, posuere quis nisi. Suspendisse potenti. Vestibulum in tincidunt leo. Vestibulum elementum aliquam nisl quis cursus. Aliquam elementum ipsum et massa pretium semper. Maecenas dictum lorem ac ultricies interdum. Suspendisse potenti. Fusce non erat ornare, dictum metus ut, ullamcorper velit. Curabitur consequat magna quis vehicula blandit. Sed sagittis id est rhoncus pharetra.",
+      "eventId": 3,
+      "userId": 3
+    },
+    {
+      "id": 4,
+      "rating": 5,
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed arcu turpis, ullamcorper ac luctus nec, posuere quis nisi. Suspendisse potenti. Vestibulum in tincidunt leo. Vestibulum elementum aliquam nisl quis cursus. Aliquam elementum ipsum et massa pretium semper. Maecenas dictum lorem ac ultricies interdum. Suspendisse potenti. Fusce non erat ornare, dictum metus ut, ullamcorper velit. Curabitur consequat magna quis vehicula blandit. Sed sagittis id est rhoncus pharetra.",
+      "eventId": 4,
+      "userId": 4
+    },
+    {
+      "id": 5,
+      "rating": 5,
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed arcu turpis, ullamcorper ac luctus nec, posuere quis nisi. Suspendisse potenti. Vestibulum in tincidunt leo. Vestibulum elementum aliquam nisl quis cursus. Aliquam elementum ipsum et massa pretium semper. Maecenas dictum lorem ac ultricies interdum. Suspendisse potenti. Fusce non erat ornare, dictum metus ut, ullamcorper velit. Curabitur consequat magna quis vehicula blandit. Sed sagittis id est rhoncus pharetra.",
+      "eventId": 5,
+      "userId": 5
+    },
+    {
+      "id": 6,
+      "rating": 5,
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed arcu turpis, ullamcorper ac luctus nec, posuere quis nisi. Suspendisse potenti. Vestibulum in tincidunt leo. Vestibulum elementum aliquam nisl quis cursus. Aliquam elementum ipsum et massa pretium semper. Maecenas dictum lorem ac ultricies interdum. Suspendisse potenti. Fusce non erat ornare, dictum metus ut, ullamcorper velit. Curabitur consequat magna quis vehicula blandit. Sed sagittis id est rhoncus pharetra.",
+      "eventId": 6,
+      "userId": 6
+    },
+    {
+      "id": 7,
+      "rating": 5,
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed arcu turpis, ullamcorper ac luctus nec, posuere quis nisi. Suspendisse potenti. Vestibulum in tincidunt leo. Vestibulum elementum aliquam nisl quis cursus. Aliquam elementum ipsum et massa pretium semper. Maecenas dictum lorem ac ultricies interdum. Suspendisse potenti. Fusce non erat ornare, dictum metus ut, ullamcorper velit. Curabitur consequat magna quis vehicula blandit. Sed sagittis id est rhoncus pharetra.",
+      "eventId": 7,
+      "userId": 7
+    },
+    {
+      "id": 8,
+      "rating": 5,
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed arcu turpis, ullamcorper ac luctus nec, posuere quis nisi. Suspendisse potenti. Vestibulum in tincidunt leo. Vestibulum elementum aliquam nisl quis cursus. Aliquam elementum ipsum et massa pretium semper. Maecenas dictum lorem ac ultricies interdum. Suspendisse potenti. Fusce non erat ornare, dictum metus ut, ullamcorper velit. Curabitur consequat magna quis vehicula blandit. Sed sagittis id est rhoncus pharetra.",
+      "eventId": 8,
+      "userId": 8
+    },
+    {
+      "id": 9,
+      "rating": 5,
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed arcu turpis, ullamcorper ac luctus nec, posuere quis nisi. Suspendisse potenti. Vestibulum in tincidunt leo. Vestibulum elementum aliquam nisl quis cursus. Aliquam elementum ipsum et massa pretium semper. Maecenas dictum lorem ac ultricies interdum. Suspendisse potenti. Fusce non erat ornare, dictum metus ut, ullamcorper velit. Curabitur consequat magna quis vehicula blandit. Sed sagittis id est rhoncus pharetra.",
+      "eventId": 9,
+      "userId": 9
     }
   ]
 }
