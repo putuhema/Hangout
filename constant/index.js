@@ -1,8 +1,14 @@
-export const categories = ["Music", "Performing & Visual Art", "Holiday", "Health", "Hobbies", "Business", "Food & Drink", "Sport & Fitness"]
+export const categories = [
+    { value: "music", text: "Music" },
+    { value: "performingVisualArt", text: "Performing & Visual Art" },
+    { value: "holiday", text: "Holiday" },
+    { value: "health", text: "Health" },
+    { value: "hobbies", text: "Hobbies" },
+    { value: "business", text: "Business" },
+    { value: "foodDrink", text: "Food & Drink" },
+    { value: "spportFitness", text: "Sport & Fitness" }
+]
 
 export const tabs = [
-    { value: 'all', text: "All" },
-    { value: 'forYou', text: "For You" },
-    { value: 'online', text: "Online" },
-    { value: 'today', text: "Today" },
+    "All", "Online", "Today"
 ]

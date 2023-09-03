@@ -1,8 +1,34 @@
-# React + Vite
+# Hangout | Event Management App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## setup the app
 
-Currently, two official plugins are available:
+- This app uses `json-server` as a backend, so you need to create `db.json` file inside the `api` folder. Create `api` folder at the root of the project with the following content:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```json
+// ./api/db.json
+{
+    "events": []
+}
+```
+
+- authentication is achieved using `clerk`. Please paste your API key to the `.env`. see [documentation](https://clerk.com/docs/quickstarts/react#configure-clerk-provider) for more details.
+
+## run the app
+
+- Install the necessary package by running:
+
+```bash
+npm install
+```
+
+- Start server with the following command:
+
+```bash
+npm run db-watch
+```
+
+- Finally, run the app in development mode using:
+
+```bash
+npm run dev
+```
