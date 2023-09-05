@@ -9,24 +9,20 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { fetchEventOnCategory } from "@/features/slice/eventAction"
+import { useQueryTab } from "@/hooks/useQueryTab"
+import { ArrowLeft } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
 const CategoryPage = () => {
     const { eventCategory } = useParams()
-    const dispatch = useDispatch()
-    const { events } = useSelector((state) => state.events)
     const [select, setSelect] = useState('today')
     const [isCalendarOpen, setIsCalendarOpen] = useState(false)
     const ref = useRef(null)
+    const navigate = useNavigate()
 
-
-
-    useEffect(() => {
-        dispatch(fetchEventOnCategory(eventCategory))
-    }, [dispatch, eventCategory])
+    // TODO: filtering data based on date
+    const { data } = useQueryTab(`category/${eventCategory}`, `/f?category=${eventCategory}`, Boolean(eventCategory))
 
     useEffect(() => {
         const clickOutside = (e) => {
@@ -42,13 +38,17 @@ const CategoryPage = () => {
         }
 
     }, [])
+
     return (
         <Container>
-            <div className="w-full bg-black h-[250px] rounded-md">
+            <span className="cursor-pointer" onClick={() => navigate(-1)}>
+                <ArrowLeft />
+            </span>
+            <div className="w-full bg-gray-100 mt-4 h-[250px] rounded-md">
                 <div className="w-full mx-auto pt-20">
                     <div className="py-4 px-8">
-                        <h1 className="text-6xl font-extrabold text-[#f7f154]">Music Events</h1>
-                        <p className="text-white">Discover the best Music events in your area and online</p>
+                        <h1 className="text-6xl font-extrabold text-black">Music Events</h1>
+                        <p className="text-black">Discover the best Music events in your area and online</p>
                     </div>
                 </div>
             </div>
@@ -77,7 +77,7 @@ const CategoryPage = () => {
                 }
                 <div className="p-2 grid grid-cols-4 gap-4">
                     {
-                        events.map(event => (<div key={event.id}><EventCard event={event} /></div>))
+                        data && data.map(event => (<div key={event.id}><EventCard event={event} /></div>))
                     }
                 </div>
             </div>

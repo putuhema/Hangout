@@ -1,20 +1,32 @@
+import { useState } from "react"
+
 import { ArrowLeft } from "lucide-react"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../ui/form"
-import { useDispatch, useSelector } from "react-redux"
-import { useState } from "react"
 import { RadioGroup, RadioGroupItem } from "../../ui/radio-group"
 import { Label } from "../../ui/label"
 import SelectLocation from "./SelectLocation"
-import { getDistricts, getRegencies } from "@/features/slice/eventAction"
+import { useQuery } from "@tanstack/react-query"
+import axios from "axios"
+import { Skeleton } from "@/components/ui/skeleton"
+import { useLocation } from "@/hooks/useLocation"
 
 const LocationField = ({ form }) => {
-    const dispatch = useDispatch()
     const [locationRadio, setLocationRadio] = useState()
-    const { provincies, regencies, districts } = useSelector((state) => state.events)
+    const [locationId, setLocationId] = useState({
+        regency: "",
+        province: ""
+    })
 
-    const handleSelectOnChange = (label, value, fn) => {
+    const { data: provincies } = useQuery(["provinces"], async () => {
+        const res = await axios.get("http://putuhema.github.io/api-wilayah-indonesia/api/provinces.json")
+        return res.data
+    })
+    const { data: regencies } = useLocation("regencies", locationId.province)
+    const { data: districts } = useLocation("districts", locationId.regency)
+
+    const handleSelectOnChange = (label, value) => {
         form.setValue(`location.${label}`, value)
-        dispatch(fn(form.getValues(`location.${label}`)))
+        setLocationId({ ...locationId, [label]: value })
     }
     return (
 
@@ -28,6 +40,7 @@ const LocationField = ({ form }) => {
                             locationRadio === 'custom' && (
                                 <span
                                     onClick={() => {
+                                        setLocationId({})
                                         setLocationRadio("online");
                                         form.setValue("location", {});
                                         form.setValue("location.isOnline", "online")
@@ -35,7 +48,7 @@ const LocationField = ({ form }) => {
                                 ><ArrowLeft className="w-4 h-4 cursor-pointer" /></span>
                             )
                         }
-                        Event Location</FormLabel>
+                        Event Location </FormLabel>
                     {
                         locationRadio !== 'custom' ? (
                             <FormControl>
@@ -61,25 +74,25 @@ const LocationField = ({ form }) => {
                                     label="provinces"
                                     locations={provincies}
                                     form={form}
-                                    onChange={(value) => handleSelectOnChange("province", value, getRegencies)} />
+                                    onChange={(value) => handleSelectOnChange("province", value)} />
                                 {
-                                    regencies.length > 0 && (
+                                    regencies ? (
                                         <SelectLocation
                                             label="regency"
                                             locations={regencies}
                                             form={form}
-                                            onChange={(value) => handleSelectOnChange("regency", value, getDistricts)}
+                                            onChange={(value) => handleSelectOnChange("regency", value)}
                                         />
-                                    )
+                                    ) : <Skeleton className="h-10 w-[100px] p-4 self-end" />
                                 }
                                 {
-                                    districts.length > 0 && (
+                                    districts ? (
                                         <SelectLocation
                                             label="district"
                                             locations={districts}
                                             form={form}
                                         />
-                                    )
+                                    ) : <Skeleton className="h-10 w-[100px] p-4 self-end" />
                                 }
                             </div>
                         )

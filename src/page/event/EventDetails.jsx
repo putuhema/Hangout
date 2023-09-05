@@ -1,35 +1,38 @@
 import Container from "@/components/layout/Container"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { fetchEvent, getLocation } from "@/features/slice/eventAction"
+import { Skeleton } from "@/components/ui/skeleton"
+import { useLocation } from "@/hooks/useLocation"
 import { formatToUnits } from "@/lib/utils"
+import services from "@/services"
 import { format } from "date-fns"
-import { Heart, Share } from "lucide-react"
-import { useEffect } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router-dom"
+import { ArrowLeft, Heart, Share } from "lucide-react"
+import { useQuery } from "@tanstack/react-query"
+import { useNavigate, useParams } from "react-router-dom"
+
+
 
 const EventDetails = () => {
     const { eventId } = useParams()
-    const dispatch = useDispatch()
-    const { event, location } = useSelector(state => state.events)
-    const { province, regency, district, isOnline } = event.location
+    const navigate = useNavigate()
 
+    const { data: event, isFetched } = useQuery(["event", eventId], async () => {
+        const res = await services.get(`/events/${eventId}`)
+        return res.data
+    })
+    const { province: pId, regency: rId, district: dId, isOnline } = isFetched ? event.location : {}
+    const { data: province } = useLocation("province", pId)
+    const { data: regency } = useLocation("regency", rId)
+    const { data: district } = useLocation("district", dId)
 
-    useEffect(() => {
-        dispatch(fetchEvent(eventId))
-    }, [dispatch, eventId])
-
-    useEffect(() => {
-        if (isOnline !== 'online') {
-            if (province) dispatch(getLocation({ id: province, loc: "province" }))
-            if (regency) dispatch(getLocation({ id: regency, loc: "regency" }))
-            if (district) dispatch(getLocation({ id: district, loc: "district" }))
-        }
-    }, [isOnline, province, regency, district, dispatch])
     return (
+        isFetched &&
         <Container>
             <div className="flex flex-col gap-4">
+                <span className="cursor-pointer" onClick={() => navigate(-1)}>
+                    <ArrowLeft />
+                </span>
+
                 <div className="w-full h-[250px] rounded-md bg-gradient-to-r from-rose-100 to-teal-100" />
                 <p>{format(new Date(event.date), "PPP")}</p>
                 <div className="flex gap-6">
@@ -37,9 +40,12 @@ const EventDetails = () => {
                         <h2 className="font-bold text-4xl">{event.name}</h2>
                         <p>{event.description}</p>
                         <div className="w-full p-2 mt-4 rounded-md bg-gray-100 flex items-center justify-between">
-                            <div>
-                                <p>Putu</p>
-                                <p>49 Follower</p>
+                            <div className="flex items-center gap-4">
+                                <img className="object-cover rounded-full w-[30px] h-[30px] self-start" src={event.user.imageUrl} />
+                                <span className="flex flex-col">
+                                    <p className="font-bold">{event.user.fullname}</p>
+                                    <p>{event.user.follower} Follower</p>
+                                </span>
                             </div>
                             <Button>FOLLOW</Button>
                         </div>
@@ -54,9 +60,14 @@ const EventDetails = () => {
                             <span className="block">
                                 <p className="font-bold">Location</p>
                                 {
+
                                     isOnline === "online" ?
                                         <p className="text-sm">{isOnline}</p> :
-                                        <p className="text-sm">{`${location.district.name}, ${location.regency.name}, ${location.province.name}`}</p>
+                                        <span className="text-sm flex gap-2 capitalize">
+                                            {district ? <p>{`${district.name.toLowerCase()},`}</p> : <Skeleton className="h4 w-10" />}
+                                            {regency ? <p>{`${regency.name.toLowerCase()},`}</p> : <Skeleton className="h4 w-10" />}
+                                            {province ? <p>{`${province.name.toLowerCase()}`}</p> : <Skeleton className="h4 w-10" />}
+                                        </span>
                                 }
                             </span>
                             <span className="block">
@@ -64,7 +75,7 @@ const EventDetails = () => {
                                 <span className="space-x-2">
                                     {
                                         event.tags.map(tag => (
-                                            <Badge key={tag}>{tag}</Badge>
+                                            <Badge className="cursor-pointer" key={tag}>{tag}</Badge>
                                         ))
                                     }
                                 </span>

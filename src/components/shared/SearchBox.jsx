@@ -1,39 +1,44 @@
 import { useDispatch, useSelector } from "react-redux"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
-import { searchAnEvents, toggleSearch } from "@/features/slice/eventSlice"
+import { toggleSearch } from "@/features/slice/eventSlice"
 import EventCard from "../event/EventCard"
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group"
 import { Label } from "../ui/label"
 import { Badge } from "../ui/badge"
 import { Search, X } from "lucide-react"
+
+import { useQuery } from "@tanstack/react-query"
+import services from "@/services"
+import { Skeleton } from "../ui/skeleton"
+import { useDebounce } from "use-debounce"
 import { categories } from "../../../constant"
-import { searchWithFulltext } from "@/features/slice/eventAction"
+
 
 const SearchBox = () => {
     const dispatch = useDispatch()
-    const { isSearch, searchEvents } = useSelector(state => state.events)
+    const { isSearch } = useSelector(state => state.events)
     const [keyword, setKeyword] = useState("")
-    const [filters, setFilters] = useState([])
+    const [debounceKeyword] = useDebounce(keyword, 1000)
+    // Filters hold object that contains filter conditions for [date, price, category].
+    const [filters, setFilters] = useState(["", "", ""])
+    const isShow = filters.filter(filter => filter.length > 0).length > 0
 
+    const { data: filterData } = useQuery({
+        queryKey: [`search/filter`, filters, debounceKeyword],
+        queryFn: async () => {
+            const res = await services.get(`/events/f?date=${filters[0]}&price=${filters[1]}&category=${filters[2]}&q=${debounceKeyword}`)
+            return res.data.data
+        },
+        enabled: Boolean(filters || debounceKeyword),
+        refetchOnWindowFocus: false
+    })
 
-    const isShow = filters.length > 0 && filters[0] !== 'clear'
-
-    useEffect(() => {
-        dispatch(searchWithFulltext(keyword))
-    }, [dispatch, keyword])
-
-    useEffect(() => {
-        dispatch(searchAnEvents(filters))
-    }, [dispatch, filters])
-
-    const handleRadioCange = (value, index) => {
+    const handleRadioCange = (value, key) => {
         const copyFilters = [...filters]
-        copyFilters[index] = value
+        copyFilters[key] = value
         setFilters(copyFilters)
-
     }
-
 
     return <div className={`fixed top-0 left-0 p-4 bg-white w-full h-full transform origin-center ${isSearch ? 'translate-y-0' : 'translate-y-full'} transition-all duration-200 z-50`}>
         <span
@@ -90,35 +95,48 @@ const SearchBox = () => {
                                 </div>
                             ))
                         }
-
                     </RadioGroup>
                 </div>
 
             </div>
             <div className="flex flex-col gap-2 w-full">
                 <span className="flex gap-2 w-full">
-                    {/* {
-                        isShow && (
-                            <span>{filters.length} filter(s) applied</span>
-                        )
-                    } */}
-                    {filters[0] && isShow && <Badge>{filters[0] === "0" ? 'Today' : filters[0] === '2' ? 'Tomorrow' : "This Weekend"}</Badge>}
-                    {filters[1] && isShow && <Badge>{filters[1]}</Badge>}
-                    {filters[2] && isShow && <Badge>{filters[2]}</Badge>}
+                    {filters[0] && isShow && (
+                        <Badge className="flex items-center gap-4">
+                            <span>
+                                {filters[0] === "0" ? 'Today' : filters[0] === '2' ? 'Tomorrow' : "This Weekend"}
+                            </span>
+                            <X onClick={() => handleRadioCange("", 0)} className="h-3 w-3 cursor-pointer" />
+                        </Badge>
+                    )}
+                    {filters[1] && isShow && (
+                        <Badge className="flex items-center gap-4">
+                            <span>
+                                {filters[1]}
+                            </span>
+                            <X onClick={() => handleRadioCange("", 1)} className="h-3 w-3 cursor-pointer" />
+                        </Badge>)}
+                    {filters[2] && isShow && (
+                        <Badge className="flex items-center gap-4">
+                            <span>
+                                {filters[2]}
+                            </span>
+                            <X onClick={() => handleRadioCange("", 2)} className="h-3 w-3 cursor-pointer" />
+                        </Badge>
+                    )}
                     {
                         isShow && (
                             <button
-                                onClick={() => setFilters(['clear'])}
+                                onClick={() => setFilters(["", "", ""])}
                                 className="underline hover:text-gray-500">clear filter</button>
                         )
                     }
                 </span>
                 <div className="grid grid-cols-4 gap-4 w-full">
                     {
-                        searchEvents.length > 0 ?
-                            searchEvents.map(event => (<EventCard event={event} key={event.id} />))
+                        filterData ? filterData.map(event => (<EventCard event={event} key={event.id} />))
                             : (
-                                <p>Nothing matched your search</p>
+                                <Skeleton className="w-[200px] h-[250px]" />
                             )
                     }
                 </div>

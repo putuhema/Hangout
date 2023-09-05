@@ -10,7 +10,7 @@ const Navbar = () => {
   const dispatch = useDispatch()
 
   return (
-    <nav className="w-full flex items-center justify-between  gap-4 px-6 sm:px-10 py-2 shadow-md fixed top-0 left-0 bg-gradient-to-r from-gray-700 via-gray-900 to-black text-white">
+    <nav className="z-20 w-full flex items-center justify-between  gap-4 px-6 sm:px-10 py-2 shadow-md fixed top-0 left-0 bg-gradient-to-r from-gray-700 via-gray-900 to-black text-white">
       <div className="flex gap-8 items-center">
         <Link className="text-xl font-bold leading-4 hidden md:block" to="/">Hangout.id</Link>
         <div
@@ -23,7 +23,7 @@ const Navbar = () => {
       </div>
 
       <div className="flex gap-2 items-center">
-        <Link to={`/${userSignIn ? 'event-form' : "sign-in"}`} className="flex items-center bg-white/30 backdrop-blur-sm hover:bg-gray-100 gap-4 px-4 py-2 border  rounded-full">
+        <Link to={`/${userSignIn ? 'event-form' : "sign-in"}`} className="flex items-center bg-white/30 backdrop-blur-sm hover:bg-white/40 gap-4 px-4 py-2 border  rounded-full">
           <Plus size={20} />
           <span>Event</span>
         </Link>

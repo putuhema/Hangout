@@ -21,7 +21,7 @@ export const formSchema = z.object({
     description: z.string().min(2),
     // picturepath: z.string(),
     type: z.string(),
-    price: z.string(),
+    price: z.string().optional(),
     category: z.string(),
     tags: z.string().array(),
 })

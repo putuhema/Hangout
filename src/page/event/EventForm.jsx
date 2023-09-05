@@ -6,8 +6,6 @@ import { Plus, X, ArrowLeft } from "lucide-react"
 import { v4 as uuidv4 } from "uuid"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { formSchema } from "@/schema"
-import { useDispatch } from "react-redux"
-import { getProvincies, postEvent } from "@/features/slice/eventAction"
 
 import Container from "@/components/layout/Container"
 import { Input } from "@/components/ui/input"
@@ -23,84 +21,87 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useNavigate } from "react-router-dom"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
-import { categories } from "../../constant"
+import { categories } from "../../../constant"
 import PickedTime from "@/components/event/forms/PickedTime"
 import DateAndTime from "@/components/event/forms/DateAndTime"
 import LocationField from "@/components/event/forms/LocationField"
 
+import { useMutation } from "@tanstack/react-query"
+import services from "@/services"
+import { useToast } from "@/components/ui/use-toast"
+import { useAuth, useUser } from "@clerk/clerk-react"
+
+const emptyForm = {
+    userId: {
+        id: "",
+        fullName: "",
+        imageUrl: "",
+        follower: 0,
+    },
+    name: "",
+    location: {
+        isOnline: "",
+        province: "",
+        regency: "",
+        district: "",
+        address: ''
+    },
+    date: new Date(),
+    time: {
+        hours: "0",
+        minutes: "0",
+        type: ""
+    },
+    description: "",
+    // picturepath: "",
+    type: "free",
+    price: "",
+    tags: []
+}
+
+
+// TODO: add a id fields to events object to identify the user who crated it
 const EventForm = () => {
     const navigate = useNavigate()
-    const dispatch = useDispatch()
+    const { userId } = useAuth()
+    const { user } = useUser()
+    const { toast } = useToast()
 
     const [tag, setTag] = useState('')
     const [tags, setTags] = useState([])
     const [type, setType] = useState('free')
 
-    const form = useForm({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            name: "",
-            location: {
-                isOnline: "",
-                province: "",
-                regency: "",
-                district: "",
-                address: ""
-            },
-            date: new Date(),
-            time: {
-                hours: "0",
-                minutes: "0",
-                type: ""
-            },
-            description: "",
-            // picturepath: "",
-            type: "",
-            price: 0,
-            tags: []
+    const mutation = useMutation({
+        mutationFn: async (newEvets) => {
+            return services.post("/events", newEvets)
         }
     })
 
-
-    useEffect(() => {
-        dispatch(getProvincies())
-    }, [dispatch])
+    const form = useForm({
+        resolver: zodResolver(formSchema),
+        defaultValues: emptyForm
+    })
 
     useEffect(() => {
         if (form.formState.isSubmitSuccessful) {
-            form.reset({
-                name: "",
-                location: {
-                    isOnline: "",
-                    province: "",
-                    regency: "",
-                    district: "",
-                    address: ''
-                },
-                date: new Date(),
-                time: {
-                    hours: "0",
-                    minutes: "0",
-                    type: ""
-                },
-                description: "",
-                // picturepath: "",
-                type: "",
-                price: 0,
-                tags: []
-            })
+            form.reset(emptyForm)
         }
     }, [form.formState, form])
 
     const onSubmit = (values) => {
         setTags([])
-        dispatch(postEvent({
+        mutation.mutate({
             ...values,
+            user: {
+                id: userId,
+                fullname: user.fullName,
+                imageUrl: user.imageUrl,
+                follower: 0
+            },
             date: new Date(values.date),
             time: `${values.time.hours}:${values.time.minutes} ${values.time.type.toUpperCase()}`,
             id: uuidv4()
-        }))
-
+        })
     }
 
     const handleAddTag = () => {
@@ -108,6 +109,9 @@ const EventForm = () => {
         setTags([...tags, tag])
         form.setValue("tags", [...form.getValues('tags'), tag])
     }
+
+    const formSuccess = mutation.isSuccess ? { title: 'Success', desc: "Event sucessfully created." } : {}
+    const formError = mutation.isError ? { title: 'Error', desc: "Event Not Created, something wrong." } : {}
 
     // console.log(form.watch())
     return (
@@ -117,6 +121,7 @@ const EventForm = () => {
                     <span className="cursor-pointer" onClick={() => navigate(-1)}>
                         <ArrowLeft />
                     </span>
+
                     <h2 className="font-bold text-lg mb-6">Lets create your event</h2>
                 </span>
                 <Form {...form}>
@@ -136,7 +141,9 @@ const EventForm = () => {
                                         </FormItem>
                                     )}
                                 />
+                                {/* location form control  */}
                                 <LocationField form={form} />
+
                                 <FormField
                                     control={form.control}
                                     name="description"
@@ -286,7 +293,13 @@ const EventForm = () => {
                                 </div>
                             </div>
                         </div>
-                        <Button className="mt-4" type="submit">Create Event</Button>
+                        <Button className="mt-4" type="submit" onClick={() =>
+                            toast({
+                                title: formSuccess ? formSuccess.title : formError ? formError.title : null,
+                                description: formSuccess ? formSuccess.desc : formError ? formError.desc : null,
+
+                            })
+                        }>Create Event</Button>
                     </form>
                 </Form>
             </div>

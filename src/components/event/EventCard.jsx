@@ -8,8 +8,9 @@ import { formatToUnits } from "@/lib/utils"
 const EventCard = ({ event }) => {
     const [isFavorite, setIsFavorite] = useState(false)
 
+
     return (
-        <div className="rounded-lg bg-gradient-to-r from-blue-100 to-red-100 relative w-full h-[250px]">
+        <div className="rounded-lg bg-gradient-to-r from-blue-100 to-red-100 relative w-full h-[250px] z-[1]">
             <span className="absolute top-2 left-2 bg-white/30 border-white border backdrop-blur-md w-max px-2 py-1 rounded-md flex flex-col items-center justify-center">
                 <p className="font-bold text-xl leading-none">{new Date(event.date).getDate()}</p>
                 <p className="text-sm text-gray-500">{format(new Date(event.date), "LLLL").slice(0, 3)}</p>

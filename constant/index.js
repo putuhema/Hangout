@@ -9,6 +9,4 @@ export const categories = [
     { value: "spportFitness", text: "Sport & Fitness" }
 ]
 
-export const tabs = [
-    "All", "Online", "Today"
-]
+
