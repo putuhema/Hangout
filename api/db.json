@@ -1,3 +1,40 @@
 {
-  "events": []
+  "events": [
+    {
+      "name": "art gallery in big house",
+      "location": {
+        "isOnline": "custom",
+        "province": "76",
+        "regency": "7604",
+        "district": "7604033",
+        "address": ""
+      },
+      "date": "2023-09-06T02:09:03.294Z",
+      "time": "03:14 AM",
+      "description": "lets create a group meeting to appreciate art together",
+      "type": "free",
+      "price": "",
+      "category": "performingVisualArt",
+      "tags": ["art"],
+      "user": {
+        "id": "user_2V0HavlhdlWx64A3Chi2gmFne6X",
+        "fullname": "Tetsu Tetsu",
+        "imageUrl": "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BQWNIVHRjNDdfMGFVQ0RSS0dsdml0NXp0dlpqNVBEYlM0UHQwWmpuWkhBZ1MwZjd6dz1zMTAwMC1jIiwicyI6IlRuK0VmTFJVdUN1UjNlRFNPNFJSKy9FRzhJbjRtT3VEbVJYdGltOWtQa2MifQ",
+        "follower": 0
+      },
+      "id": "93026d6f-1622-4aaa-bb28-556aee513c91"
+    }
+  ],
+  "users": [
+    {
+      "id": "user_2V0HavlhdlWx64A3Chi2gmFne6X",
+      "first_name": "Tetsu",
+      "last_name": "Tetsu",
+      "email": "tetsutetsuhero@gmail.com",
+      "gender": "",
+      "imageUrl": "https://lh3.googleusercontent.com/a/AAcHTtc47_0aUCDRKGlvit5ztvZj5PDbS4Pt0ZjnZHAgS0f7zw=s1000-c",
+      "username": null,
+      "follower": []
+    }
+  ]
 }

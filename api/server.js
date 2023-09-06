@@ -2,17 +2,22 @@ import { isThisWeek, isToday, isTomorrow } from "date-fns"
 import jsonServer from "json-server"
 import { Low } from "lowdb"
 import { JSONFile } from 'lowdb/node'
+import { config } from 'dotenv'
+import bodyParser from "body-parser"
+import { Webhook } from "svix"
+// import cors from 'cors'
 
+config()
+const db = new Low(new JSONFile("./db.json"), {})
 
-const db = new Low(new JSONFile("./db.json"), {},
-)
 
 const server = jsonServer.create()
 const router = jsonServer.router('db.json')
 const middlewares = jsonServer.defaults()
 
 
-
+// server.use(cors())
+// server.use(bodyParser.json())
 server.use(middlewares)
 
 function getDateOnFilter(date, events) {
@@ -38,8 +43,8 @@ function getDateOnFilter(date, events) {
     return filteredData;
 }
 
-server.get("/events/user", async (req, res) => {
 
+server.get("/events/user", async (req, res) => {
     await db.read()
     const events = db.data.events
     const { id } = req.query
@@ -85,6 +90,35 @@ server.get("/events/location", async (req, res) => {
     res.jsonp({
         data: filteredData
     })
+})
+
+server.post('/webhook', bodyParser.raw({ type: 'application/json' }), async function (req, res) {
+    try {
+
+        const payload = req.body;
+        const headers = req.headers;
+
+        const wh = new Webhook(process.env.CLERK_WEBHOOK_SECRET_KEY)
+        const evt = wh.verify(payload, headers);
+        const { id, first_name, last_name, email_addresses, gender, profile_image_url, username } = evt.data;
+
+        const eventType = evt.type;
+        if (eventType === "user.created") {
+            await db.read()
+            const email = email_addresses[0].email_address
+            await db.data.users.push({ id, first_name, last_name, email, gender, imageUrl: profile_image_url, username })
+            await db.write()
+        }
+        res.status(200).jsonp({
+            success: true,
+            message: 'Webhook received'
+        })
+    } catch (err) {
+        res.status(400).jsonp({
+            success: false,
+            message: err.message
+        })
+    }
 })
 
 server.use(router)
