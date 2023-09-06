@@ -5,6 +5,7 @@ export const globalSlice = createSlice({
   initialState: {
     count: 0,
     rating: 0,
+    error: "",
   },
   reducers: {
     increment: (state) => {
@@ -19,8 +20,11 @@ export const globalSlice = createSlice({
     setRating: (state, action) => {
       state.rating = action.payload;
     },
+    setError: (state, action) => {
+      state.error = action.payload;
+    },
   },
 });
 
-export const { increment, decrement, incrementByAmount, setRating } = globalSlice.actions;
+export const { increment, decrement, incrementByAmount, setRating, setError } = globalSlice.actions;
 export default globalSlice.reducer;

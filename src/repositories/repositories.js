@@ -1,14 +1,15 @@
+import React from "react";
 import axios from "axios";
 
-class Repositories {
+class Repositories extends React.Component {
   url = "http://localhost:3000";
 
   async getAPI(params) {
-    try {
-      return await axios.get(`${this.url}/${params}`);
-    } catch (error) {
-      console.log(error);
-    }
+    // try {
+    return await axios.get(`${this.url}/${params}`);
+    // } catch (error) {
+    // console.log(error);
+    // }
   }
 
   async postAPI(params, data) {

@@ -26,14 +26,14 @@ const Dashboard = () => {
 
   return (
     <Container className="">
-      <div className="flex w-4/5 mt-32">
-        <div className="flex flex-col items-start w-1/4 pt-24">
+      <div className="flex  mt-32">
+        <div className="flex flex-col items-start w-1/4 mt-24 ms-12">
           <input className="my-4 text-2xl" type="submit" value="Events" onClick={onClick} onChange={onChange} />
           <input className="my-4 text-2xl" type="submit" value="Registration" onClick={onClick} onChange={onChange} />
           <input className="my-4 text-2xl" type="submit" value="Transaction" onClick={onClick} onChange={onChange} />
           <input className="my-4 text-2xl" type="submit" value="Statistic" onClick={onClick} onChange={onChange} />
         </div>
-        <div className="ps-24 pt-8">{render}</div>
+        <div className="px-24 pt-4 w-full">{render}</div>
       </div>
     </Container>
   );

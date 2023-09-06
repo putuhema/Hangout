@@ -3,8 +3,19 @@
 @tailwind utilities;
 
 .on {
-  color: yellow;
+  color: rgb(240, 240, 0);
 }
 .off {
   color: #ccc;
+}
+
+.hide {
+  display: none;
+}
+
+.this:hover + .hide {
+  margin-top: 1rem;
+  display: block;
+  position: absolute;
+  font-weight: 100;
 }
