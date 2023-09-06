@@ -1,6 +1,6 @@
 // Free = reserve a spot, Pay = Check out for ${value}
 
-import { Formik, Form, Field, ErrorMessage } from "formik"
+import { Formik, Form /*Field, ErrorMessage*/ } from "formik"
 import * as Yup from "yup"
 import { ArrowLeft } from "lucide-react"
 
