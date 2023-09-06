@@ -4,7 +4,7 @@ import { ChevronRight } from "lucide-react"
 import { categories, tabs } from "../../constant"
 import Category from "../components/event/Category"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs"
-import Registration from "../components/event/Registration"
+import Register from "../components/event/Register"
 
 const Home = () => {
   return (
@@ -52,7 +52,7 @@ const Home = () => {
               </span>
             </div>
             <div className="rounded-md shadow-sm h-10 bg-white p-2 w-full"></div>
-            <Registration />
+            <Register />
           </div>
         </div>
       </div>
