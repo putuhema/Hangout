@@ -1,8 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from "./counter";
+import globalReducer from "./global";
+import eventReducer from "./event";
+import reviewReducer from "./review";
+import userReducer from "./user";
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    global: globalReducer,
+    event: eventReducer,
+    review: reviewReducer,
+    user: userReducer,
   },
 });
