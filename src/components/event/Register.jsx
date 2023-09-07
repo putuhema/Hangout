@@ -7,6 +7,7 @@ export default function Register() {
   const [show, setShow] = useState(false)
 
   const maxTicket = 2
+  const ticketPrice = 10_000
 
   useEffect(() => {
     if (show) {
@@ -14,8 +15,6 @@ export default function Register() {
     } else {
       document.body.classList.remove("overflow-hidden")
     }
-
-    // Clean up the effect when the component unmounts
     return () => {
       document.body.classList.remove("overflow-hidden")
     }
@@ -48,17 +47,24 @@ export default function Register() {
             </div>
           </div>
           <div className="text-[16px] font-medium flex gap-3 items-center mt-4">
-            Free <Info />
+            {ticketPrice === 0 ? "Free" : `Rp.${ticketPrice}`} <Info />
           </div>
         </div>
         <button
           className="rounded-md bg-slate-800 py-2 text-lg font-medium text-white w-full"
           onClick={() => setShow(!show)}
         >
-          Reserve a spot
+          {ticketPrice === 0
+            ? "Reserve a spot"
+            : `Checkout for Rp.${ticket * ticketPrice}`}
         </button>
       </div>
-      <Checkout ticket={ticket} show={show} setShow={setShow} />
+      <Checkout
+        ticket={ticket}
+        show={show}
+        setShow={setShow}
+        ticketPrice={ticketPrice}
+      />
     </>
   )
 }

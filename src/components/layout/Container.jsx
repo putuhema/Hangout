@@ -1,9 +1,13 @@
 import PropType from 'prop-types'
 import Navbar from "../shared/Navbar"
+import { Toaster } from '../ui/toaster'
+import SearchBox from '../shared/SearchBox'
+
 
 const Container = ({ children }) => {
     return (
-        <>
+        <div>
+            <SearchBox />
             <Navbar />
             {/* FIXME: responsive on smaller screen */}
             <main className="w-full lg:w-[1280px] mx-auto">
@@ -11,7 +15,8 @@ const Container = ({ children }) => {
                     {children}
                 </div>
             </main>
-        </>
+            <Toaster />
+        </div>
     )
 }
 
