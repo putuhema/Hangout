@@ -35,7 +35,7 @@ const emptyForm = {
     name: "",
     location: {
         isOnline: "",
-        province: "",
+        provinces: "",
         regency: "",
         district: "",
         address: ""
@@ -87,6 +87,7 @@ const EventForm = () => {
             id: uuidv4(),
             attendees: [],
             favorites: [],
+            promos: {},
             date: new Date(values.date),
             time: `${values.time.hours}:${values.time.minutes} ${values.time.type.toUpperCase()}`,
         })

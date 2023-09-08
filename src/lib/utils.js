@@ -13,3 +13,11 @@ export function formatToUnits(number, precision) {
 
   return (number / Math.pow(10, order * 3)).toFixed(precision) + suffix;
 }
+
+export function FormatToIDR(price) {
+  return new Intl.NumberFormat('ID', { style: 'currency', currency: 'IDR' }).format(price)
+}
+
+export function IsObjectEmpty(obj) {
+  return Object.keys(obj).length === 0
+}

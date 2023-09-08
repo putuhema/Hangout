@@ -63,10 +63,10 @@ const Navbar = () => {
         <div className={`${userSignIn && 'p-1 rounded-md w-12 h-12 ml-8'}`}>
           {
             userSignIn ?
-              <DropdownMenu>
+              <DropdownMenu >
                 <DropdownMenuTrigger>
                   <Avatar className="ring-2 ring-primary">
-                    <AvatarImage className="object-cover" src={isFetched && user.imageUrl} />
+                    <AvatarImage className="object-cover" src={isFetched && user.imageUrl ? user.imageUrl : ''} />
                     <AvatarFallback>PM</AvatarFallback>
                   </Avatar>
                 </DropdownMenuTrigger>
@@ -74,7 +74,7 @@ const Navbar = () => {
                   <DropdownMenuLabel className="">
                     <div className="flex gap-2 items-center">
                       <Avatar className="w-8 h-8">
-                        <AvatarImage src={isFetched && user.imageUrl} />
+                        <AvatarImage src={isFetched && user.imageUrl ? user.imageUrl : ''} />
                         <AvatarFallback>PM</AvatarFallback>
                       </Avatar>
                       <div>
@@ -108,8 +108,10 @@ const Navbar = () => {
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem className="flex gap-2 items-center">
-                    <LayoutDashboard className="w-4 h-4" />
-                    <span>Dashboard</span>
+                    <Link to={`/dashboard`} target="_blank" className="flex items-center gap-2">
+                      <LayoutDashboard className="w-4 h-4" />
+                      <span>Dashboard</span>
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem className="flex gap-2 items-center mt-6">

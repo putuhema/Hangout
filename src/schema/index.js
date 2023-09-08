@@ -32,3 +32,10 @@ export const eventRegisterSchema = z.object({
     lastName: z.string().min(2),
     email: z.string().email(),
 })
+
+
+export const eventPromos = z.object({
+    name: z.string(),
+    percentage: z.string(),
+    limit: z.string(),
+})

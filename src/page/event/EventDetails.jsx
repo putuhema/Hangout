@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 
-import { formatToUnits } from "@/lib/utils"
+import { FormatToIDR, IsObjectEmpty } from "@/lib/utils"
 import { format } from "date-fns"
 import { ArrowLeft, Heart, Loader2, Share, Ticket } from "lucide-react"
 import { useQuery, useMutation } from "@tanstack/react-query"
@@ -19,14 +19,16 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { eventRegisterSchema } from "@/schema"
 import { v4 as uuidv4 } from "uuid"
 import { useEffect, useState } from "react"
+import { Separator } from "@/components/ui/separator"
+
 
 const EventDetails = () => {
     const { eventId } = useParams()
     const { userId } = useAuth()
     const { user, isSignedIn } = useUser()
     const navigate = useNavigate()
+    const [currentPage, setCurrentPage] = useState(1)
 
-    const [message, setMessage] = useState("");
 
     const { data: event, isFetched } = useQuery(["event", eventId], async () => {
         const res = await services.get(`/events/${eventId}`)
@@ -77,12 +79,13 @@ const EventDetails = () => {
         }
     }, [form.formState, form])
 
-    // console.log(userEvent)
     const referalMutation = useMutation({
         mutationFn: async (data) => {
             return services.post("/events/referal", data)
         }
     })
+
+
 
     const onSubmit = (values) => {
         // checking if current user loggin is already attend to the event
@@ -96,7 +99,6 @@ const EventDetails = () => {
                     userId
                 })
             }
-
             eventMutation.mutate({
                 ...event,
                 attendees: [
@@ -114,16 +116,9 @@ const EventDetails = () => {
         }
     }
 
-    // handling payment with stripe
-    const [stripePromise, setStripePromise] = useState(null)
 
-
-    const { data: publishableKey } = useQuery(['publishableKey'], async () => {
-        const res = await services.get('/config')
-        return res.data
-    })
-
-    console.log(publishableKey)
+    const price = isFetched && event.type === "paid" && Number(event.price)
+    const discount = isFetched && !IsObjectEmpty(event.promos) ? (price - (price * (Number(event.promos.percentage) / 100))) : 0
 
     return (
         isFetched &&
@@ -192,7 +187,18 @@ const EventDetails = () => {
                             <Share className="w-6 h-6 cursor-pointer" />
                         </span>
                         <div className="md:border md:border-border rounded-md w-full md:w-[250px] justify-between py-3 gap-2 md:px-6 md:py-4 flex flex-row md:flex-col items-center h-max">
-                            <p className=" font-bold text-lg">{event.type === 'paid' ? formatToUnits(parseInt(event.price)) : event.type}</p>
+                            {
+                                discount > 0 ? (
+                                    <span>
+                                        <p className="font-bold">{FormatToIDR(price - (price - discount))}</p>
+                                        <span className="flex gap-2">
+                                            <Badge className="text-xs">{`${event.promos.percentage}%`}</Badge>
+                                            <p className="line-through text-muted-foreground text-sm">{FormatToIDR(price)}</p>
+                                        </span>
+                                    </span>
+                                ) : (<p className=" font-bold text-lg">{event.type === 'paid' ? FormatToIDR(price) : event.type}</p>)
+
+                            }
                             <Dialog >
                                 <DialogTrigger>
                                     <span className="flex items-center gap-2 hover:bg-secondary w-full order-2 md:order-1 border p-2 rounded-md">
@@ -204,84 +210,126 @@ const EventDetails = () => {
                                 </DialogTrigger>
                                 <DialogContent>
                                     <DialogHeader>
-                                        <DialogTitle>Contact Information</DialogTitle>
+                                        <DialogTitle>
+                                            {currentPage === 1 ? 'Contact Information' : 'Checkout'}
+                                        </DialogTitle>
                                     </DialogHeader>
-                                    {/* <div>
+                                    <div>
                                         {
-                                            isSignedIn ? (<p>logged in as <span className="text-gray-500">{user.emailAddresses[0].emailAddress}</span></p>) : (
-                                                <p>register for the event</p>)
+                                            currentPage === 1 &&
+                                            (isSignedIn ? (<p>logged in as <span className="text-gray-500">{user.emailAddresses[0].emailAddress}</span></p>) : (
+                                                <p>register for the event</p>))
                                         }
                                         <Form {...form}>
                                             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
-                                                <FormField
-                                                    control={form.control}
-                                                    name="referal"
-                                                    render={({ field }) => (
-                                                        <FormItem className="mt-6">
-                                                            <FormLabel>Referal Code</FormLabel>
-                                                            <FormControl>
-                                                                <Input id="referal" {...field} placeholder="ex. 30eb68f-e0fa-5ecc-887a-7c7a62614681" />
-                                                            </FormControl>
-                                                            <FormMessage />
-                                                        </FormItem>
+                                                {
+                                                    currentPage === 1 && (
+                                                        <>
+                                                            <FormField
+                                                                control={form.control}
+                                                                name="referal"
+                                                                render={({ field }) => (
+                                                                    <FormItem className="mt-6">
+                                                                        <FormLabel>Referal Code</FormLabel>
+                                                                        <FormControl>
+                                                                            <Input id="referal" {...field} placeholder="ex. 30eb68f-e0fa-5ecc-887a-7c7a62614681" />
+                                                                        </FormControl>
+                                                                        <FormMessage />
+                                                                    </FormItem>
+                                                                )
+                                                                }
+                                                            />
+                                                            <div className="flex gap-4 items-center mt-4">
+                                                                <FormField
+                                                                    control={form.control}
+                                                                    name="firstName"
+                                                                    render={({ field }) => (
+                                                                        <FormItem>
+                                                                            <FormLabel>First Name</FormLabel>
+                                                                            <FormControl>
+                                                                                <Input id="firstName" {...field} />
+                                                                            </FormControl>
+                                                                            <FormMessage />
+                                                                        </FormItem>
+                                                                    )
+                                                                    }
+                                                                />
+                                                                <FormField
+                                                                    control={form.control}
+                                                                    name="lastName"
+                                                                    render={({ field }) => (
+                                                                        <FormItem>
+                                                                            <FormLabel>Last Name</FormLabel>
+                                                                            <FormControl>
+                                                                                <Input id="lastName" {...field} />
+                                                                            </FormControl>
+                                                                            <FormMessage />
+                                                                        </FormItem>
+                                                                    )
+                                                                    }
+                                                                />
+                                                            </div>
+                                                            <FormField
+                                                                control={form.control}
+                                                                name="email"
+                                                                render={({ field }) => (
+                                                                    <FormItem>
+                                                                        <FormLabel>Email</FormLabel>
+                                                                        <FormControl>
+                                                                            <Input id="email" {...field} />
+                                                                        </FormControl>
+                                                                        <FormMessage />
+                                                                    </FormItem>
+                                                                )
+                                                                }
+                                                            />
+                                                            <span onClick={() => setCurrentPage(currentPage + 1)} className='bg-primary p-2 px-4 rounded-md hover:bg-primary/80 block w-max text-primary-foreground cursor-pointer'>
+                                                                Register
+                                                            </span>
+                                                        </>
                                                     )
-                                                    }
-                                                />
-                                                <div className="flex gap-4 items-center mt-4">
-                                                    <FormField
-                                                        control={form.control}
-                                                        name="firstName"
-                                                        render={({ field }) => (
-                                                            <FormItem>
-                                                                <FormLabel>First Name</FormLabel>
-                                                                <FormControl>
-                                                                    <Input id="firstName" {...field} />
-                                                                </FormControl>
-                                                                <FormMessage />
-                                                            </FormItem>
-                                                        )
-                                                        }
-                                                    />
-                                                    <FormField
-                                                        control={form.control}
-                                                        name="lastName"
-                                                        render={({ field }) => (
-                                                            <FormItem>
-                                                                <FormLabel>Last Name</FormLabel>
-                                                                <FormControl>
-                                                                    <Input id="lastName" {...field} />
-                                                                </FormControl>
-                                                                <FormMessage />
-                                                            </FormItem>
-                                                        )
-                                                        }
-                                                    />
-                                                </div>
-                                                <FormField
-                                                    control={form.control}
-                                                    name="email"
-                                                    render={({ field }) => (
-                                                        <FormItem>
-                                                            <FormLabel>Email</FormLabel>
-                                                            <FormControl>
-                                                                <Input id="email" {...field} />
-                                                            </FormControl>
-                                                            <FormMessage />
-                                                        </FormItem>
+
+                                                }
+                                                {
+                                                    currentPage === 2 && (
+                                                        <div className="p-2">
+                                                            <ArrowLeft className="w-4 h-4 cursor-pointer mb-6" onClick={() => setCurrentPage(currentPage - 1)} />
+                                                            <span className="grid grid-cols-3">
+                                                                <p>Name</p>
+                                                                <p className="span-2 text-muted-foreground">{`${form.getValues('firstName')} ${form.getValues('lastName')}`}</p>
+                                                            </span>
+                                                            <span className="grid grid-cols-3">
+                                                                <p>Email</p>
+                                                                <p className="span-2 text-muted-foreground">{form.getValues("email")}</p>
+                                                            </span>
+                                                            <Separator className="my-2" />
+                                                            <span className="grid grid-cols-3">
+                                                                <p>Payment</p>
+                                                                <p className="span-2 text-muted-foreground">{FormatToIDR(price)}</p>
+                                                            </span>
+                                                            {
+                                                                discount > 0 && (
+                                                                    <span className="grid grid-cols-3">
+                                                                        <p>Discount</p>
+                                                                        <p className="span-2 text-muted-foreground">{FormatToIDR(price - discount)}</p>
+                                                                    </span>
+                                                                )
+                                                            }
+                                                            <Button className="mt-6 bg-primary hover:bg-primary/80 w-full" type="submit">
+                                                                {
+                                                                    eventMutation.isLoading && (
+                                                                        <Loader2 className="animate-spin w-4 h-4 mr-2" />
+                                                                    )
+                                                                }
+                                                                {eventMutation.isLoading ? 'Processing...' : 'Checkout'}
+                                                            </Button>
+                                                        </div>
+
                                                     )
-                                                    }
-                                                />
-                                                <Button className="mt-6 bg-primary hover:bg-primary/80" type="submit">
-                                                    {
-                                                        eventMutation.isLoading && (
-                                                            <Loader2 className="animate-spin w-4 h-4 mr-2" />
-                                                        )
-                                                    }
-                                                    {eventMutation.isLoading ? 'Processing...' : 'Register'}
-                                                </Button>
+                                                }
                                             </form>
                                         </Form>
-                                    </div> */}
+                                    </div>
                                 </DialogContent>
                             </Dialog>
                         </div>

@@ -4,7 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query"
 export const useQueryCache = (key, q, params, isEnabled) => {
     const queryClient = useQueryClient()
 
-    const { data, isLoading } = useQuery({
+    const { data, isLoading, isFetched } = useQuery({
         queryKey: [key],
         queryFn: async () => {
             const cache = queryClient.getQueryData([key])
@@ -17,5 +17,5 @@ export const useQueryCache = (key, q, params, isEnabled) => {
         enabled: isEnabled
     })
 
-    return { data, isLoading }
+    return { data, isLoading, isFetched }
 }

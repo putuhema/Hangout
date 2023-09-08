@@ -1,18 +1,16 @@
-import { isThisWeek, isToday, isTomorrow } from "date-fns"
-import Stripe from "stripe"
 import jsonServer from "json-server"
+import bodyParser from "body-parser"
+import cors from 'cors'
 import { Low } from "lowdb"
 import { JSONFile } from 'lowdb/node'
 import { config } from 'dotenv'
-import bodyParser from "body-parser"
 import { Webhook } from "svix"
-import cors from 'cors'
+import { isThisWeek, isToday, isTomorrow } from "date-fns"
 
 config()
-const stripe = new Stripe('sk_test_ulnOONl2qq6a7TwT33hnNvoh00c0Dj3KRS')
-const db = new Low(new JSONFile("./db.json"), {})
 
-
+const adapter = new JSONFile("./db.json")
+const db = new Low(adapter, {})
 const server = jsonServer.create()
 const router = jsonServer.router('db.json')
 const middlewares = jsonServer.defaults()
@@ -160,7 +158,6 @@ server.post('/events/referal', async (req, res) => {
         // checking to make sure only one user can redeem the code
         const isRedeem = users.map(user => user.referals.filter(referal => referal.userId === userId)).flat().length > 0
 
-        console.log({ userId, data })
         db.data.users = users.map(user =>
             user.id === data.userId && !isRedeem ? { ...user, point: user.point += 50, referals: [...user.referals, { referalCode, id }] } : user)
 
@@ -189,10 +186,10 @@ server.post('/webhook', bodyParser.raw({ type: 'application/json' }), async func
 
         const evt = wh.verify(JSON.stringify(payload), headers);
         const { id, first_name, last_name, email_addresses, gender, profile_image_url, username } = evt.data;
+        const email = email_addresses[0].email_address
         // Handle the webhook
         const eventType = evt.type;
         if (eventType === "user.created") {
-            const email = email_addresses[0].email_address
             await db.data.users.push(
                 {
                     id,
@@ -207,7 +204,24 @@ server.post('/webhook', bodyParser.raw({ type: 'application/json' }), async func
                     points: 0
                 })
             await db.write()
+        } else if (eventType === "user.updated") {
+            db.data.users = await db.data.users.map(user => user.id === id ?
+                {
+                    ...user,
+                    first_name,
+                    last_name,
+                    email,
+                    gender,
+                    imageUrl: profile_image_url,
+                    username,
+                } : user
+            )
+            await db.write()
+        } else if (eventType === "user.deleted") {
+            db.data.users = await db.data.users.filter(user => user.id !== id)
+            db.write()
         }
+
         res.status(200).jsonp({
             success: true,
             message: 'Webhook received'
@@ -224,27 +238,6 @@ server.get("/config", (req, res) => {
     res.send({
         publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
     });
-});
-
-server.post("/create-payment-intent", async (req, res) => {
-    try {
-        const paymentIntent = await stripe.paymentIntents.create({
-            currency: "IDR",
-            amount: 100_000,
-            automatic_payment_methods: { enabled: true },
-        });
-
-
-        res.send({
-            clientSecret: paymentIntent.client_secret,
-        });
-    } catch (e) {
-        return res.status(400).send({
-            error: {
-                message: e.message,
-            },
-        });
-    }
 });
 
 server.use(router)
