@@ -13,9 +13,15 @@
   display: none;
 }
 
-.this:hover + .hide {
-  margin-top: 1rem;
+.pop:hover + .hide {
+  right: 18rem;
+  margin-bottom: 3rem;
   display: block;
   position: absolute;
-  font-weight: 100;
+}
+
+@layer base {
+  html {
+    font-family: "Poppins", sans-serif;
+  }
 }

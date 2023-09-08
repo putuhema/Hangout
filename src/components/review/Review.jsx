@@ -1,23 +1,25 @@
-import StarRatingTemplate from "../star/StarRatingTemplate";
+import StarRatingTemplate from "./star/StarRatingTemplate";
 
-const Review = ({ reviews }) => {
-  const { rating, comment } = reviews;
-  const username = reviews?.user.name;
-  // console.log(rating);
+const Review = ({ review }) => {
+  const { rating, comment, user } = review;
+
+  let render = comment.length > 0 ? <p className="font font-semibold text-lg w-[150px]">Comment</p> : <></>;
+
   return (
-    <div className="flex my-10">
-      <div className=" me-10 font font-semibold text-lg">
-        <p className="lg:w-[10rem] w-[5rem]">{username}</p>
+    <div className="flex my-6">
+      <div className="flex w-48 me-10 font text-lg">
+        <img className="w-16 h-16 me-2 rounded-full " src={user.imageUrl} alt="" />
+        <p className="w-48">{user.fullname}</p>
       </div>
-      <div>
+      <div className="flex flex-col">
         <div className="flex">
-          <p className="font font-semibold text-lg w-24">Rating</p>
+          <p className="font font-semibold text-lg w-[150px] ">Rating</p>
           <StarRatingTemplate rating={rating} />
-          <p className="font text-lg w-24 ms-2">({rating})</p>
+          <p className="font text-lg ms-2">({rating})</p>
         </div>
-        <div className="">
-          <p className="font font-semibold text-lg">Comment</p>
-          <p>{comment}</p>
+        <div className="flex mt-2">
+          <div>{render}</div>
+          <p className="lg">{comment}</p>
         </div>
       </div>
     </div>
