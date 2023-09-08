@@ -1,8 +1,8 @@
 import StarRatingTemplate from "./star/StarRatingTemplate";
 
 const Review = ({ review }) => {
-  const { rating, comment, user } = review;
-
+  const { rating, comment, user, date } = review;
+  const stringDate = new Date(date).toLocaleDateString();
   let render = comment.length > 0 ? <p className="font font-semibold text-lg w-[150px]">Comment</p> : <></>;
 
   return (
@@ -12,10 +12,15 @@ const Review = ({ review }) => {
         <p className="w-48">{user.fullname}</p>
       </div>
       <div className="flex flex-col">
-        <div className="flex">
-          <p className="font font-semibold text-lg w-[150px] ">Rating</p>
-          <StarRatingTemplate rating={rating} />
-          <p className="font text-lg ms-2">({rating})</p>
+        <div className="flex justify-between">
+          <div className="flex">
+            <p className="font font-semibold text-lg w-[150px] ">Rating</p>
+            <StarRatingTemplate rating={rating} />
+            <p className="font text-lg ms-2">({rating})</p>
+          </div>
+          <div>
+            <p>{stringDate}</p>
+          </div>
         </div>
         <div className="flex mt-2">
           <div>{render}</div>

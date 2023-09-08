@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { getRating } from "@/features/slice/review.slice";
 import { v4 as uuidv4 } from "uuid";
 import { Button } from "../ui/button";
 import StarRating from "./star/StarRating";
 import services from "@/services";
+import { FindUserByEvent } from "@/hooks/useFilter";
 import Toast from "./Toast";
 
 const Post = ({ event }) => {
@@ -15,16 +16,7 @@ const Post = ({ event }) => {
   const [validate, setValidate] = useState(false);
   const max = 400;
 
-  const { data, isSuccess } = useQuery(["reviews"], async () => {
-    const res = await services.get(`/reviews`);
-    return res.data;
-  });
-
-  let reviews;
-  if (isSuccess) {
-    reviews = data;
-  }
-  const userId = reviews.map((review) => review.user).map((user) => user.id);
+  const userId = FindUserByEvent();
   const mutation = useMutation({
     mutationFn: async (addReview) => {
       return services.post("/reviews", addReview);
@@ -55,10 +47,10 @@ const Post = ({ event }) => {
             follower: 0,
           },
           eventId: event.id,
-          date: new Date(e.timeStamp),
+          date: Date.now(),
         });
       }
-    } else {
+    } else if (rating < 1) {
       setToggle(!toggle);
       setTimeout(() => {
         setToggle(false);

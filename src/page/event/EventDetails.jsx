@@ -14,6 +14,7 @@ import Satisfication from "@/components/review/Satisfication";
 import Note from "@/components/review/Note";
 import Review from "@/components/review/Review";
 import Post from "@/components/review/Post";
+import { FindReviewByEvent } from "@/hooks/useFilter";
 
 const EventDetails = () => {
   const { eventId } = useParams();
@@ -28,32 +29,7 @@ const EventDetails = () => {
   const { data: regency } = useLocation("regency", rId);
   const { data: district } = useLocation("district", dId);
 
-  const { data, isSuccess } = useQuery(["reviews"], async () => {
-    const res = await services.get(`/reviews`);
-    return res.data;
-  });
-
-  let averageRating = 0;
-  let reviews;
-  if (isSuccess) {
-    let count = 0;
-    if (data.length > 0) {
-      reviews = data;
-      averageRating =
-        reviews
-          .map((res) => {
-            if (res.eventId === eventId) {
-              count++;
-              return res.rating;
-            }
-          })
-          .reduce((a, b) => {
-            return a + b;
-          }) / count;
-    } else {
-      averageRating = 0;
-    }
-  }
+  const { reviews, averageRating } = FindReviewByEvent(eventId);
 
   return (
     isFetched && (
@@ -138,7 +114,7 @@ const EventDetails = () => {
           </div>
 
           <div className="overflow-scroll h-[400px] border rounded-lg my-10 px-8 py-4">
-            {data.length > 0 ? (
+            {reviews.length > 0 ? (
               reviews.map((review, i) => <Review key={i} review={review} />)
             ) : (
               <p className="flex justify-center text-2xl pt-8">No reviews yet</p>
