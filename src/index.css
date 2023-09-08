@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+.on {
+  color: rgb(240, 240, 0);
+}
+.off {
+  color: #ccc;
+}
+
+.hide {
+  display: none;
+}
+
+.pop:hover + .hide {
+  right: 18rem;
+  margin-bottom: 3rem;
+  display: block;
+  position: absolute;
+}
+
 @layer base {
   html {
     font-family: "Poppins", Arial, Helvetica, sans-serif;

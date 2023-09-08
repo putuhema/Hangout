@@ -14,10 +14,7 @@
       "type": "free",
       "price": "",
       "category": "health",
-      "tags": [
-        "free",
-        "event"
-      ],
+      "tags": ["free", "event"],
       "userId": "user_2V79HCQHfSEckoBwLMi3VjFcHij",
       "id": "853fc72b-1ee7-4eb9-a361-9ddad1fce341",
       "attendees": [],

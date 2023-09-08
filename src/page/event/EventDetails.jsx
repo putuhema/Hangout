@@ -21,6 +21,13 @@ import { v4 as uuidv4 } from "uuid"
 import { useEffect, useState } from "react"
 import { Separator } from "@/components/ui/separator"
 
+import StarRatingTemplate from "@/components/review/star/StarRatingTemplate";
+import Satisfication from "@/components/review/Satisfication";
+import Note from "@/components/review/Note";
+import Review from "@/components/review/Review";
+import Post from "@/components/review/Post";
+import { FindReviewByEvent } from "@/hooks/useFilter";
+
 
 const EventDetails = () => {
     const { eventId } = useParams()
@@ -28,6 +35,7 @@ const EventDetails = () => {
     const { user, isSignedIn } = useUser()
     const navigate = useNavigate()
     const [currentPage, setCurrentPage] = useState(1)
+    const { reviews, averageRating } = FindReviewByEvent(eventId);
 
 
     const { data: event, isFetched } = useQuery(["event", eventId], async () => {
@@ -131,6 +139,18 @@ const EventDetails = () => {
                 </span>
                 <div className="w-full h-[250px] rounded-md bg-secondary" />
                 <p className="text-muted-foreground">{format(new Date(event.date), "PPP")}</p>
+                <div className="flex justify-between">
+                    <div className="flex items-center">
+                        <p className="me-4">Average Rating</p>
+                        <StarRatingTemplate rating={averageRating} />
+                        <p className="ms-2 flex">{averageRating.toFixed(1)}</p>
+                    </div>
+                    <div className="flex items-center">
+                        <p className="me-2 pop">Reviews</p>
+                        <Note style="hide" />
+                        <Satisfication average={averageRating} />
+                    </div>
+                </div>
                 <div className="flex flex-col md:flex-row gap-6">
                     <div className="order-2 md:order-1 flex flex-col flex-1">
                         <h2 className="font-bold text-2xl md:text-4xl">{event.name}</h2>
@@ -335,6 +355,14 @@ const EventDetails = () => {
                         </div>
                     </div>
                 </div>
+                <div className="overflow-scroll h-[400px] border rounded-lg my-10 px-8 py-4">
+                    {reviews.length > 0 ? (
+                        reviews.map((review, i) => <Review key={i} review={review} />)
+                    ) : (
+                        <p className="flex justify-center text-2xl pt-8">No reviews yet</p>
+                    )}
+                </div>
+                <Post event={event} />
             </div>
         </Container>
     )
