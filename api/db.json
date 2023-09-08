@@ -1,40 +1,186 @@
 {
   "events": [
     {
-      "name": "art gallery in big house",
+      "name": "event 1",
       "location": {
         "isOnline": "custom",
-        "province": "76",
-        "regency": "7604",
-        "district": "7604033",
+        "province": "34",
+        "regency": "3471",
+        "district": "3471120"
+      },
+      "date": "2023-09-07T12:38:02.699Z",
+      "time": "09:01 AM",
+      "description": "this event is the coolest event  in the world",
+      "type": "paid",
+      "price": "400000",
+      "category": "performingVisualArt",
+      "tags": [
+        "evnt1",
+        "yogya"
+      ],
+      "userId": "user_2V41vUk3QO1Rv2nrKO0oX8aRjc3",
+      "id": "f2517f9e-3679-4a63-b7a8-2056eb6e75bc",
+      "attendees": [
+        {
+          "referal": "",
+          "firstName": "Putu",
+          "lastName": "Mahendra",
+          "email": "putuhendramahendra@gmail.com",
+          "eventId": "f2517f9e-3679-4a63-b7a8-2056eb6e75bc",
+          "eventMakerId": "user_2V41vUk3QO1Rv2nrKO0oX8aRjc3",
+          "userId": "user_2V4Ssb5wzYNX5Qh7qZqFo6QyIn4",
+          "myReferalCode": "675c7fc3-678b-4194-bbf5-7ec1b1a3ec4e"
+        }
+      ],
+      "favorites": [
+        "user_2V41vUk3QO1Rv2nrKO0oX8aRjc3"
+      ]
+    },
+    {
+      "name": "event 2",
+      "location": {
+        "isOnline": "",
+        "province": "",
+        "regency": "",
+        "district": "",
         "address": ""
       },
-      "date": "2023-09-06T02:09:03.294Z",
-      "time": "03:14 AM",
-      "description": "lets create a group meeting to appreciate art together",
+      "date": "2023-09-07T13:01:17.511Z",
+      "time": "0:0 PM",
+      "description": "fdsafs",
+      "type": "free",
+      "price": "3000",
+      "category": "business",
+      "tags": [],
+      "userId": "user_2V41vUk3QO1Rv2nrKO0oX8aRjc3",
+      "id": "dfa9d831-519d-4aa7-9b7d-5482975f5c38",
+      "attendees": [
+        {
+          "referal": "",
+          "firstName": "Putu",
+          "lastName": "Mahendra",
+          "email": "putuhendramahendra@gmail.com",
+          "eventId": "dfa9d831-519d-4aa7-9b7d-5482975f5c38",
+          "eventMakerId": "user_2V41vUk3QO1Rv2nrKO0oX8aRjc3",
+          "userId": "user_2V4Ssb5wzYNX5Qh7qZqFo6QyIn4",
+          "myReferalCode": "e09f9667-898a-4e05-9230-02cdb3ec266b"
+        }
+      ],
+      "favorites": [
+        "user_2V41vUk3QO1Rv2nrKO0oX8aRjc3"
+      ]
+    },
+    {
+      "name": "test",
+      "location": {
+        "isOnline": "custom",
+        "province": "35",
+        "regency": "3515",
+        "district": "3515150",
+        "address": ""
+      },
+      "date": "2023-09-07T13:09:21.034Z",
+      "time": "03:02 AM",
+      "description": "fsdfs",
       "type": "free",
       "price": "",
-      "category": "performingVisualArt",
-      "tags": ["art"],
-      "user": {
-        "id": "user_2V0HavlhdlWx64A3Chi2gmFne6X",
-        "fullname": "Tetsu Tetsu",
-        "imageUrl": "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BQWNIVHRjNDdfMGFVQ0RSS0dsdml0NXp0dlpqNVBEYlM0UHQwWmpuWkhBZ1MwZjd6dz1zMTAwMC1jIiwicyI6IlRuK0VmTFJVdUN1UjNlRFNPNFJSKy9FRzhJbjRtT3VEbVJYdGltOWtQa2MifQ",
-        "follower": 0
+      "category": "health",
+      "tags": [
+        "d"
+      ],
+      "userId": "user_2V41vUk3QO1Rv2nrKO0oX8aRjc3",
+      "id": "b8575a8a-739c-4fe8-b78f-a00edd24be69",
+      "attendees": [],
+      "favorites": [
+        "user_2V41vUk3QO1Rv2nrKO0oX8aRjc3"
+      ]
+    },
+    {
+      "name": "fsdaf",
+      "location": {
+        "isOnline": "custom",
+        "province": "12",
+        "regency": "1203",
+        "district": "1203011",
+        "address": ""
       },
-      "id": "93026d6f-1622-4aaa-bb28-556aee513c91"
+      "date": "2023-09-13T16:00:00.000Z",
+      "time": "04:03 AM",
+      "description": "dfsfs",
+      "type": "paid",
+      "price": "333",
+      "category": "hobbies",
+      "tags": [
+        "f"
+      ],
+      "userId": "user_2V41vUk3QO1Rv2nrKO0oX8aRjc3",
+      "id": "a1642a36-3391-4d57-b725-91151ddbc882",
+      "attendees": [
+        {
+          "referal": "",
+          "firstName": "Putu",
+          "lastName": "Mahendra",
+          "email": "putuhendramahendra@gmail.com",
+          "eventId": "a1642a36-3391-4d57-b725-91151ddbc882",
+          "eventMakerId": "user_2V41vUk3QO1Rv2nrKO0oX8aRjc3",
+          "userId": "user_2V4Ssb5wzYNX5Qh7qZqFo6QyIn4",
+          "myReferalCode": "38772b3a-10c4-421d-882b-4c89796f6c82"
+        }
+      ],
+      "favorites": []
     }
   ],
   "users": [
     {
-      "id": "user_2V0HavlhdlWx64A3Chi2gmFne6X",
+      "id": "user_2V41vUk3QO1Rv2nrKO0oX8aRjc3",
       "first_name": "Tetsu",
       "last_name": "Tetsu",
       "email": "tetsutetsuhero@gmail.com",
       "gender": "",
       "imageUrl": "https://lh3.googleusercontent.com/a/AAcHTtc47_0aUCDRKGlvit5ztvZj5PDbS4Pt0ZjnZHAgS0f7zw=s1000-c",
       "username": null,
-      "follower": []
+      "follower": [],
+      "favorites": [
+        "f2517f9e-3679-4a63-b7a8-2056eb6e75bc",
+        "dfa9d831-519d-4aa7-9b7d-5482975f5c38",
+        "b8575a8a-739c-4fe8-b78f-a00edd24be69"
+      ],
+      "points": 0
+    },
+    {
+      "id": "user_2V3uvwU2Xkbhr20pZPYXeRjR2Ow",
+      "first_name": "Mikhail",
+      "last_name": "Yuwan Kho",
+      "email": "mikhailyuwankho@gmail.com",
+      "gender": "",
+      "imageUrl": "https://avatars.githubusercontent.com/u/71477554?v=4",
+      "username": "beru088",
+      "follower": [],
+      "favorites": []
+    },
+    {
+      "id": "user_2V4Ssb5wzYNX5Qh7qZqFo6QyIn4",
+      "first_name": "Putu",
+      "last_name": "Mahendra",
+      "email": "putuhendramahendra@gmail.com",
+      "gender": "",
+      "imageUrl": "https://lh3.googleusercontent.com/a/AAcHTtf3C0xRM5wjvq0ouzfjwjxKf1dbfoRfHw06KamHsNrzDrw=s1000-c",
+      "username": null,
+      "follower": [],
+      "favorites": [],
+      "points": 0
+    },
+    {
+      "id": "user_2V3XpbxJqbvfogf1w5dk2FwLjM4",
+      "first_name": "Muchamad Coirul",
+      "last_name": "Anwar",
+      "email": "anwaraan998@gmail.com",
+      "gender": "",
+      "imageUrl": "https://lh3.googleusercontent.com/a/AAcHTtekZCjmCfR2SLZkV_p24iVEscKX4d4RZpBNX9caqV-G3m8=s1000-c",
+      "username": null,
+      "follower": [],
+      "favorites": [],
+      "points": 0
     }
   ]
 }

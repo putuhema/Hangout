@@ -10,7 +10,7 @@ const Container = ({ children }) => {
             <SearchBox />
             <Navbar />
             {/* FIXME: responsive on smaller screen */}
-            <main className="w-full lg:w-[1280px] mx-auto">
+            <main className="w-full px-14 md:px-20 lg:px-0 lg:w-[1280px] mx-auto">
                 <div className='mt-20'>
                     {children}
                 </div>

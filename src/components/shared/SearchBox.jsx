@@ -12,7 +12,7 @@ import { useQuery } from "@tanstack/react-query"
 import services from "@/services"
 import { Skeleton } from "../ui/skeleton"
 import { useDebounce } from "use-debounce"
-import { categories } from "../../../constant"
+import { categories } from "../../../constant/index.jsx"
 
 
 const SearchBox = () => {

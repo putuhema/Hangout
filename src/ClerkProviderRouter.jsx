@@ -2,13 +2,19 @@ import {
     ClerkProvider, SignIn, SignUp,
 } from "@clerk/clerk-react";
 import { Route, Routes, useNavigate } from "react-router-dom";
+
 import Home from "./page/Home";
 import EventDetails from "./page/event/EventDetails";
 import EventCategory from "./page/event/EventCategory";
-// import ProtectedRoutes from "./components/shared/ProtectedRoutes";
-import EventForm from "./page/event/EventForm";
+import EventForm from "./page/form/EventForm";
 import AuthContainer from "./components/auth/SignIn";
 import ProtectedRoutes from "./components/shared/ProtectedRoutes";
+import Profile from "./page/profile";
+import MyEvent from "./page/profile/page/myEvent";
+import MyReferals from "./page/profile/page/myReferals";
+import ErrorPage from "./page/ErrorPage";
+import MyFavorites from "./page/profile/page/myFavorites";
+import SuccessPage from "./page/payment/SuccessPage";
 
 const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
@@ -32,6 +38,13 @@ const ClerkProviderRouter = () => {
                 <Route path="/event-form" element={<ProtectedRoutes><EventForm /></ProtectedRoutes>} />
                 <Route path="/event/:eventId" element={<EventDetails />} />
                 <Route path="/event/category/:eventCategory" element={<EventCategory />} />
+                <Route path="/profile/" element={<Profile />} >
+                    <Route path="my-events" element={<MyEvent />} />
+                    <Route path="my-referals" element={<MyReferals />} />
+                    <Route path="my-favorites" element={<MyFavorites />} />
+                </Route>
+                <Route path="/success" element={<SuccessPage />} />
+                <Route path="*" element={<ErrorPage />} />
             </Routes>
         </ClerkProvider>
     );

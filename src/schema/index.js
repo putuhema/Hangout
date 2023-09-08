@@ -19,9 +19,16 @@ export const formSchema = z.object({
         type: z.string()
     }),
     description: z.string().min(2),
-    // picturepath: z.string(),
     type: z.string(),
     price: z.string().optional(),
     category: z.string(),
     tags: z.string().array(),
+})
+
+
+export const eventRegisterSchema = z.object({
+    referal: z.string().optional(),
+    firstName: z.string().min(2),
+    lastName: z.string().min(2),
+    email: z.string().email(),
 })

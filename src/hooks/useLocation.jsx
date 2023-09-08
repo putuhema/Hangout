@@ -10,7 +10,6 @@ export const useLocation = (label, id) => {
         queryFn: async () => {
             const cache = queryClient.getQueryData([`${label}/${id}`])
             if (cache) return cache
-
             const res = await axios.get(`http://putuhema.github.io/api-wilayah-indonesia/api/${label}/${id}.json`)
             return res.data
         },

@@ -1,14 +1,16 @@
 import { useState } from "react"
 
-import { ArrowLeft } from "lucide-react"
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../ui/form"
-import { RadioGroup, RadioGroupItem } from "../../ui/radio-group"
-import { Label } from "../../ui/label"
-import SelectLocation from "./SelectLocation"
-import { useQuery } from "@tanstack/react-query"
-import axios from "axios"
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Label } from "@/components/ui/label"
 import { Skeleton } from "@/components/ui/skeleton"
+import SelectLocation from "./SelectLocation"
+
+import { ArrowLeft } from "lucide-react"
+import { useQuery } from "@tanstack/react-query"
 import { useLocation } from "@/hooks/useLocation"
+import axios from "axios"
+import { Input } from "@/components/ui/input"
 
 const LocationField = ({ form }) => {
     const [locationRadio, setLocationRadio] = useState()
@@ -69,31 +71,45 @@ const LocationField = ({ form }) => {
                                 </div>
                             </FormControl>
                         ) : (
-                            <div className="flex gap-2">
-                                <SelectLocation
-                                    label="provinces"
-                                    locations={provincies}
-                                    form={form}
-                                    onChange={(value) => handleSelectOnChange("province", value)} />
-                                {
-                                    regencies ? (
-                                        <SelectLocation
-                                            label="regency"
-                                            locations={regencies}
-                                            form={form}
-                                            onChange={(value) => handleSelectOnChange("regency", value)}
-                                        />
-                                    ) : <Skeleton className="h-10 w-[100px] p-4 self-end" />
-                                }
-                                {
-                                    districts ? (
-                                        <SelectLocation
-                                            label="district"
-                                            locations={districts}
-                                            form={form}
-                                        />
-                                    ) : <Skeleton className="h-10 w-[100px] p-4 self-end" />
-                                }
+                            <div className="flex flex-col gap-2">
+                                <div className="flex gap-2 w-full">
+                                    <SelectLocation
+                                        label="provinces"
+                                        locations={provincies}
+                                        form={form}
+                                        onChange={(value) => handleSelectOnChange("province", value)} />
+                                    {
+                                        regencies ? (
+                                            <SelectLocation
+                                                label="regency"
+                                                locations={regencies}
+                                                form={form}
+                                                onChange={(value) => handleSelectOnChange("regency", value)}
+                                            />
+                                        ) : <Skeleton className="h-10 w-[100px] p-4 self-end" />
+                                    }
+                                    {
+                                        districts ? (
+                                            <SelectLocation
+                                                label="district"
+                                                locations={districts}
+                                                form={form}
+                                            />
+                                        ) : <Skeleton className="h-10 w-[100px] p-4 self-end" />
+                                    }
+                                </div>
+                                <FormField
+                                    control={form.control}
+                                    name="address"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Address</FormLabel>
+                                            <FormControl>
+                                                <Input id="address" {...field} placeholder="Event address" />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
                             </div>
                         )
                     }

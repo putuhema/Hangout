@@ -3,12 +3,15 @@ import { Link } from "react-router-dom";
 
 const Category = ({ category }) => {
     return (
-        <div className="flex shrink-0 lg:shrink w-[100px] text-center flex-col  items-center gap-2 cursor-pointer">
+        <div className="flex shrink-0 lg:shrink w-[100px] group text-center flex-col  items-center gap-2 cursor-pointer">
             <Link to={`/event/category/${category.value}`}>
-                {/* <img className="w-20 h-20 rounded-full object-fit" src={imgUrl} alt={title} /> */}
-                <div className="w-20 h-20 bg-gray-200 rounded-full"></div>
+                <div className="w-14 h-14 bg-background hover:bg-secondary border border-primary dark:border-border rounded-full grid place-content-center">
+                    <span className="text-primary dark:text-primary-foreground  transform transition-all duration-100 group-hover:-translate-y-[2px]">
+                        {category.icon}
+                    </span>
+                </div>
             </Link>
-            <span className="whitespace-break-spaces text-xs font-bold">{category.text}</span>
+            <span className="whitespace-break-spaces text-xs font-bold text-primary dark:text-primary-foreground">{category.text}</span>
         </div>)
 }
 

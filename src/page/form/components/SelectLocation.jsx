@@ -1,5 +1,5 @@
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../ui/form"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../ui/select"
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 const SelectLocation = ({ label, form, locations, onChange }) => {
 
@@ -9,12 +9,12 @@ const SelectLocation = ({ label, form, locations, onChange }) => {
                 control={form.control}
                 name={`location.${label}`}
                 render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="flex-1">
                         <FormLabel>{label}</FormLabel>
                         <Select onValueChange={onChange || field.onChange} defaultValue={field.value}>
                             <FormControl>
                                 <SelectTrigger>
-                                    <SelectValue placeholder={label} />
+                                    <SelectValue className="text-muted-foreground" placeholder={label} />
                                 </SelectTrigger>
                             </FormControl>
                             <SelectContent className="h-[200px]">

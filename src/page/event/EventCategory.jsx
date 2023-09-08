@@ -9,10 +9,13 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { useQueryTab } from "@/hooks/useQueryTab"
+import { useQueryCache } from "@/hooks/useQueryCache"
 import { ArrowLeft } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
+import { categories } from "../../../constant"
+import { Skeleton } from "@/components/ui/skeleton"
+import NoResources from "@/components/shared/NoResources"
 
 const CategoryPage = () => {
     const { eventCategory } = useParams()
@@ -21,8 +24,10 @@ const CategoryPage = () => {
     const ref = useRef(null)
     const navigate = useNavigate()
 
+    const currentCategory = categories.filter(category => category.value === eventCategory)[0]
+
     // TODO: filtering data based on date
-    const { data } = useQueryTab(`category/${eventCategory}`, `/f?category=${eventCategory}`, Boolean(eventCategory))
+    const { data, isLoading } = useQueryCache(`category/${eventCategory}`, '/f', { category: eventCategory }, Boolean(eventCategory))
 
     useEffect(() => {
         const clickOutside = (e) => {
@@ -42,13 +47,15 @@ const CategoryPage = () => {
     return (
         <Container>
             <span className="cursor-pointer" onClick={() => navigate(-1)}>
-                <ArrowLeft />
+                <span className="flex items-center gap-2">
+                    <ArrowLeft className="text-primary w-4 h-4" /> <p className="hover:underline text-muted-foreground hover:text-foreground">back</p>
+                </span>
             </span>
-            <div className="w-full bg-gray-100 mt-4 h-[250px] rounded-md">
-                <div className="w-full mx-auto pt-20">
-                    <div className="py-4 px-8">
-                        <h1 className="text-6xl font-extrabold text-black">Music Events</h1>
-                        <p className="text-black">Discover the best Music events in your area and online</p>
+            <div className="w-full bg-secondary mt-4 h-[250px] rounded-md">
+                <div className="w-full mx-auto flex items-center h-full">
+                    <div className=" flex flex-col justify-center px-8 gap-2">
+                        <h1 className="text-6xl font-extrabold text-primary max-w-[800px]">{`${currentCategory.text} Events`}</h1>
+                        <p className="text-primary">{`Discover the best ${currentCategory.text} events in your area and online`}</p>
                     </div>
                 </div>
             </div>
@@ -77,7 +84,11 @@ const CategoryPage = () => {
                 }
                 <div className="p-2 grid grid-cols-4 gap-4">
                     {
-                        data && data.map(event => (<div key={event.id}><EventCard event={event} /></div>))
+                        isLoading ?
+                            <Skeleton className="w-10 h-10 rounded-md bg-secondary" />
+                            : data.length > 0 ?
+                                data.map(event => (<div key={event.id}><EventCard event={event} /></div>))
+                                : <NoResources text={`no ${currentCategory.text} Events`} />
                     }
                 </div>
             </div>

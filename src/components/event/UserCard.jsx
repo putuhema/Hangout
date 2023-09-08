@@ -1,14 +1,16 @@
 import { formatToUnits } from "@/lib/utils"
-
+import { categories } from "../../../constant"
 const userCard = ({ event }) => {
+    const icons = categories.filter(category => category.value === event.category)[0]
 
     return (
         <div className="flex gap-2 items-center rounded-md border p-2">
-            <span className="block h-[50px] w-[50px] rounded-md bg-gray-100">
+            <span className="grid place-content-center h-[50px] w-[50px] rounded-md bg-secondary border border-border text-primary">
+                {icons.icon}
             </span>
             <div className="flex flex-col gap-2">
                 <p className="font-bold">{event.name}</p>
-                <p className="font-bold rounded-full text-sm px-2 w-max bg-black text-white ">{event.type === 'paid' ? formatToUnits(parseInt(event.price)) : event.type}</p>
+                <p className="font-bold rounded-full text-sm px-2 w-max bg-primary text-primary-foreground">{event.type === 'paid' ? formatToUnits(parseInt(event.price)) : event.type}</p>
             </div>
         </div>)
 }

@@ -4,15 +4,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs"
 import Category from "../components/event/Category"
 import EventCard from "@/components/event/EventCard"
 import UserCard from "@/components/event/UserCard"
-import CardSkeleton from "@/components/shared/CardSkeleton"
 
 import services from "@/services"
 import { Link } from "react-router-dom"
 import { useAuth } from "@clerk/clerk-react"
 import { useQuery } from "@tanstack/react-query"
 import { useState } from "react"
-import { useQueryTab } from "@/hooks/useQueryTab"
-import { categories } from "../../constant"
+import { useQueryCache } from "@/hooks/useQueryCache"
+import { categories } from "../../constant/index.jsx"
+import { Skeleton } from "@/components/ui/skeleton"
+import NoResources from "@/components/shared/NoResources"
 
 const tabs = [
   "All", "Online", "Today", "This Week", "Free"
@@ -24,18 +25,18 @@ const Home = () => {
   const { isSignedIn, userId } = useAuth()
   const [tab, setTab] = useState("All")
 
-  const { data, isLoading, } = useQuery(['events'], async () => {
+  const { data, isLoading } = useQuery(['events'], async () => {
     const res = await services.get("/events")
     return res.data
   })
 
-  const { data: today } = useQueryTab("filter/today", "/f?date=0", tab === "Today")
-  const { data: thisWeek } = useQueryTab("filter/thisWeek", "/f?date=7", tab === "This Week")
-  const { data: online } = useQueryTab("filter/online", "/location?loc=isOnline&value=online", tab === "Online")
-  const { data: free } = useQueryTab("filter/free", "/f?price=free", tab === "Free")
+  const { data: today, isLoading: todayLoading } = useQueryCache("filter/today", "/f", { date: 0 }, tab === "Today")
+  const { data: thisWeek, isLoading: thisWeekLoading } = useQueryCache("filter/thisWeek", "/f", { date: 7 }, tab === "This Week")
+  const { data: online, isLoading: onlineLoading } = useQueryCache("filter/online", "/location", { loc: "isOnline", value: "online" }, tab === "Online")
+  const { data: free, isLoading: freeLoading } = useQueryCache("filter/free", "/f", { price: 'free' }, tab === "Free")
 
 
-  const { data: userEvent } = useQueryTab(`event/${userId}`, `/user?id=${userId}`, true)
+  const { data: userEvent } = useQueryCache(`event/${userId}`, '/user', { id: userId }, true)
 
   return (
     <Container>
@@ -48,58 +49,72 @@ const Home = () => {
           </div>
           <div className="mt-8">
             <Tabs defaultValue="All" value={tab} onValueChange={setTab} className="w-full">
-              <TabsList className="flex justify-start gap-2">
+              <TabsList className="flex justify-start gap-2 bg-backround text-primary">
                 {
                   tabs.map(tab => (
                     <TabsTrigger
-                      className="p-2 px-4 rounded-full hover:bg-blue-100 data-[state=active]:bg-blue-100"
+                      className="p-2 px-4 rounded-full hover:ring-1 hover:ring-primary data-[state=active]:border-primary data-[state=active]:border data-[state=active]:text-primary data-[state=active]:font-bold"
                       key={tab} value={tab}
                     >{tab}</TabsTrigger>
                   ))
                 }
               </TabsList>
               <TabsContent value="All">
-                <div className="p-2 grid grid-cols-4 gap-4">
+                <div className="p-2 grid grid-cols-4 gap-4 items-stretch">
                   {
                     isLoading ? (
-                      <CardSkeleton />
+                      <Skeleton className="bg-secondary w-[260px] h-[100px]" />
                     ) :
                       data.length > 0 ?
                         data.map(event => (<div key={event.id}><EventCard event={event} /></div>))
-                        :
-                        <p>no events</p>
+                        : <NoResources text="no events" />
+
                   }
                 </div>
               </TabsContent>
               <TabsContent value="Online">
                 <div className="p-2 grid grid-cols-4 gap-4">
                   {
-                    online ?
-                      online.map(event => (<div key={event.id}><EventCard event={event} /></div>)) : <p>no online event</p>
+                    onlineLoading ?
+                      <Skeleton className="bg-secondary w-[260px] h-[100px]" />
+                      :
+                      online.length > 0 ?
+                        online.map(event => (<div key={event.id}><EventCard event={event} /></div>))
+                        : <NoResources text="no online events" />
                   }
                 </div>
               </TabsContent>
               <TabsContent value="Today">
                 <div className="p-2 grid grid-cols-4 gap-4">
                   {
-                    today ?
-                      today.map(event => (<div key={event.id}><EventCard event={event} /></div>)) : <CardSkeleton />
+                    todayLoading ?
+                      <Skeleton className="bg-secondary w-[260px] h-[100px]" />
+                      : today.length > 0 ?
+                        today.map(event => (<div key={event.id}><EventCard event={event} /></div>))
+                        : <NoResources text="no today's events" />
                   }
                 </div>
               </TabsContent>
               <TabsContent value="This Week">
                 <div className="p-2 grid grid-cols-4 gap-4">
                   {
-                    thisWeek ?
-                      thisWeek.map(event => (<div key={event.id}><EventCard event={event} /></div>)) : <CardSkeleton />
+                    thisWeekLoading ?
+                      <Skeleton className="bg-secondary w-[100px] h-[100px]" />
+                      : thisWeek.length > 0 ?
+                        thisWeek.map(event => (<div key={event.id}><EventCard event={event} /></div>))
+                        : <NoResources text="no events this week" />
+
                   }
                 </div>
               </TabsContent>
               <TabsContent value="Free">
                 <div className="p-2 grid grid-cols-4 gap-4">
                   {
-                    free ?
-                      free.map(event => (<div key={event.id}><EventCard event={event} /></div>)) : <CardSkeleton />
+                    freeLoading ?
+                      <Skeleton className="bg-secondary w-[100px] h-[100px]" />
+                      : free.length > 0 ?
+                        free.map(event => (<div key={event.id}><EventCard event={event} /></div>))
+                        : <NoResources text="sowy no free events" />
                   }
                 </div>
               </TabsContent>
@@ -111,13 +126,13 @@ const Home = () => {
           isSignedIn && (
             <div className="w-[350px] shrink-0 hidden lg:flex">
               <div className="fixed flex flex-col gap-4 top-[80px] w-[1950px] right-auto max-w-[350px] p-2">
-                <div className="rounded-md shadow-sm bg-white p-2 w-full">
+                <div className="rounded-md shadow-sm bg-background p-2 w-full">
                   <span className="flex gap-2 items-end justify-between">
-                    <h3 className="text-lg font-bold">My Events</h3>
-                    <Link className="flex gap-1 items-center text-sm text-slate-500" to="/event/my-event/">See All <ChevronRight size={20} /></Link>
+                    <h4 className="text-lg font-bold">My Events</h4>
+                    <Link className="flex gap-1 items-center text-sm text-slate-500" to="/profile/my-events/">See All <ChevronRight size={20} /></Link>
                   </span>
                 </div>
-                <div className="rounded-md shadow-sm h-10 bg-white p-2 w-full flex flex-col gap-2">
+                <div className="rounded-md shadow-sm h-10 bg-background p-2 w-full flex flex-col gap-2">
                   {
                     userEvent && userEvent.map(event => (
                       <UserCard key={event.id} event={event} />
