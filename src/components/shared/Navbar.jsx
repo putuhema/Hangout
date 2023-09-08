@@ -1,7 +1,7 @@
 import { toggleSearch } from "@/features/slice/eventSlice";
 import { Switch } from "@/components/ui/switch"
 import { SignOutButton, useAuth } from "@clerk/clerk-react";
-import { CalendarDays, LayoutDashboard, LogOut, Plus, Search, Settings, Ticket } from "lucide-react";
+import { CalendarDays, LayoutDashboard, LogOut, Plus, Search, Ticket } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -93,12 +93,6 @@ const Navbar = () => {
                     <Link to={`/profile/my-referals`} className="flex items-center gap-2">
                       <Ticket className="w-4 h-4" />
                       <span>My Referal Code</span>
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="flex gap-2 items-center">
-                    <Link to={`/profile/my-profile`} className="flex items-center gap-2">
-                      <Settings className="w-4 h-4" />
-                      <span>Profile</span>
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem className="flex gap-2 items-center">

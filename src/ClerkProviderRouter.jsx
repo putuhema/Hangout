@@ -11,7 +11,6 @@ import AuthContainer from "./components/auth/SignIn";
 import ProtectedRoutes from "./components/shared/ProtectedRoutes";
 import Profile from "./page/profile";
 import MyEvent from "./page/profile/page/myEvent";
-import MyProfile from "./page/profile/page/myProfile";
 import MyReferals from "./page/profile/page/myReferals";
 import ErrorPage from "./page/ErrorPage";
 import MyFavorites from "./page/profile/page/myFavorites";
@@ -40,7 +39,6 @@ const ClerkProviderRouter = () => {
                 <Route path="/event/:eventId" element={<EventDetails />} />
                 <Route path="/event/category/:eventCategory" element={<EventCategory />} />
                 <Route path="/profile/" element={<Profile />} >
-                    <Route path="my-profile" element={<MyProfile />} />
                     <Route path="my-events" element={<MyEvent />} />
                     <Route path="my-referals" element={<MyReferals />} />
                     <Route path="my-favorites" element={<MyFavorites />} />
