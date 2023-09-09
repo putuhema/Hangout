@@ -1,17 +1,83 @@
+import { FormatToIDR, IsObjectEmpty } from "@/lib/utils"
+import { ArrowLeft } from "lucide-react"
+// import { useParams } from "react-router-dom"
+// import { useQuery, useMutation } from "@tanstack/react-query"
+
+import { useState } from "react"
 import { Formik, Form } from "formik"
 import checkoutSchema from "@/schema/checkout"
-import { DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { ArrowLeft } from "lucide-react"
 import ContactCard from "./ContactCard"
-import { useState } from "react"
+import { DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { useAuth, useUser } from "@clerk/clerk-react"
+// import services from "@/services"
+// import { v4 as uuidv4 } from "uuid"
 
 export default function Checkout({ ticket }) {
   const [page, setPage] = useState(1)
-  const ticketPrice = 10000
+  const { user, isSignedIn } = useUser()
+
+  // const { eventId } = useParams()
+  // const { userId } = useAuth()
+
+  // const userEventId = (isFetched && event.userId) || ""
+  // const { data: event, isFetched } = useQuery(["event", eventId], async () => {
+  //   const res = await services.get(`/events/${eventId}`)
+  //   return res.data
+  // })
+
+  // const eventMutation = useMutation({
+  //   mutationFn: async (register) => {
+  //     return services.put(`/events/${eventId}`, register)
+  //   },
+  // })
 
   const handleSubmit = (values) => {
+    //   const isAlreadyAttend =
+    //     event.attendees.filter((attendee) => attendee.userId === userId).length >
+    //     0
+    //   const referalCode = uuidv4()
+    //   if (userId !== userEventId && !isAlreadyAttend) {
+    //     if (values.refferal.length > 0) {
+    //       referalMutation.mutate({
+    //         eventId: event.id,
+    //         code: values.referal,
+    //         userId,
+    //       })
+    //     }
+    //     eventMutation.mutate({
+    //       ...event,
+    //       attendees: [
+    //         ...event.attendees,
+    //         {
+    //           ...values,
+    //           eventId: event.id,
+    //           eventMakerId: event.userId,
+    //           userId: userId,
+    //           myReferalCode: referalCode,
+    //           totalTicket: ticket,
+    //         },
+    //       ],
+    //     })
+    //   } else {
+    //     console.log("cant register to own event")
+    //   }
     console.log(values)
   }
+
+  // const referalMutation = useMutation({
+  //   mutationFn: async (data) => {
+  //     return services.post("/events/referal", data)
+  //   },
+  // })
+
+  // const price = isFetched && event.type === "paid" && Number(event.price)
+  // const discount =
+  //   isFetched && !IsObjectEmpty(event.promos)
+  //     ? price - price * (Number(event.promos.percentage) / 100)
+  //     : 0
+
+  const price = 100000
+  const discount = 20000
 
   return (
     <div>
@@ -23,16 +89,21 @@ export default function Checkout({ ticket }) {
           </div>
         </DialogTitle>
       </DialogHeader>
-      <h3 className="text-2xl my-6 font-bold">
+      <h3 className="text-2xl mt-6 bm-2 font-bold">
         {page === 1 ? "Contact information" : "Order Summary"}
       </h3>
+      {page === 1 && isSignedIn && (
+        <p className="my-2">
+          logged in as <u>{user.emailAddresses[0].emailAddress}</u>
+        </p>
+      )}
       <Formik
         initialValues={{
-          fname: "",
-          lname: "",
-          email: "",
+          referal: "",
+          fname: isSignedIn ? user.firstName : "",
+          lname: isSignedIn ? user.lastName : "",
+          email: isSignedIn ? user.emailAddresses[0].emailAddress : "",
           phoneNumber: "",
-          uuid: "",
         }}
         validationSchema={checkoutSchema}
         onSubmit={handleSubmit}
@@ -101,14 +172,34 @@ export default function Checkout({ ticket }) {
                   <button onClick={() => setPage(page - 1)}>
                     <ArrowLeft className="absolute left-4 top-4 rounded-sm opacity-70 w-4 h-4" />
                   </button>
+                  <div className="flex-row text-lg mb-2">
+                    <span className="flex gap-2">
+                      <p>Name :</p>
+                      <p>{`${values.fname} ${values.lname}`}</p>
+                    </span>
+                    <span className="flex gap-2">
+                      <p>Email :</p>
+                      <p>{values.email}</p>
+                    </span>
+                    <span className="flex gap-2">
+                      <p>Phone Number :</p>
+                      <p>{values.phoneNumber}</p>
+                    </span>
+                  </div>
                   <div className="flex-row text-lg">
                     <span className="flex justify-between">
                       <div>{ticket} x Registration Ticket</div>
-                      <div>Rp.{ticketPrice}</div>
+                      <div>{FormatToIDR(price)}</div>
                     </span>
-                    <span className="flex justify-between font-bold">
+                    {discount > 0 && (
+                      <span className="flex justify-between">
+                        <div>Promos</div>
+                        <div>- {FormatToIDR(discount)}</div>
+                      </span>
+                    )}
+                    <span className="flex justify-between font-bold border-t-2 border-black mt-2">
                       <div>Total</div>
-                      <div>Rp.{ticket * ticketPrice}</div>
+                      <div>{FormatToIDR((price - discount) * ticket)}</div>
                     </span>
                   </div>
                   <span className="flex justify-center">
@@ -116,7 +207,7 @@ export default function Checkout({ ticket }) {
                       type="submit"
                       className="bg-black text-white shadow-md rounded-lg my-4 px-16 py-3 font-bold"
                     >
-                      Register
+                      Checkout
                     </button>
                   </span>
                 </div>

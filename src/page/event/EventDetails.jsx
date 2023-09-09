@@ -152,7 +152,7 @@ const EventDetails = () => {
                     </span>
                   </DialogTrigger>
                   <DialogContent>
-                    <Checkout ticket={ticket} ticketPrice={10000} />
+                    <Checkout ticket={ticket} />
                   </DialogContent>
                 </Dialog>
               </div>

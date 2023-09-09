@@ -1,6 +1,7 @@
 import * as Yup from "yup"
 
 const checkoutSchema = Yup.object().shape({
+  referal: Yup.string().optional(),
   fname: Yup.string()
     .required("Required")
     .min(3, "Name is too short")
