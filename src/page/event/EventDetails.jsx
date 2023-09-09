@@ -9,7 +9,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 
 import { FormatToIDR, IsObjectEmpty } from "@/lib/utils"
 import { format } from "date-fns"
-import { ArrowLeft, Heart, Loader2, Share, Ticket } from "lucide-react"
+import { ArrowLeft, Heart, Loader2, Share, Star, Ticket } from "lucide-react"
 import { useQuery, useMutation } from "@tanstack/react-query"
 import { useNavigate, useParams } from "react-router-dom"
 import { useAuth, useUser } from "@clerk/clerk-react"
@@ -20,6 +20,8 @@ import { eventRegisterSchema } from "@/schema"
 import { v4 as uuidv4 } from "uuid"
 import { useEffect, useState } from "react"
 import { Separator } from "@/components/ui/separator"
+import CommentSection from "./components/CommentSection"
+import Comment from "./components/Comment"
 
 
 const EventDetails = () => {
@@ -30,18 +32,44 @@ const EventDetails = () => {
     const [currentPage, setCurrentPage] = useState(1)
 
 
-    const { data: event, isFetched } = useQuery(["event", eventId], async () => {
-        const res = await services.get(`/events/${eventId}`)
-        return res.data
-    })
-    const eventMutation = useMutation({
-        mutationFn: async (register) => {
-            return services.put(`/events/${eventId}`, register)
+    const { data: event, isFetched } = useQuery(
+        {
+
+            queryKey: ["event", eventId],
+            queryFn: async () => {
+                const res = await services.get(`/events/${eventId}`)
+                return res.data
+            },
+            // refetchInterval: 1000
         }
-    })
+    )
+    const eventRating = isFetched && event.reviews.length > 0 ? event.reviews.reduce((acc, curr) => acc + (curr.rating ? curr.rating : 0), 0) / event.reviews.filter(review => review.rating !== null).length : -1
+
+    let ratingEvaluate = ''
+    if (eventRating > 0 && eventRating <= 1.0) {
+        ratingEvaluate = 'Very Poor'
+    } else if (eventRating > 1 && eventRating <= 1.5) {
+        ratingEvaluate = 'Poor'
+    } else if (eventRating > 1.5 && eventRating <= 2.0) {
+        ratingEvaluate = 'Below Average'
+    } else if (eventRating > 2.0 && eventRating <= 2.5) {
+        ratingEvaluate = 'Average'
+    } else if (eventRating > 2.5 && eventRating <= 3.0) {
+        ratingEvaluate = 'Good'
+    } else if (eventRating > 3.0 && eventRating <= 3.5) {
+        ratingEvaluate = 'Above Average'
+    } else if (eventRating > 3.5 && eventRating <= 4.0) {
+        ratingEvaluate = 'Exellent'
+    } else if (eventRating > 4.0 && eventRating <= 4.5) {
+        ratingEvaluate = 'Outstanding'
+    } else if (eventRating > 4.5 && eventRating <= 5.0) {
+        ratingEvaluate = 'Perfect'
+    } else {
+        ratingEvaluate = 'Not Rating'
+    }
 
 
-    // FIXME: remember to implement cache
+
     const userEventId = isFetched && event.userId || ""
     const { data: userEvent } = useQuery(
         {
@@ -79,17 +107,30 @@ const EventDetails = () => {
         }
     }, [form.formState, form])
 
+    const eventMutation = useMutation({
+        mutationFn: async (register) => {
+            return services.put(`/events/${eventId}`, register)
+        }
+    })
+
     const referalMutation = useMutation({
         mutationFn: async (data) => {
             return services.post("/events/referal", data)
         }
     })
 
-
+    const transactions = useMutation({
+        mutationFn: async (data) => {
+            return services.post("/transactions", data)
+        }
+    })
+    const price = isFetched && event.type === "paid" ? Number(event.price) : 0
+    const discount = isFetched && !IsObjectEmpty(event.promos) ? (price - (price * (Number(event.promos.percentage) / 100))) : 0
 
     const onSubmit = (values) => {
         // checking if current user loggin is already attend to the event
-        const isAlreadyAttend = event.attendees.filter(attendee => attendee.userId === userId).length > 0
+        // const isAlreadyAttend = event.attendees.filter(attendee => attendee.userId === userId).length > 0
+        const isAlreadyAttend = false
         const referalCode = uuidv4()
         if (userId !== userEventId && !isAlreadyAttend) {
             if (values.referal.length > 0) {
@@ -99,6 +140,7 @@ const EventDetails = () => {
                     userId
                 })
             }
+
             eventMutation.mutate({
                 ...event,
                 attendees: [
@@ -111,14 +153,21 @@ const EventDetails = () => {
                         myReferalCode: referalCode,
                     }]
             })
+
+            const totalPrice = discount > 0 ? discount : price
+            transactions.mutate({
+                id: uuidv4(),
+                eventId: event.id,
+                sellerId: event.userId,
+                user: userId,
+                price: totalPrice
+            })
         } else {
             console.log("cant register to own event")
         }
     }
 
 
-    const price = isFetched && event.type === "paid" && Number(event.price)
-    const discount = isFetched && !IsObjectEmpty(event.promos) ? (price - (price * (Number(event.promos.percentage) / 100))) : 0
 
     return (
         isFetched &&
@@ -130,7 +179,16 @@ const EventDetails = () => {
                     </span>
                 </span>
                 <div className="w-full h-[250px] rounded-md bg-secondary" />
-                <p className="text-muted-foreground">{format(new Date(event.date), "PPP")}</p>
+                <div className="flex items-center justify-between">
+                    <p className="text-muted-foreground">{format(new Date(event.date), "PPP")}</p>
+                    <div className="flex flex-col items-center">
+                        <span className="p-2 rounded-md flex items-center gap-2">
+                            <Star className="w-6 h-6 text-primary" />
+                            {eventRating > 0 ? eventRating.toFixed(2) : '-'}
+                        </span>
+                        <p className="text-xs text-muted-foreground">{ratingEvaluate + ' Event'}</p>
+                    </div>
+                </div>
                 <div className="flex flex-col md:flex-row gap-6">
                     <div className="order-2 md:order-1 flex flex-col flex-1">
                         <h2 className="font-bold text-2xl md:text-4xl">{event.name}</h2>
@@ -190,7 +248,7 @@ const EventDetails = () => {
                             {
                                 discount > 0 ? (
                                     <span>
-                                        <p className="font-bold">{FormatToIDR(price - (price - discount))}</p>
+                                        <p className="font-bold">{FormatToIDR(discount)}</p>
                                         <span className="flex gap-2">
                                             <Badge className="text-xs">{`${event.promos.percentage}%`}</Badge>
                                             <p className="line-through text-muted-foreground text-sm">{FormatToIDR(price)}</p>
@@ -333,6 +391,20 @@ const EventDetails = () => {
                                 </DialogContent>
                             </Dialog>
                         </div>
+                    </div>
+                </div>
+                <div className="w-full my-8">
+                    <CommentSection event={event} />
+                    <p>{`${event.reviews.length} Comments`}</p>
+                    <Separator className="my-6" />
+                    <div className="flex flex-col gap-4">
+                        {
+                            isFetched && event.reviews.length > 0 && (
+                                event.reviews.toReversed().map(comment => (
+                                    <Comment key={comment.id} comment={comment} event={event} />)
+                                )
+                            )
+                        }
                     </div>
                 </div>
             </div>

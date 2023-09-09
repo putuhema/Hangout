@@ -7,7 +7,7 @@ import Events from "./components/events/page"
 const Dashboard = () => {
 
   useEffect(() => {
-    document.documentElement.classList.add('dark')
+    document.documentElement.classList.add('light')
   }, [])
   return (
     <div>

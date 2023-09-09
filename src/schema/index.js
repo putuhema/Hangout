@@ -39,3 +39,9 @@ export const eventPromos = z.object({
     percentage: z.string(),
     limit: z.string(),
 })
+
+export const eventComment = z.object({
+    review: z.string().min(2, {
+        message: "Please write something ..."
+    })
+})

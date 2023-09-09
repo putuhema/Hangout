@@ -67,3 +67,7 @@
     @apply bg-primary text-primary-foreground;
   }
 }
+
+input.hide[type="radio"] {
+  display: none;
+}

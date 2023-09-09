@@ -1,30 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    events: [],
-    searchEvents: [],
-    provincies: [],
-    regencies: [],
-    districts: [],
-    location: {
-        province: {},
-        regency: {},
-        district: {}
-    },
-    event: {
-        name: "",
-        location: "",
-        date: String(new Date()),
-        time: "",
-        description: "",
-        picturepath: "",
-        type: "",
-        category: "",
-        tags: [],
-        id: ""
-    },
-    isLoading: false,
-    isError: false,
     isSearch: false,
 }
 
