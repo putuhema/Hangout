@@ -72,6 +72,27 @@ server.get("/events/user", async (req, res) => {
     })
 })
 
+server.get("/revenue", async (req, res) => {
+    await db.read()
+    const { sellerId } = req.query
+
+    const transactions = db.data.transactions
+    const events = db.data.events
+    const currentTransactions = transactions
+        .filter(transaction => transaction.sellerId === sellerId)
+        .map(ct => {
+            const event = events.find(event => event.id === ct.eventId);
+            if (event) {
+                return { price: ct.price, attendees: event.attendees.length };
+            }
+            return null;
+        })
+        .filter(e => e !== null);
+
+    res.json({
+        currentTransactions
+    })
+})
 
 server.get("/events/f", async (req, res) => {
     await db.read()
@@ -107,7 +128,6 @@ server.get("/events/location", async (req, res) => {
         data: filteredData
     })
 })
-
 
 server.get("/users/referals", cors(), async (req, res) => {
     await db.read()
@@ -147,32 +167,89 @@ server.get("/events/ref", cors(), async (req, res) => {
 // points calculate for referal code 
 server.post('/events/referal', async (req, res) => {
     await db.read()
-    const events = db.data.events
-    const users = db.data.users
+    const events = await db.data.events
+    const users = await db.data.users
 
-    const { code, userId, eventId, eventMakerId } = req.body
-    // find the referal code for current event
-    const data = events.map(event => event.attendees.filter((attendee) => attendee.referalCode === code && event.id === eventId)).flat()[0]
-    if (data) {
-        const { userId: id, referalCode } = data
+    const { code, userId, eventId } = req.body
+
+    // find the referal code owner
+    const data = events.map(event => event.attendees.filter((attendee) => attendee.myReferalCode === code && eventId === event.id)).flat()[0]
+
+    // const isRedeem = users.map(user => user.referals.filter(referal => referal.id === userId)).flat().length > 0
+    const isRedeem = false
+    if (data && !isRedeem) {
+        // referal code owner
+        const { userId: ownerId, myReferalCode } = data
         // checking to make sure only one user can redeem the code
-        const isRedeem = users.map(user => user.referals.filter(referal => referal.userId === userId)).flat().length > 0
 
         db.data.users = users.map(user =>
-            user.id === data.userId && !isRedeem ? { ...user, point: user.point += 50, referals: [...user.referals, { referalCode, id }] } : user)
+            user.id === ownerId && !isRedeem
+                ? { ...user, points: user.points += 50, referals: [...user.referals, { myReferalCode, ownerId }] }
+                : user)
+        await db.write()
 
         db.data.users = users.map(user =>
-            user.id === eventMakerId && !isRedeem ? { ...user, point: user.point += 50, referals: [...user.referals, { referalCode, id }] } : user)
+            user.id === userId && !isRedeem
+                ? { ...user, points: user.points += 50, referals: [...user.referals, { myReferalCode, ownerId }] }
+                : user)
 
         await db.write()
+        return res.status(200).jsonp({
+            data: {
+                status: 'success',
+                msg: 'point has been added',
+                data: data || [],
+            }
+        })
     }
 
-    res.status(200).jsonp({
+    res.status(400).jsonp({
         data: {
-            status: 'success',
-            msg: 'point has been added'
+            status: 'something wrong',
+            msg: 'point not been added',
+            data: data || [],
         }
     })
+})
+
+
+server.post('/events/reviews', async (req, res) => {
+    try {
+        await db.read()
+        const events = await db.data.events
+        const {
+            review,
+            eventId,
+            userCommentId,
+            id,
+            rating,
+            isChild,
+            commentId
+        } = req.body
+
+
+        if (isChild && commentId) {
+            db.data.events = events.map(event => event.id === eventId
+                ? {
+                    ...event,
+                    reviews: event.reviews.map(comment => comment.id === commentId
+                        ? { ...comment, reviews: [...comment.reviews, { id, rating, review, userCommentId }] }
+                        : comment)
+                }
+                : event)
+        } else {
+            db.data.events = events.map(event => event.id === eventId
+                ? { ...event, reviews: [...event.reviews, { id, rating, review, userCommentId }] }
+                : event)
+        }
+        db.write()
+
+        res.jsonp({
+            msg: 'success'
+        })
+    } catch (err) {
+        console.log(err)
+    }
 })
 
 // webhook for sync data clerk with local database
@@ -201,6 +278,7 @@ server.post('/webhook', bodyParser.raw({ type: 'application/json' }), async func
                     username,
                     follower: [],
                     favorites: [],
+                    referals: [],
                     points: 0
                 })
             await db.write()

@@ -21,7 +21,220 @@
       "userId": "user_2V79HCQHfSEckoBwLMi3VjFcHij",
       "id": "853fc72b-1ee7-4eb9-a361-9ddad1fce341",
       "attendees": [],
+      "reviews": [],
       "favorites": [],
+      "promos": {}
+    },
+    {
+      "name": "fsdfs",
+      "location": {
+        "isOnline": "online",
+        "regency": "",
+        "district": "",
+        "address": ""
+      },
+      "date": "2023-09-09T02:14:42.311Z",
+      "time": "03:03 AM",
+      "description": "fdsafas",
+      "type": "free",
+      "price": "0",
+      "category": "foodDrink",
+      "tags": [],
+      "userId": "user_2V8XTdEaQqlKZX3PNFaR2kVsDgp",
+      "id": "5ac4b036-f5c7-4906-9d83-93abb182af7c",
+      "attendees": [],
+      "favorites": [],
+      "reviews": [],
+      "promos": {}
+    },
+    {
+      "name": "myevents",
+      "location": {
+        "isOnline": "online",
+        "regency": "",
+        "district": "",
+        "address": ""
+      },
+      "date": "2023-09-09T04:59:44.504Z",
+      "time": "02:02 AM",
+      "description": "normal events",
+      "type": "free",
+      "price": "0",
+      "category": "hobbies",
+      "tags": [],
+      "userId": "user_2V4Ssb5wzYNX5Qh7qZqFo6QyIn4",
+      "id": "42bdc2fc-620f-4f81-83d0-c0161b94ea0a",
+      "attendees": [
+        {
+          "referal": "",
+          "firstName": "Tetsu",
+          "lastName": "Tetsu",
+          "email": "tetsutetsuhero@gmail.com",
+          "eventId": "42bdc2fc-620f-4f81-83d0-c0161b94ea0a",
+          "eventMakerId": "user_2V4Ssb5wzYNX5Qh7qZqFo6QyIn4",
+          "userId": "user_2V41vUk3QO1Rv2nrKO0oX8aRjc3",
+          "myReferalCode": "10b17333-f8ab-4d17-8346-2a819b2405c0"
+        },
+        {
+          "referal": "",
+          "firstName": "Tetsu",
+          "lastName": "Tetsu",
+          "email": "tetsutetsuhero@gmail.com",
+          "eventId": "42bdc2fc-620f-4f81-83d0-c0161b94ea0a",
+          "eventMakerId": "user_2V4Ssb5wzYNX5Qh7qZqFo6QyIn4",
+          "userId": "user_2V41vUk3QO1Rv2nrKO0oX8aRjc3",
+          "myReferalCode": "6295cc50-141f-43ef-bf3b-14d3a521d726"
+        }
+      ],
+      "favorites": [],
+      "reviews": [
+        {
+          "id": "6c95f70f-c20b-43ce-9d95-2bd1e45976c0",
+          "rating": 3,
+          "review": "nice event",
+          "userCommentId": "user_2V41vUk3QO1Rv2nrKO0oX8aRjc3"
+        }
+      ],
+      "promos": {
+        "name": "ULTAH230",
+        "percentage": "20",
+        "limit": "40"
+      }
+    },
+    {
+      "name": "paid evnt",
+      "location": {
+        "isOnline": "online",
+        "regency": "",
+        "district": "",
+        "address": ""
+      },
+      "date": "2023-09-15T16:00:00.000Z",
+      "time": "03:03 AM",
+      "description": "paid event",
+      "type": "paid",
+      "price": "200000",
+      "category": "hobbies",
+      "tags": [
+        "fd",
+        "fdas"
+      ],
+      "userId": "user_2V41vUk3QO1Rv2nrKO0oX8aRjc3",
+      "id": "b7333cda-79aa-4c62-9fef-36f20b5b8f96",
+      "attendees": [],
+      "favorites": [],
+      "reviews": [],
+      "promos": {
+        "name": "BIRTH22",
+        "percentage": "10",
+        "limit": "4"
+      }
+    },
+    {
+      "name": "paid event",
+      "location": {
+        "isOnline": "online",
+        "regency": "",
+        "district": "",
+        "address": ""
+      },
+      "date": "2023-09-09T16:00:00.000Z",
+      "time": "02:03 AM",
+      "description": "paid event",
+      "type": "paid",
+      "price": "2000000",
+      "category": "holiday",
+      "tags": [
+        "paid",
+        "event"
+      ],
+      "userId": "user_2V4Ssb5wzYNX5Qh7qZqFo6QyIn4",
+      "id": "d96c38c1-3265-4b11-8dca-03e29bba75ad",
+      "attendees": [
+        {
+          "referal": "",
+          "firstName": "Tetsu",
+          "lastName": "Tetsu",
+          "email": "tetsutetsuhero@gmail.com",
+          "eventId": "d96c38c1-3265-4b11-8dca-03e29bba75ad",
+          "eventMakerId": "user_2V4Ssb5wzYNX5Qh7qZqFo6QyIn4",
+          "userId": "user_2V41vUk3QO1Rv2nrKO0oX8aRjc3",
+          "myReferalCode": "3ca3c3a8-917f-4688-9f31-96185453050c"
+        }
+      ],
+      "favorites": [],
+      "reviews": [],
+      "promos": {
+        "name": "PROMO445",
+        "percentage": "23",
+        "limit": "10"
+      }
+    },
+    {
+      "name": "event 3",
+      "location": {
+        "isOnline": "online",
+        "regency": "",
+        "district": "",
+        "address": ""
+      },
+      "date": "2023-09-12T16:00:00.000Z",
+      "time": "03:02 AM",
+      "description": "fdsafa",
+      "type": "paid",
+      "price": "0",
+      "category": "health",
+      "tags": [
+        "fdsaf"
+      ],
+      "userId": "user_2V4Ssb5wzYNX5Qh7qZqFo6QyIn4",
+      "id": "f1d952ec-c9ed-44a1-bd42-2ca64d6fdc56",
+      "attendees": [],
+      "favorites": [],
+      "reviews": [
+        {
+          "id": "b74e75fa-cc2a-4ba7-8487-6cb49cdc4df3",
+          "rating": 4,
+          "review": "this event kinda nice",
+          "userCommentId": "user_2V41vUk3QO1Rv2nrKO0oX8aRjc3"
+        },
+        {
+          "id": "4353b472-6207-4819-b548-9109d8ac8834",
+          "rating": 2,
+          "review": "fsfsaf",
+          "userCommentId": "user_2V41vUk3QO1Rv2nrKO0oX8aRjc3"
+        },
+        {
+          "id": "ad179e83-9d50-48a3-9c46-6cb10aba210c",
+          "rating": 1,
+          "review": "fsfasdf",
+          "userCommentId": "user_2V41vUk3QO1Rv2nrKO0oX8aRjc3"
+        }
+      ],
+      "promos": {}
+    },
+    {
+      "name": "fsfas",
+      "location": {
+        "isOnline": "online",
+        "regency": "",
+        "district": "",
+        "address": ""
+      },
+      "date": "2023-09-09T11:03:20.824Z",
+      "time": "03:03 AM",
+      "description": "fdsafasdf",
+      "type": "paid",
+      "price": "3400000",
+      "category": "hobbies",
+      "tags": [
+        "fds"
+      ],
+      "userId": "user_2V4Ssb5wzYNX5Qh7qZqFo6QyIn4",
+      "id": "d27ce870-9b08-4680-b9fd-f6a3b1604801",
+      "attendees": [],
+      "favorites": [],
+      "reviews": [],
       "promos": {}
     }
   ],
@@ -40,7 +253,8 @@
         "dfa9d831-519d-4aa7-9b7d-5482975f5c38",
         "b8575a8a-739c-4fe8-b78f-a00edd24be69"
       ],
-      "points": 0
+      "points": 0,
+      "referals": []
     },
     {
       "id": "user_2V3uvwU2Xkbhr20pZPYXeRjR2Ow",
@@ -51,7 +265,8 @@
       "imageUrl": "https://avatars.githubusercontent.com/u/71477554?v=4",
       "username": "beru088",
       "follower": [],
-      "favorites": []
+      "favorites": [],
+      "referals": []
     },
     {
       "id": "user_2V4Ssb5wzYNX5Qh7qZqFo6QyIn4",
@@ -66,7 +281,9 @@
         "b8575a8a-739c-4fe8-b78f-a00edd24be69",
         "b8575a8a-739c-4fe8-b78f-a00edd24be69"
       ],
-      "points": 0
+      "points": 0,
+      "referals": [],
+      "point": 0
     },
     {
       "id": "user_2V3XpbxJqbvfogf1w5dk2FwLjM4",
@@ -78,7 +295,8 @@
       "username": null,
       "follower": [],
       "favorites": [],
-      "points": 0
+      "points": 0,
+      "referals": []
     },
     {
       "id": "user_2V79HCQHfSEckoBwLMi3VjFcHij",
@@ -90,7 +308,45 @@
       "username": null,
       "follower": [],
       "favorites": [],
-      "points": 0
+      "points": 0,
+      "referals": []
+    },
+    {
+      "id": "user_2V8XTdEaQqlKZX3PNFaR2kVsDgp",
+      "first_name": "ayaya",
+      "last_name": "kawai",
+      "email": "ayaya@gmail.com",
+      "gender": "",
+      "imageUrl": "https://www.gravatar.com/avatar?d=mp",
+      "username": null,
+      "follower": [],
+      "favorites": [],
+      "points": 0,
+      "referals": [],
+      "point": null
+    }
+  ],
+  "transactions": [
+    {
+      "id": "14094e94-5140-473a-aa93-586d23cbd915",
+      "eventId": "d96c38c1-3265-4b11-8dca-03e29bba75ad",
+      "sellerId": "user_2V4Ssb5wzYNX5Qh7qZqFo6QyIn4",
+      "user": "user_2V41vUk3QO1Rv2nrKO0oX8aRjc3",
+      "price": 1540000
+    },
+    {
+      "id": "d9f5df87-1ad3-4c94-a807-18f5a6b937af",
+      "eventId": "42bdc2fc-620f-4f81-83d0-c0161b94ea0a",
+      "sellerId": "user_2V4Ssb5wzYNX5Qh7qZqFo6QyIn4",
+      "user": "user_2V41vUk3QO1Rv2nrKO0oX8aRjc3",
+      "price": 0
+    },
+    {
+      "id": "f2347b92-7375-4a73-9a98-7c852c5e561c",
+      "eventId": "42bdc2fc-620f-4f81-83d0-c0161b94ea0a",
+      "sellerId": "user_2V4Ssb5wzYNX5Qh7qZqFo6QyIn4",
+      "user": "user_2V41vUk3QO1Rv2nrKO0oX8aRjc3",
+      "price": 0
     }
   ]
 }
