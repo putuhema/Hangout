@@ -4,6 +4,9 @@ import { ChevronRight } from "lucide-react"
 import { categories, tabs } from "../../constant"
 import Category from "../components/event/Category"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs"
+import { Routes, Route } from "react-router-dom"
+import Dashboard from "@/components/event/Dashboard"
+import Statistics from "@/components/event/Statistics"
 
 const Home = () => {
   return (
@@ -54,6 +57,13 @@ const Home = () => {
           </div>
         </div>
       </div>
+
+      <Dashboard />
+      <br />
+      <br />
+      <br />
+      <br />
+      <Statistics />
     </Container>
   )
 }
