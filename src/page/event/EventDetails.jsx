@@ -3,13 +3,15 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useLocation } from "@/hooks/useLocation"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { formatToUnits } from "@/lib/utils"
 import services from "@/services"
-import Register from "@/components/event/Register"
 import { format } from "date-fns"
-import { ArrowLeft, Heart, Share } from "lucide-react"
+import { Info, Plus, Minus, ArrowLeft, Heart, Share } from "lucide-react"
 import { useQuery } from "@tanstack/react-query"
 import { useNavigate, useParams } from "react-router-dom"
+import Checkout from "@/components/event/Checkout"
+import { useState } from "react"
 
 const EventDetails = () => {
   const { eventId } = useParams()
@@ -28,7 +30,8 @@ const EventDetails = () => {
   const { data: province } = useLocation("province", pId)
   const { data: regency } = useLocation("regency", rId)
   const { data: district } = useLocation("district", dId)
-
+  const [ticket, setTicket] = useState(1)
+  const maxTicket = 2
   return (
     isFetched && (
       <Container>
@@ -105,14 +108,53 @@ const EventDetails = () => {
                 <Heart className="w-6 h-6 cursor-pointer" />
                 <Share className="w-6 h-6 cursor-pointer" />
               </span>
-              <Register event={event} />
-              <div className="border rounded-md w-[250px] px-6 py-4 flex flex-col items-center h-max">
-                <p className="font-bold text-lg">
-                  {event.type === "paid"
-                    ? formatToUnits(parseInt(event.price))
-                    : event.type}
-                </p>
-                <Button className="w-full">Get Ticket</Button>
+
+              {/* registration */}
+              <div className="md:border md:border-border rounded-md w-full md:w-[300px] justify-between py-3 gap-2 md:px-6 md:py-4 flex flex-row md:flex-col items-center h-max">
+                <div className="rounded-md border-2 border-blue-400 p-3 mb-4">
+                  <div className="flex items-start">
+                    <p className="text-base font-medium self-center w-2/3">
+                      Registration Ticket
+                    </p>
+                    <div className="flex items-center justify-self-end">
+                      <button
+                        className="rounded-md bg-gray-100 p-1 disabled:opacity-25"
+                        onClick={() => setTicket(ticket - 1)}
+                        disabled={ticket <= 1 ? true : false}
+                      >
+                        <Minus />
+                      </button>
+                      <span className="text-xl font-medium mx-4">{ticket}</span>
+                      <button
+                        className="rounded-md bg-gray-100 p-1 disabled:opacity-25"
+                        onClick={() => setTicket(ticket + 1)}
+                        disabled={ticket >= maxTicket ? true : false}
+                      >
+                        <Plus />
+                      </button>
+                    </div>
+                  </div>
+                  <div className="text-[16px] font-medium flex gap-3 items-center mt-4">
+                    {event.type === "paid"
+                      ? formatToUnits(parseInt(event.price))
+                      : event.type}
+                    <button>
+                      <Info />
+                    </button>
+                  </div>
+                </div>
+                <Dialog>
+                  <DialogTrigger className="rounded-md bg-slate-800 py-2 text-lg font-medium text-white w-full">
+                    <span>
+                      {event.type === "free"
+                        ? "Reserve a spot"
+                        : `Checkout for Rp.${ticket * event.price}`}
+                    </span>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <Checkout ticket={ticket} ticketPrice={10000} />
+                  </DialogContent>
+                </Dialog>
               </div>
             </div>
           </div>

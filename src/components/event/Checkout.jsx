@@ -5,8 +5,9 @@ import { ArrowLeft } from "lucide-react"
 import ContactCard from "./ContactCard"
 import { useState } from "react"
 
-export default function Checkout({ ticket, ticketPrice }) {
+export default function Checkout({ ticket }) {
   const [page, setPage] = useState(1)
+  const ticketPrice = 10000
 
   const handleSubmit = (values) => {
     console.log(values)
