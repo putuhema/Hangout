@@ -1,3 +1,28 @@
 {
-  "events": []
+  "events": [
+    {
+      "name": "Mikhail ",
+      "location": {
+        "isOnline": "custom",
+        "province": "13",
+        "regency": "1305",
+        "district": "1305040",
+        "address": ""
+      },
+      "date": "2023-09-08T07:04:58.668Z",
+      "time": "02:03 AM",
+      "description": "Event",
+      "type": "free",
+      "price": "",
+      "category": "holiday",
+      "tags": [],
+      "user": {
+        "id": "user_2V3uvwU2Xkbhr20pZPYXeRjR2Ow",
+        "fullname": "Mikhail Yuwan Kho",
+        "imageUrl": "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ2l0aHViL2ltZ18yVjN1d0N0eWk4VWphWjBPQ0JHVlI1S3NaQUMuanBlZyJ9",
+        "follower": 0
+      },
+      "id": "d53a9c1b-965a-4ee8-9453-6dd832c4e3a6"
+    }
+  ]
 }

@@ -1,7 +1,14 @@
 import * as Yup from "yup"
 
 const checkoutSchema = Yup.object().shape({
-  name: Yup.string()
+  fname: Yup.string()
+    .required("Required")
+    .min(3, "Name is too short")
+    .matches(
+      /^[a-zA-Z].*/,
+      "Name couldn't contain special characters and numbers"
+    ),
+  lname: Yup.string()
     .required("Required")
     .min(3, "Name is too short")
     .matches(

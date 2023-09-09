@@ -2,7 +2,6 @@ import Container from "../components/layout/Container"
 import { ChevronRight } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs"
 import Category from "../components/event/Category"
-import Register from "@/components/event/Register"
 import EventCard from "@/components/event/EventCard"
 import UserCard from "@/components/event/UserCard"
 import CardSkeleton from "@/components/shared/CardSkeleton"
@@ -188,7 +187,6 @@ const Home = () => {
                     <UserCard key={event.id} event={event} />
                   ))}
               </div>
-              <Register />
             </div>
           </div>
         )}
