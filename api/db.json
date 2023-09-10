@@ -1,44 +1,6 @@
 {
   "events": [
     {
-      "name": "Enchanted Garden Gala",
-      "location": {
-        "isOnline": "custom",
-        "province": "31",
-        "regency": "3173",
-        "district": "3173030",
-        "address": "Secret Garden"
-      },
-      "date": "2023-09-10T16:00:00.000Z",
-      "time": "02:03 AM",
-      "description": "The Enchanted Garden Gala is an enchanting and magical event that transports you into a whimsical world of beauty and wonder. Step into a hidden oasis of lush greenery and dazzling flowers, where fairy lights twinkle like stars above your head, and the air is filled with the sweet scent of blooming blossoms. Immerse yourself in a night of enchantment as you enjoy a gourmet feast fit for royalty, sip on the finest wines, and dance under the moonlit sky. This gala is a celebration of nature's beauty and the artistry of human creativity. Join us for an evening you'll cherish forever, where dreams come to life in the heart of the Secret Garden.",
-      "type": "paid",
-      "price": "2500000",
-      "category": "performingVisualArt",
-      "tags": [
-        "garden",
-        "magic",
-        "enchanted"
-      ],
-      "userId": "user_2V9waX9VQk1UNYPZceL96XEtEQL",
-      "id": "9f5bb5a5-2cf1-428a-9d70-4f81c46c568d",
-      "attendees": [
-        {
-          "referal": "",
-          "firstName": "James",
-          "lastName": "Wazawski",
-          "email": "james007@gmail.com",
-          "eventId": "9f5bb5a5-2cf1-428a-9d70-4f81c46c568d",
-          "eventMakerId": "user_2V9waX9VQk1UNYPZceL96XEtEQL",
-          "userId": "user_2VAVi8tx0XOhHnnU2L73PbPH4ud",
-          "myReferalCode": "33b3e057-d698-4248-9dee-360d581b34d5"
-        }
-      ],
-      "favorites": [],
-      "reviews": [],
-      "promos": {}
-    },
-    {
       "name": "Mystical Music Festival",
       "location": {
         "isOnline": "custom",
@@ -53,11 +15,7 @@
       "type": "paid",
       "price": "1800000",
       "category": "music",
-      "tags": [
-        "mystical",
-        "ethereal",
-        "music"
-      ],
+      "tags": ["mystical", "ethereal", "music"],
       "userId": "user_2V9waX9VQk1UNYPZceL96XEtEQL",
       "id": "a1f46495-08fa-4f9e-89f1-5d9cab104548",
       "attendees": [
@@ -98,11 +56,7 @@
       "type": "paid",
       "price": "1500000",
       "category": "hobbies",
-      "tags": [
-        "culinary",
-        "food",
-        "wine"
-      ],
+      "tags": ["culinary", "food", "wine"],
       "userId": "user_2V9waX9VQk1UNYPZceL96XEtEQL",
       "id": "896dcc64-335f-4d2b-b186-b811fddeb977",
       "attendees": [
@@ -140,11 +94,7 @@
       "type": "paid",
       "price": "1200000",
       "category": "hobbies",
-      "tags": [
-        "starrynight",
-        "astronomy",
-        "observatory"
-      ],
+      "tags": ["starrynight", "astronomy", "observatory"],
       "userId": "user_2V9yJ7p9URmTeFMJfgDTImkmivW",
       "id": "1671c938-eff3-4eb2-9b2a-dc4fc29c6329",
       "attendees": [
@@ -188,11 +138,7 @@
       "type": "paid",
       "price": "1700000",
       "category": "holiday",
-      "tags": [
-        "trekking",
-        "wilderness",
-        "adventure"
-      ],
+      "tags": ["trekking", "wilderness", "adventure"],
       "userId": "user_2V9yJ7p9URmTeFMJfgDTImkmivW",
       "id": "32d8a719-f33c-4414-881c-cd1a14e14964",
       "attendees": [
@@ -211,32 +157,7 @@
       "reviews": [],
       "promos": {}
     },
-    {
-      "name": "Virtual Art Exhibition: The Colors of Imagination",
-      "location": {
-        "isOnline": "online",
-        "regency": "",
-        "district": "",
-        "address": ""
-      },
-      "date": "2023-09-09T16:57:36.708Z",
-      "time": "10:11 PM",
-      "description": "Step into a digital realm of artistic expression at the Virtual Art Exhibition: The Colors of Imagination. This online event is a celebration of creativity that transcends physical boundaries. Explore a gallery of breathtaking artworks from talented artists around the world, all from the comfort of your own home. From mesmerizing paintings to stunning sculptures, this exhibition showcases the diverse and vibrant world of contemporary art. Engage with artists through live Q&A sessions, witness the creation process through virtual studio tours, and even purchase your favorite pieces with just a few clicks. Immerse yourself in the colors of imagination and experience art in a whole new way.",
-      "type": "free",
-      "price": 0,
-      "category": "performingVisualArt",
-      "tags": [
-        "virtual",
-        "art",
-        "imagination"
-      ],
-      "userId": "user_2V9yJ7p9URmTeFMJfgDTImkmivW",
-      "id": "199ed2d8-b97c-402e-9147-03a04f1d1366",
-      "attendees": [],
-      "favorites": [],
-      "reviews": [],
-      "promos": {}
-    },
+
     {
       "name": "Online Coding Bootcamp: Mastering Web Development",
       "location": {
@@ -251,11 +172,7 @@
       "type": "paid",
       "price": "1500000",
       "category": "hobbies",
-      "tags": [
-        "coding",
-        "web development",
-        "online learning"
-      ],
+      "tags": ["coding", "web development", "online learning"],
       "userId": "user_2V9yJ7p9URmTeFMJfgDTImkmivW",
       "id": "2b0c36e6-645b-4b5b-ae79-86ac93d65456",
       "attendees": [
@@ -301,11 +218,7 @@
       "type": "free",
       "price": 0,
       "category": "health",
-      "tags": [
-        "yoga",
-        "meditation",
-        "mindfulness"
-      ],
+      "tags": ["yoga", "meditation", "mindfulness"],
       "userId": "user_2VAVi8tx0XOhHnnU2L73PbPH4ud",
       "id": "b50afa8e-6c31-4f54-b8ba-19eac2f08962",
       "attendees": [],
@@ -353,10 +266,7 @@
       "type": "paid",
       "price": "200000",
       "category": "business",
-      "tags": [
-        "newevnt",
-        "tdday"
-      ],
+      "tags": ["newevnt", "tdday"],
       "userId": "user_2V9waX9VQk1UNYPZceL96XEtEQL",
       "id": "c665f2b3-67a8-4e89-a31a-db8f7895b527",
       "attendees": [],
