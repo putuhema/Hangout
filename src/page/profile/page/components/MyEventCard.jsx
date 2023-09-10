@@ -19,6 +19,7 @@ import { eventPromos } from "@/schema"
 import { useMutation } from "@tanstack/react-query"
 import services from "@/services"
 import { useEffect } from "react"
+import { Link } from "react-router-dom"
 
 const MyEventCard = ({ event }) => {
     const icons = categories.filter(category => category.value === event.category)[0]
@@ -62,7 +63,9 @@ const MyEventCard = ({ event }) => {
                     {icons.icon}
                 </span>
                 <div className="flex flex-col gap-2">
-                    <p className="font-bold">{event.name}</p>
+                    <Link to={`/event/${event.id}`}>
+                        <p className="font-bold">{event.name}</p>
+                    </Link>
                     <p className="font-bold rounded-full text-sm px-2 w-max bg-primary text-primary-foreground">{event.type === 'paid' ? formatToUnits(parseInt(event.price)) : event.type}</p>
                 </div>
             </div>

@@ -34,7 +34,7 @@ import { useAuth } from "@clerk/clerk-react"
 const emptyForm = {
   name: "",
   location: {
-    isOnline: "",
+    isOnline: "online",
     provinces: "",
     regency: "",
     district: "",
@@ -83,7 +83,7 @@ const EventForm = () => {
     setTags([])
     mutation.mutate({
       ...values,
-      price: values.type === 'free' ? "0" : values.price,
+      price: values.type === 'free' ? 0 : values.price,
       userId: userId,
       id: uuidv4(),
       attendees: [],
@@ -104,7 +104,6 @@ const EventForm = () => {
   }
 
   const formSuccess = mutation.isSuccess ? { title: 'Success', desc: "Event sucessfully created." } : {}
-  const formError = mutation.isError ? { title: 'Error', desc: "Event Not Created, something wrong." } : {}
 
   return (
     <Container>
@@ -263,8 +262,8 @@ const EventForm = () => {
             </div>
             <Button className="mt-4  bg-primary hover:bg-primary/80 dark:bg-primary dark:hover:bg-primary/80" type="submit" onClick={() =>
               toast({
-                title: formSuccess ? formSuccess.title : formError ? formError.title : null,
-                description: formSuccess ? formSuccess.desc : formError ? formError.desc : null,
+                title: formSuccess && formSuccess.title,
+                description: formSuccess && formSuccess.desc
 
               })
             }>

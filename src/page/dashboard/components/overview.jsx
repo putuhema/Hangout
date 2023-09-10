@@ -56,7 +56,7 @@ const Overview = () => {
     } else if (overalRating > 4.5 && overalRating <= 5.0) {
         ratingEvaluate = 'Perfect'
     } else {
-        ratingEvaluate = 'Not Rating'
+        ratingEvaluate = 'No Rating'
     }
 
     return (
@@ -122,7 +122,10 @@ const Overview = () => {
                                                         i !== 2 ? (
                                                             <Attendee attendee={attendee} />
                                                         ) : (
-                                                            <div className="w-[20px] h-[20px] border rounded-full bg-secondary" />)
+                                                            <div className="w-[40px] h-[40px] grid place-content-center transform -translate-x-8 border-2 rounded-full bg-secondary">
+                                                                {event.attendees.length - 3}+
+                                                            </div>
+                                                        )
                                                     }
                                                 </div>
                                             ))

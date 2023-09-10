@@ -9,7 +9,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 
 import { FormatToIDR, IsObjectEmpty } from "@/lib/utils"
 import { format } from "date-fns"
-import { ArrowLeft, Heart, Loader2, Share, Star, Ticket } from "lucide-react"
+import { ArrowLeft, Check, Heart, Loader2, Share, Star, Ticket } from "lucide-react"
 import { useQuery, useMutation } from "@tanstack/react-query"
 import { useNavigate, useParams } from "react-router-dom"
 import { useAuth, useUser } from "@clerk/clerk-react"
@@ -40,7 +40,7 @@ const EventDetails = () => {
                 const res = await services.get(`/events/${eventId}`)
                 return res.data
             },
-            // refetchInterval: 1000
+            refetchInterval: 1000
         }
     )
     const eventRating = isFetched && event.reviews.length > 0 ? event.reviews.reduce((acc, curr) => acc + (curr.rating ? curr.rating : 0), 0) / event.reviews.filter(review => review.rating !== null).length : -1
@@ -65,7 +65,7 @@ const EventDetails = () => {
     } else if (eventRating > 4.5 && eventRating <= 5.0) {
         ratingEvaluate = 'Perfect'
     } else {
-        ratingEvaluate = 'Not Rating'
+        ratingEvaluate = 'No Rating'
     }
 
 
@@ -129,8 +129,7 @@ const EventDetails = () => {
 
     const onSubmit = (values) => {
         // checking if current user loggin is already attend to the event
-        // const isAlreadyAttend = event.attendees.filter(attendee => attendee.userId === userId).length > 0
-        const isAlreadyAttend = false
+        const isAlreadyAttend = event.attendees.filter(attendee => attendee.userId === userId).length > 0
         const referalCode = uuidv4()
         if (userId !== userEventId && !isAlreadyAttend) {
             if (values.referal.length > 0) {
@@ -269,13 +268,14 @@ const EventDetails = () => {
                                 <DialogContent>
                                     <DialogHeader>
                                         <DialogTitle>
-                                            {currentPage === 1 ? 'Contact Information' : 'Checkout'}
+
+                                            {!eventMutation.isSuccess && (currentPage === 1 ? 'Contact Information' : 'Checkout')}
                                         </DialogTitle>
                                     </DialogHeader>
                                     <div>
                                         {
                                             currentPage === 1 &&
-                                            (isSignedIn ? (<p>logged in as <span className="text-gray-500">{user.emailAddresses[0].emailAddress}</span></p>) : (
+                                            (isSignedIn ? (<p>logged in as <span className="text-muted-foreground">{user.emailAddresses[0].emailAddress}</span></p>) : (
                                                 <p>register for the event</p>))
                                         }
                                         <Form {...form}>
@@ -341,7 +341,11 @@ const EventDetails = () => {
                                                                 )
                                                                 }
                                                             />
-                                                            <span onClick={() => setCurrentPage(currentPage + 1)} className='bg-primary p-2 px-4 rounded-md hover:bg-primary/80 block w-max text-primary-foreground cursor-pointer'>
+                                                            <span onClick={async () => {
+                                                                const inputErr = await form.trigger(["email", "firstName", "lastName"], { shouldFocus: true });
+                                                                if (inputErr) setCurrentPage(currentPage + 1);
+                                                            }}
+                                                                className='bg-primary p-2 px-4 rounded-md hover:bg-primary/80 block w-max text-primary-foreground cursor-pointer'>
                                                                 Register
                                                             </span>
                                                         </>
@@ -349,9 +353,12 @@ const EventDetails = () => {
 
                                                 }
                                                 {
-                                                    currentPage === 2 && (
+                                                    currentPage === 2 && !eventMutation.isSuccess ? (
                                                         <div className="p-2">
-                                                            <ArrowLeft className="w-4 h-4 cursor-pointer mb-6" onClick={() => setCurrentPage(currentPage - 1)} />
+                                                            <span onClick={() => setCurrentPage(currentPage - 1)} className="flex gap-2 items-center mb-4  hover:text-muted-foreground cursor-pointer">
+                                                                <ArrowLeft className="w-4 h-4 cursor-pointer" />
+                                                                <p>back</p>
+                                                            </span>
                                                             <span className="grid grid-cols-3">
                                                                 <p>Name</p>
                                                                 <p className="span-2 text-muted-foreground">{`${form.getValues('firstName')} ${form.getValues('lastName')}`}</p>
@@ -360,9 +367,12 @@ const EventDetails = () => {
                                                                 <p>Email</p>
                                                                 <p className="span-2 text-muted-foreground">{form.getValues("email")}</p>
                                                             </span>
-                                                            <Separator className="my-2" />
                                                             <span className="grid grid-cols-3">
-                                                                <p>Payment</p>
+                                                                <p>Items</p>
+                                                                <p className="span-2 text-muted-foreground">{`1 x ${event.name} Ticket`}</p>
+                                                            </span>
+                                                            <span className="grid grid-cols-3">
+                                                                <p>Price</p>
                                                                 <p className="span-2 text-muted-foreground">{FormatToIDR(price)}</p>
                                                             </span>
                                                             {
@@ -373,6 +383,11 @@ const EventDetails = () => {
                                                                     </span>
                                                                 )
                                                             }
+                                                            <Separator className="my-3" />
+                                                            <span className="grid grid-cols-3">
+                                                                <p className="font-bold">Total</p>
+                                                                <p className="span-2 text-foreground">{discount ? FormatToIDR(price - (price - discount)) : FormatToIDR(price)}</p>
+                                                            </span>
                                                             <Button className="mt-6 bg-primary hover:bg-primary/80 w-full" type="submit">
                                                                 {
                                                                     eventMutation.isLoading && (
@@ -383,6 +398,14 @@ const EventDetails = () => {
                                                             </Button>
                                                         </div>
 
+                                                    ) : eventMutation.isSuccess && (
+                                                        <div>
+                                                            <div className="flex items-center gap-2 p-2 bg-green-100 rounded-full text-green-600 justify-center">
+                                                                <p>Checkout Success</p>
+                                                                <Check className="h-4 w-4" />
+                                                            </div>
+                                                            <p className="text-muted-foreground text-center my-4">you can close(x) the modal</p>
+                                                        </div>
                                                     )
                                                 }
                                             </form>

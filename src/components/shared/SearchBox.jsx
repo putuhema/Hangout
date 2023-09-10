@@ -102,7 +102,7 @@ const SearchBox = () => {
             <div className="flex flex-col gap-2 w-full">
                 <span className="flex gap-2 w-full">
                     {filters[0] && isShow && (
-                        <Badge className="flex items-center gap-4">
+                        <Badge className="flex items-center gap-4 bg-primary hover:bg-primary/80">
                             <span>
                                 {filters[0] === "0" ? 'Today' : filters[0] === '2' ? 'Tomorrow' : "This Weekend"}
                             </span>
@@ -110,14 +110,14 @@ const SearchBox = () => {
                         </Badge>
                     )}
                     {filters[1] && isShow && (
-                        <Badge className="flex items-center gap-4">
+                        <Badge className="flex items-center gap-4 bg-primary hover:bg-primary/80">
                             <span>
                                 {filters[1]}
                             </span>
                             <X onClick={() => handleRadioCange("", 1)} className="h-3 w-3 cursor-pointer" />
                         </Badge>)}
                     {filters[2] && isShow && (
-                        <Badge className="flex items-center gap-4">
+                        <Badge className="flex items-center gap-4 bg-primary hover:bg-primary/80">
                             <span>
                                 {filters[2]}
                             </span>
@@ -128,7 +128,7 @@ const SearchBox = () => {
                         isShow && (
                             <button
                                 onClick={() => setFilters(["", "", ""])}
-                                className="underline hover:text-gray-500">clear filter</button>
+                                className="underline hover:text-muted-foreground">clear filter</button>
                         )
                     }
                 </span>

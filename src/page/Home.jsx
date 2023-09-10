@@ -26,7 +26,7 @@ const Home = () => {
   const [tab, setTab] = useState("All")
 
   const { data, isLoading } = useQuery(['events'], async () => {
-    const res = await services.get("/events")
+    const res = await services.get("/events", { params: { order: "desc" } })
     return res.data
   })
 
@@ -134,7 +134,7 @@ const Home = () => {
                 </div>
                 <div className="rounded-md shadow-sm h-10 bg-background p-2 w-full flex flex-col gap-2">
                   {
-                    userEvent && userEvent.map(event => (
+                    userEvent && userEvent.slice(0, 3).map(event => (
                       <UserCard key={event.id} event={event} />
                     ))
                   }
