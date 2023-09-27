@@ -37,11 +37,11 @@ const MyReferals = () => {
                       {referal.event.name}
                     </p>
                   </Link>
-                  {referal.used && (
+                  {/* {referal.used && (
                     <Badge className="hover:bg-red-500/50 bg-secondary text-red-500 border border-red-500">
                       Used
                     </Badge>
-                  )}
+                  )} */}
                 </span>
                 <p className="text-muted-foreground text-xs">{`${format(
                   new Date(referal.event.date),

@@ -53,60 +53,6 @@ const TransactionDialog = ({ event, user, discount, price }) => {
     },
   });
 
-  // const referalMutation = useMutation({
-  //   mutationFn: async (data) => {
-  //     return services.post("/events/referal", data);
-  //   },
-  // });
-
-  // const transactions = useMutation({
-  //   mutationFn: async (data) => {
-  //     return services.post("/transactions", data);
-  //   },
-  // });
-  // const onSubmit = (values) => {
-  //   // checking if current user loggin is already attend to the event
-  //   const isAlreadyAttend =
-  //     event.attendees.filter((attendee) => attendee.userId === user.id).length >
-  //     0;
-  //   const referalCode = uuidv4();
-  //   if (user.id !== event.user.id && !isAlreadyAttend) {
-  //     if (values.referal.length > 0) {
-  //       referalMutation.mutate({
-  //         eventId: event.id,
-  //         code: values.referal,
-  //         userId: user.id,
-  //       });
-  //     }
-
-  //     eventMutation.mutate({
-  //       ...event,
-  //       attendees: [
-  //         ...event.attendees,
-  //         {
-  //           ...values,
-  //           eventId: event.id,
-  //           eventMakerId: event.userId,
-  //           userId: user.id,
-  //           myReferalCode: referalCode,
-  //         },
-  //       ],
-  //     });
-
-  //     const totalPrice = discount > 0 ? discount : price;
-  //     transactions.mutate({
-  //       id: uuidv4(),
-  //       eventId: event.id,
-  //       sellerId: event.userId,
-  //       user: user.id,
-  //       price: totalPrice,
-  //     });
-  //   } else {
-  //     console.log("cant register to own event");
-  //   }
-  // };
-
-
   const onSubmit = (values) => {
     const newReferral = v4().split("-")[0].toUpperCase()
     eventMutation.mutate({

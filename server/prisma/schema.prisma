@@ -86,13 +86,13 @@ model Reviews {
 }
 
 model Referral {
-  id      Int     @id @default(autoincrement())
-  ownerId Int     @unique
-  owner   User?   @relation(fields: [ownerId], references: [id])
-  code    String
-  used    Boolean @default(false)
-  event   Event?  @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  eventId Int?
+  id         Int    @id @default(autoincrement())
+  ownerId    Int    @unique
+  owner      User?  @relation(fields: [ownerId], references: [id])
+  code       String
+  event      Event? @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId    Int?
+  usedByUser User[] @relation("userReferral")
 }
 
 model PointsTransaction {
@@ -104,24 +104,26 @@ model PointsTransaction {
 }
 
 model User {
-  id                Int                @id @default(autoincrement())
-  externalId        String             @unique
-  username          String?
-  firstname         String
-  lastname          String
-  email             String             @unique
-  imageUrl          String
-  points            Int                @default(0)
-  event             Event[]
-  favorites         Favorites[]
-  reviews           Reviews[]
-  like              Like[]
-  followers         Follows[]          @relation("followers")
-  following         Follows[]          @relation("following")
-  attendee          Attendee[]
-  transaction       Transaction[]
-  referral          Referral[]
-  pointsTransaction PointsTransaction?
+  id                   Int                @id @default(autoincrement())
+  externalId           String             @unique
+  username             String?
+  firstname            String
+  lastname             String
+  email                String             @unique
+  imageUrl             String
+  points               Int                @default(0)
+  referralCodeUsedBy   Referral?          @relation("userReferral", fields: [referralCodeUsedById], references: [id])
+  referralCodeUsedById Int?
+  event                Event[]
+  favorites            Favorites[]
+  reviews              Reviews[]
+  like                 Like[]
+  followers            Follows[]          @relation("followers")
+  following            Follows[]          @relation("following")
+  attendee             Attendee[]
+  transaction          Transaction[]
+  referral             Referral[]
+  pointsTransaction    PointsTransaction?
 }
 
 model Like {
