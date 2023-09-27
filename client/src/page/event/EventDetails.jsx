@@ -68,10 +68,15 @@ const EventDetails = () => {
   }
 
   const price = isFetched && event.type === "paid" ? Number(event.price) : 0;
-  const discount =
-    isFetched && event.promo
-      ? price - price * (Number(event.promo.amount) / 100)
-      : 0;
+  let discount = 0;
+
+  if (isFetched && event.promo && event.promo.used <= event.promo.limit) {
+    const promoAmount = Number(event.promo.amount);
+    if (!isNaN(promoAmount) && promoAmount > 0) {
+      discount = price - (price * promoAmount) / 100;
+    }
+  }
+
 
   // following 
   const followMutate = useMutation({
@@ -97,7 +102,12 @@ const EventDetails = () => {
       followerId: event.user.id
     })
   }
-  const isFollowing = isCurrentUserFetched && isFetched && event.user.followers.filter(follower => follower.followingId === currentUser.id).length > 0
+
+  const isFollowing =
+    isCurrentUserFetched &&
+    isFetched &&
+    event.user.followers.some(follower => follower.followingId === currentUser.id);
+
 
   return (
     isFetched && (
@@ -219,7 +229,6 @@ const EventDetails = () => {
                         {FormatToIDR(price)}
                       </p>
                     </span>
-                    <p className="text-xs my-2"></p>
                   </span>
                 ) : (
                   <p className=" font-bold text-lg">
@@ -232,7 +241,11 @@ const EventDetails = () => {
                       <Ticket className="text-primary" />
                       <p>Get Ticket</p>
                     </span>
-                    <p className="text-xs my-2 text-muted-foreground">{event.promo.used} / {event.promo.limit} people used this promo</p>
+                    {
+                      event.promo.used <= event.promo.limit && (
+                        <p className="text-xs my-2 text-muted-foreground">{event.promo.used} / {event.promo.limit} people used this promo</p>
+                      )
+                    }
                   </DialogTrigger>
                   <TransactionDialog
                     event={event}
@@ -245,7 +258,11 @@ const EventDetails = () => {
             </div>
           </div>
           <div className="w-full my-8">
-            <CommentSection event={event} commentId={null} />
+            {
+              currentUser && (
+                <CommentSection event={event} commentId={null} />
+              )
+            }
             <p>{`${event.reviews.length} Comments`}</p>
             <Separator className="my-6" />
             <div className="flex flex-col gap-4">

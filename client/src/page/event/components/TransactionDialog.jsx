@@ -62,7 +62,7 @@ const TransactionDialog = ({ event, user, discount, price }) => {
       promoId: event.promo.id,
       ownerId: event.user.id,
       newReferral: newReferral,
-      price: (price - (price - discount))
+      price: discount > 0 ? (price - (price - discount)) : price
     })
   }
   return (

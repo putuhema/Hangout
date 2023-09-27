@@ -35,7 +35,7 @@ const Comment = ({ review, isChild }) => {
               <span className="flex gap-2 items-center">
                 <p className="text-muted-foreground">@{review.user.firstname}</p>
                 {
-                  !isChild && (
+                  !isChild && review.rating > 0 && (
                     <div className="flex gap-1">
                       {review.rating &&
                         [...Array(5)].map((star, index) => {
