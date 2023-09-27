@@ -24,7 +24,7 @@ import { Loader, Ticket } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { eventPromos } from "@/schema";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import services from "@/services";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -38,29 +38,51 @@ const MyEventCard = ({ event }) => {
     resolver: zodResolver(eventPromos),
     defaultValues: {
       name: "",
-      percentage: "",
+      amount: "",
       limit: "",
     },
   });
 
-  const eventMutation = useMutation({
-    mutationFn: async (event) => {
-      return services.put(`/events/${event.id}`, event);
+  const { data: promo, isFetched, isLoading } = useQuery({
+    queryKey: ["promo", event.id],
+    queryFn: async () => {
+      const res = await services.get(`/events/promo/${event.id}`)
+      return res.data
+    },
+    enabled: !!event.id
+  })
+
+
+  const isEventHasPromo = promo !== null
+
+  const postPromo = useMutation({
+    mutationFn: async (promo) => {
+      return services.post(`/events/promo`, promo);
+    },
+  });
+
+  const deletePromo = useMutation({
+    mutationFn: async () => {
+      return services.delete(`/events/promo/${event.id}`);
     },
   });
 
   const onSubmit = (values) => {
-    eventMutation.mutate({
-      ...event,
-      promos: values,
+    postPromo.mutate({
+      ...values,
+      eventId: event.id
     });
   };
+
+  const handleDeletePromo = () => {
+    deletePromo.mutate()
+  }
 
   useEffect(() => {
     if (form.formState.isSubmitSuccessful) {
       form.reset({
         name: "",
-        percentage: "",
+        amount: "",
         limit: "",
       });
     }
@@ -95,11 +117,19 @@ const MyEventCard = ({ event }) => {
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Promos</DialogTitle>
-            <DialogDescription>
-              Easily create and manage enticing discounts and promotions for
-              your events, driving higher ticket sales and increasing event
-              attendance.
-            </DialogDescription>
+            {
+              isEventHasPromo ? (
+                <DialogDescription>
+                  This Event Already has a Promo, you need to delete the old promo to create new one.
+                </DialogDescription>
+              ) :
+
+                <DialogDescription>
+                  Easily create and manage enticing discounts and promotions for
+                  your events, driving higher ticket sales and increasing event
+                  attendance.
+                </DialogDescription>
+            }
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <Form {...form}>
@@ -117,7 +147,11 @@ const MyEventCard = ({ event }) => {
                       <FormLabel>Promo Name</FormLabel>
                       <div className="col-span-3">
                         <FormControl>
-                          <Input {...field} placeholder="ex. PROMO75" />
+                          <Input
+                            {...field}
+                            value={isEventHasPromo ? isLoading ? "" : promo.name : field.value}
+                            placeholder="ex. PROMO75"
+                            disabled={isEventHasPromo} />
                         </FormControl>
                         <FormDescription>
                           give your promo unique identifier
@@ -129,22 +163,21 @@ const MyEventCard = ({ event }) => {
                 />
                 <div className="grid grid-cols-2 gap-4">
                   <FormField
-                    name="percentage"
+                    name="amount"
                     control={form.control}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel id="percentage">Percentage</FormLabel>
+                        <FormLabel id="amount">Amount</FormLabel>
                         <div className="col-span-3">
                           <FormControl>
                             <Input
-                              id="percentage"
+                              id="amount"
+                              value={isEventHasPromo ? isLoading ? "" : promo.amount : field.value}
                               {...field}
                               placeholder="ex. 35"
+                              disabled={isEventHasPromo}
                             />
                           </FormControl>
-                          <FormDescription>
-                            How big is your promo
-                          </FormDescription>
                         </div>
                         <FormMessage />
                       </FormItem>
@@ -158,26 +191,44 @@ const MyEventCard = ({ event }) => {
                         <FormLabel id="limit">Limit</FormLabel>
                         <div className="col-span-3">
                           <FormControl>
-                            <Input id="limit" {...field} placeholder="ex. 10" />
+                            <Input
+                              id="limit"
+                              {...field}
+                              value={isEventHasPromo ? isLoading ? "" : promo.limit : field.value}
+                              placeholder="ex. 10"
+                              disabled={isEventHasPromo}
+                            />
                           </FormControl>
-                          <FormDescription>
-                            How many people can have your promo
-                          </FormDescription>
                         </div>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
-                <Button
-                  className="bg-primary text-primary-foreground hover:bg-primary/80"
-                  type="submit"
-                >
-                  {eventMutation.isLoading && (
-                    <Loader className="w-4 h-4 animate-spin" />
-                  )}
-                  {eventMutation.isLoading ? "Processing..." : "Set Promo"}
-                </Button>
+
+                {
+                  isEventHasPromo ? (
+                    <div
+                      className="bg-red-500 p-2 rounded-md w-max cursor-pointer hover:bg-red-500/80 text-primary-foreground"
+                      onClick={handleDeletePromo}
+                    >
+                      {deletePromo.isLoading && (
+                        <Loader className="w-4 h-4 animate-spin" />
+                      )}
+                      {deletePromo.isLoading ? "Processing..." : "Delete Promo"}
+                    </div>
+                  ) : (
+                    <Button
+                      className="bg-primary hover:bg-primary/80 text-primary-foreground"
+                      type="submit"
+                    >
+                      {postPromo.isLoading && (
+                        <Loader className="w-4 h-4 animate-spin" />
+                      )}
+                      {postPromo.isLoading ? "Processing..." : "Set Promo"}
+                    </Button>
+                  )
+                }
               </form>
             </Form>
           </div>

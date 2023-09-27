@@ -554,6 +554,70 @@ export const postRegister = async (
   }
 };
 
+export const postPromo = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { amount, limit, name, eventId } = req.body;
+
+    const promo = await prisma.promo.create({
+      data: {
+        eventId: Number(eventId),
+        name: name,
+        limit: Number(limit),
+        amount: Number(amount),
+      },
+    });
+
+    res.json(promo);
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+
+export const deletePromo = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { eventId } = req.params;
+    const promo = await prisma.promo.delete({
+      where: {
+        eventId: Number(eventId),
+      },
+    });
+
+    res.json(promo);
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+export const getPromo = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { eventId } = req.params;
+
+    const promo = await prisma.promo.findFirst({
+      where: {
+        eventId: Number(eventId),
+      },
+    });
+
+    res.json(promo);
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+
 export const postFavorite = async (
   req: Request,
   res: Response,
@@ -604,6 +668,9 @@ export const deleteEvent = async (
 ) => {
   try {
     const { eventId } = req.params;
+    if (Number.isNaN(Number(eventId))) {
+      return next();
+    }
     const event = await prisma.event.delete({
       where: {
         id: Number(eventId),

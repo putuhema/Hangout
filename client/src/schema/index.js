@@ -78,7 +78,7 @@ export const eventRegisterSchema = z.object({
 
 export const eventPromos = z.object({
   name: z.string(),
-  percentage: z.string(),
+  amount: z.string(),
   limit: z.string(),
 });
 
