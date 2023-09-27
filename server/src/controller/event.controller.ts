@@ -488,7 +488,7 @@ export const postRegister = async (
   next: NextFunction
 ) => {
   try {
-    const { eventId, userId, referal, newReferral } = req.body;
+    const { eventId, userId, referal, newReferral, price, promoId } = req.body;
 
     await prisma.attendee.create({
       data: {
@@ -508,21 +508,22 @@ export const postRegister = async (
       },
     });
 
-    await prisma.pointsTransaction.upsert({
-      where: {
-        userId: Number(isReferralUsed?.ownerId || 0),
-      },
-      create: {
-        points: 0,
-        userId: Number(userId),
-      },
-      update: {
-        points: {
-          increment: 50,
+    if (!!isReferralUsed) {
+      await prisma.pointsTransaction.upsert({
+        where: {
+          userId: Number(isReferralUsed?.ownerId),
         },
-      },
-    });
-
+        create: {
+          points: 0,
+          userId: Number(userId),
+        },
+        update: {
+          points: {
+            increment: 50,
+          },
+        },
+      });
+    }
     await prisma.referral.upsert({
       where: {
         ownerId: Number(isReferralUsed?.ownerId || 0),
@@ -542,8 +543,22 @@ export const postRegister = async (
       data: {
         userId: Number(userId),
         eventId: Number(eventId),
+        price: Number(price),
       },
     });
+
+    if (!!promoId) {
+      await prisma.promo.update({
+        where: {
+          id: Number(promoId),
+        },
+        data: {
+          used: {
+            increment: 1,
+          },
+        },
+      });
+    }
 
     res.status(200).json({
       msg: "success",
