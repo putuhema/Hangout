@@ -1,17 +1,14 @@
-import { useRive } from "@rive-app/react-canvas"
-import empty from "@/assets/empty.riv"
+import { useRive } from "@rive-app/react-canvas";
+import empty from "@/assets/empty.riv";
 const RiveEmpty = () => {
-    const STATE_MACHINE = "State Machine 1"
-    const { RiveComponent, } = useRive({
-        src: empty,
-        stateMachines: STATE_MACHINE,
-        autoplay: true
-    })
+  const STATE_MACHINE = "State Machine 1";
+  const { RiveComponent } = useRive({
+    src: empty,
+    stateMachines: STATE_MACHINE,
+    autoplay: true,
+  });
 
+  return <RiveComponent />;
+};
 
-    return (
-        <RiveComponent />
-    )
-}
-
-export default RiveEmpty
+export default RiveEmpty;

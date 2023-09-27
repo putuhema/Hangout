@@ -55,7 +55,10 @@ const Review = () => {
 
   let averageRating = 0;
   if (reviews.length > 0) {
-    averageRating = (reviews.map((rewiew) => rewiew.rating).reduce((a, b) => a + b) / lastIndexReview).toFixed(1);
+    averageRating = (
+      reviews.map((rewiew) => rewiew.rating).reduce((a, b) => a + b) /
+      lastIndexReview
+    ).toFixed(1);
   }
 
   let limit = comment.length;
@@ -70,7 +73,8 @@ const Review = () => {
     );
 
   let toast = toggle ? <Toast message="rating cannot be empty" /> : <></>;
-  let ratingElement = rating !== 0 ? <label className="ms-2">({rating})</label> : <></>;
+  let ratingElement =
+    rating !== 0 ? <label className="ms-2">({rating})</label> : <></>;
 
   return (
     <Container>

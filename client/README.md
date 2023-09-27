@@ -7,7 +7,7 @@
 ```json
 // ./api/db.json
 {
-    "events": []
+  "events": []
 }
 ```
 

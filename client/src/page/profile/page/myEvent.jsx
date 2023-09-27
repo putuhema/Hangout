@@ -1,20 +1,17 @@
-import { useQueryCache } from "@/hooks/useQueryCache"
-import { useAuth } from "@clerk/clerk-react"
-import MyEventCard from "./components/MyEventCard"
+import { useAuth } from "@clerk/clerk-react";
+import MyEventCard from "./components/MyEventCard";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 const MyEvent = () => {
-  const { userId } = useAuth()
+  const { userId } = useAuth();
+  const { data, isFetched } = useCurrentUser(userId)
 
-  const { data: userEvent } = useQueryCache(`event/${userId}`, '/user', { id: userId }, true)
   return (
     <>
-      {
-        userEvent && userEvent.map(event => (
-          <MyEventCard key={event.id} event={event} />
-        ))
-      }
+      {isFetched &&
+        data.event.map((event) => <MyEventCard key={event.id} event={event} />)}
     </>
-  )
-}
+  );
+};
 
-export default MyEvent
+export default MyEvent;

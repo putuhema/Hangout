@@ -1,9 +1,7 @@
-import {
-  ClerkProvider, SignIn, SignUp,
-} from "@clerk/clerk-react";
+import { ClerkProvider, SignIn, SignUp } from "@clerk/clerk-react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 
-import Home from "./page/Home";
+import Home from "./page/home/page";
 import EventDetails from "./page/event/EventDetails";
 import EventCategory from "./page/event/EventCategory";
 import EventForm from "./page/form/EventForm";
@@ -15,30 +13,54 @@ import MyReferals from "./page/profile/page/myReferals";
 import ErrorPage from "./page/ErrorPage";
 import MyFavorites from "./page/profile/page/myFavorites";
 import Dashboard from "./page/dashboard/page";
+import EditContainer from "./page/dashboard/components/events/edit/EditContainer";
 
-const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 const ClerkProviderRouter = () => {
   const navigate = useNavigate();
   return (
-    <ClerkProvider
-      publishableKey={clerkPubKey}
-      navigate={to => navigate(to)}
-    >
+    <ClerkProvider publishableKey={clerkPubKey} navigate={(to) => navigate(to)}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route
           path="/sign-in/*"
-          element={<AuthContainer><SignIn routing="path" path="/sign-in" /></AuthContainer>}
+          element={
+            <AuthContainer>
+              <SignIn routing="path" path="/sign-in" />
+            </AuthContainer>
+          }
         />
         <Route
           path="/sign-up/*"
-          element={<AuthContainer><SignUp routing="path" path="/sign-up" /></AuthContainer>}
+          element={
+            <AuthContainer>
+              <SignUp routing="path" path="/sign-up" />
+            </AuthContainer>
+          }
         />
-        <Route path="/event-form" element={<ProtectedRoutes><EventForm /></ProtectedRoutes>} />
+        <Route
+          path="/event-form"
+          element={
+            <ProtectedRoutes>
+              <EventForm />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/event-form/:eventId"
+          element={
+            <ProtectedRoutes>
+              <EditContainer />
+            </ProtectedRoutes>
+          }
+        />
         <Route path="/event/:eventId" element={<EventDetails />} />
-        <Route path="/event/category/:eventCategory" element={<EventCategory />} />
-        <Route path="/profile/" element={<Profile />} >
+        <Route
+          path="/event/category/:eventCategory"
+          element={<EventCategory />}
+        />
+        <Route path="/profile/" element={<Profile />}>
           <Route path="my-events" element={<MyEvent />} />
           <Route path="my-referals" element={<MyReferals />} />
           <Route path="my-favorites" element={<MyFavorites />} />
@@ -48,5 +70,5 @@ const ClerkProviderRouter = () => {
       </Routes>
     </ClerkProvider>
   );
-}
-export default ClerkProviderRouter
+};
+export default ClerkProviderRouter;

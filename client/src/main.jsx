@@ -21,5 +21,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       </Provider>
       <ReactQueryDevtools />
     </QueryClientProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

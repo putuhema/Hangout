@@ -1,0 +1,165 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextIndex", "fullTextSearch"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Event {
+  id          Int           @id @default(autoincrement())
+  name        String
+  location    String
+  description String        @db.Text
+  imagePath   String
+  type        PriceType
+  date        DateTime
+  time        String
+  category    String
+  price       Int
+  userId      Int
+  user        User          @relation(fields: [userId], references: [id])
+  tag         Tag[]
+  promo       Promo?
+  favorites   Favorites[]
+  reviews     Reviews[]
+  referrals   Referral[]
+  like        Like[]
+  attendees   Attendee[]
+  transaction Transaction[]
+
+  @@fulltext([name])
+}
+
+model Attendee {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  timestamp DateTime @default(now())
+  eventId   Int
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+}
+
+model Tag {
+  id    Int     @id @default(autoincrement())
+  name  String
+  event Event[]
+}
+
+model Promo {
+  id      Int    @id @default(autoincrement())
+  name    String
+  amount  Int
+  limit   Int
+  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId Int    @unique
+}
+
+model Favorites {
+  userId  Int
+  user    User  @relation(fields: [userId], references: [id])
+  eventId Int
+  event   Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@id([userId, eventId])
+}
+
+model Reviews {
+  id              Int       @id @default(autoincrement())
+  parentReviews   Reviews?  @relation("ChildReviews", fields: [parentReviewsId], references: [id])
+  parentReviewsId Int?
+  rating          Int
+  comment         String    @db.Text
+  date            DateTime  @default(now())
+  userId          Int
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  eventId         Int
+  event           Event     @relation(fields: [eventId], references: [id])
+  replies         Reviews[] @relation("ChildReviews")
+  likes           Like[]
+}
+
+model Referral {
+  id      Int     @id @default(autoincrement())
+  ownerId Int     @unique
+  owner   User?   @relation(fields: [ownerId], references: [id])
+  code    String
+  used    Boolean @default(false)
+  event   Event?  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId Int?
+}
+
+model PointsTransaction {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @unique
+  user      User     @relation(fields: [userId], references: [id])
+  points    Int      @default(0)
+  timestamp DateTime @default(now())
+}
+
+model User {
+  id                Int                @id @default(autoincrement())
+  externalId        String             @unique
+  username          String?
+  firstname         String
+  lastname          String
+  email             String             @unique
+  imageUrl          String
+  points            Int                @default(0)
+  event             Event[]
+  favorites         Favorites[]
+  reviews           Reviews[]
+  like              Like[]
+  followers         Follows[]          @relation("followers")
+  following         Follows[]          @relation("following")
+  attendee          Attendee[]
+  transaction       Transaction[]
+  referral          Referral[]
+  pointsTransaction PointsTransaction?
+}
+
+model Like {
+  id             Int      @id @default(autoincrement())
+  Event          Event?   @relation(fields: [eventId], references: [id])
+  eventId        Int?
+  likeType       LikeType
+  reviewsUserId  Int?
+  reviewsEventId Int?
+  User           User?    @relation(fields: [userId], references: [id])
+  userId         Int?
+  reviews        Reviews? @relation(fields: [reviewsId], references: [id])
+  reviewsId      Int?
+}
+
+model Follows {
+  following   User @relation("following", fields: [followingId], references: [id])
+  followingId Int
+  follower    User @relation("followers", fields: [followerId], references: [id])
+  followerId  Int
+
+  @@id([followerId, followingId])
+}
+
+model Transaction {
+  id        Int      @id @default(autoincrement())
+  timestamp DateTime @default(now())
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    Int?
+  eventId   Int?
+  event     Event?   @relation(fields: [eventId], references: [id], onDelete: Cascade)
+}
+
+enum PriceType {
+  free
+  paid
+}
+
+enum LikeType {
+  like
+  dislike
+}
