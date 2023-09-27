@@ -5,7 +5,7 @@ import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 
 import { FormatToIDR } from "@/lib/utils";
 import { format } from "date-fns";
-import { ArrowLeft, Heart, Share, Star, Ticket } from "lucide-react";
+import { ArrowLeft, Heart, SeparatorHorizontal, Share, Star, Ticket } from "lucide-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "@clerk/clerk-react";
@@ -70,7 +70,7 @@ const EventDetails = () => {
   const price = isFetched && event.type === "paid" ? Number(event.price) : 0;
   const discount =
     isFetched && event.promo
-      ? price - price * (Number(event.promos.amount) / 100)
+      ? price - price * (Number(event.promo.amount) / 100)
       : 0;
 
   // following 
@@ -214,11 +214,12 @@ const EventDetails = () => {
                   <span>
                     <p className="font-bold">{FormatToIDR(discount)}</p>
                     <span className="flex gap-2">
-                      <Badge className="text-xs">{`${event.promo.amount}%`}</Badge>
+                      <Badge className="text-xs bg-primary hover:bg-primary/80">{`${event.promo.amount}%`} </Badge>
                       <p className="line-through text-muted-foreground text-sm">
                         {FormatToIDR(price)}
                       </p>
                     </span>
+                    <p className="text-xs my-2"></p>
                   </span>
                 ) : (
                   <p className=" font-bold text-lg">
@@ -231,6 +232,7 @@ const EventDetails = () => {
                       <Ticket className="text-primary" />
                       <p>Get Ticket</p>
                     </span>
+                    <p className="text-xs my-2 text-muted-foreground">{event.promo.used} / {event.promo.limit} people used this promo</p>
                   </DialogTrigger>
                   <TransactionDialog
                     event={event}

@@ -113,8 +113,10 @@ const TransactionDialog = ({ event, user, discount, price }) => {
       ...values,
       userId: user.id,
       eventId: event.id,
+      promoId: event.promo.id,
       ownerId: event.user.id,
-      newReferral: newReferral
+      newReferral: newReferral,
+      price: (price - (price - discount))
     })
   }
   return (

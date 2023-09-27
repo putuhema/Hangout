@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-const MAX_FILE_SIZE = 500000;
+const MAX_FILE_SIZE = 5000000;
 const ACCEPTED_IMAGE_TYPES = [
   "image/jpeg",
   "image/jpg",
@@ -27,13 +27,12 @@ export const formSchema = z.object({
   price: z.string().optional(),
   category: z.string(),
   tags: z.string().max(10).array(),
-  image: z.any(),
-  // .refine(file => {
-  //   console.log(file)
-  //   return file.size <= MAX_FILE_SIZE
-  // }
-  //   , "Max image size is 5MB.")
-  // .refine(file => ACCEPTED_IMAGE_TYPES.includes(file?.type), "Only .jpg,.jpeg,.png and .webp formats are supported")
+  image: z.any()
+    .refine(file => {
+      return file.size <= MAX_FILE_SIZE
+    }
+      , "Max image size is 5MB.")
+    .refine(file => ACCEPTED_IMAGE_TYPES.includes(file?.type), "Only .jpg,.jpeg,.png and .webp formats are supported")
 });
 
 
