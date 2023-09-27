@@ -361,7 +361,6 @@ export const editEvent = async (
       userId,
       eventId,
     } = JSON.parse(events);
-    const { path } = req.file as Express.Multer.File;
 
     const updatedEvent = await prisma.event.findFirst({
       where: {
@@ -369,7 +368,8 @@ export const editEvent = async (
       },
     });
 
-    if (!!path) {
+    if (!!req.file) {
+      const { path } = req.file as Express.Multer.File;
       deleteImage(String(updatedEvent?.imagePath));
       await prisma.event.update({
         where: {
