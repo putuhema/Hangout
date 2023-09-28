@@ -1,14 +1,13 @@
-import { Calendar, DollarSign, SkipBack, Star } from "lucide-react";
+import { Calendar, DollarSign, Star } from "lucide-react";
 import { useAuth } from "@clerk/clerk-react";
-import { Separator } from "@/components/ui/separator";
 import MyResponsiveLine from "./charts/LineCharts";
 import { FormatToIDR } from "@/lib/utils";
-import Attendee from "./attendee";
-import { Button } from "@/components/ui/button";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useQuery } from "@tanstack/react-query";
 import services from "@/services";
+import { getDate } from "date-fns";
+import MyResponsiveBar from "./charts/BarCharts";
 
 const Overview = () => {
 
@@ -23,6 +22,26 @@ const Overview = () => {
     },
     enabled: !!id
   })
+
+  const transaction = isFetched ? data.event.map(event => event.transaction) : []
+  const attendees = isFetched ? data.event.map(event => ({ name: event.name, attendees: event.attendees.length })) : []
+
+  const revenue = transaction.flat().reduce((prev, curr) => prev + Number(curr.price), 0)
+
+  console.log(attendees)
+
+  const uniqueDates = {}
+  for (const t of transaction.flat()) {
+    const key = getDate(new Date(t.timestamp))
+    uniqueDates[key] = (uniqueDates[key] || 0) + 1
+  }
+
+  const dateCountArray = Object.keys(uniqueDates).map(date => ({
+    date: date, transaction: uniqueDates[date]
+  }))
+
+
+  // calculate how many transaction that happen on a unique date
 
   const overalRating = revFetched ? rev.reviews.reduce((acc, curr) => acc + curr.rating, 0) / rev.reviews.length : 0
   let ratingEvaluate = "";
@@ -56,7 +75,7 @@ const Overview = () => {
             <p>Total Revenue</p>
             <DollarSign className="w-4 h-4" />
           </span>
-          {/* <p className="font-bold text-xl">{FormatToIDR(totalRevenue)}</p> */}
+          <p className="font-bold text-xl">{FormatToIDR(revenue)}</p>
           {
             isLoading ? (
               <Skeleton className="w-full h-4" />
@@ -103,46 +122,14 @@ const Overview = () => {
         <div className="col-span-3 h-[400px] border border-border rounded-md p-2 ">
           {
             isLoading ? <Skeleton /> :
-              <MyResponsiveLine data={data.event} />
+              <MyResponsiveLine data={dateCountArray} />
           }
         </div>
-        <div className="border col-span-2 rounded-md p-2 space-y-2 overflow-y-auto">
-          <p className="font-bold mb-4">Recent Registration</p>
-          {isFetched &&
-            data.event
-              .slice(0, 3)
-              .map((event) => (
-                <div key={event.id} className="border px-2 rounded-md">
-                  <span className="flex items-center justify-between">
-                    <p className="text-muted-foreground">{event.name}</p>
-                  </span>
-                  {/* <div className="flex p-2">
-                    {event.attendees.length > 0 &&
-                      event.attendees
-                        .toReversed()
-                        .slice(0, 3)
-                        .map((attendee, i) => (
-                          <div
-                            key={attendee.firstName + i}
-                            className={`flex gap-2  ${i % 2 !== 0 &&
-                              "transform -translate-x-4 border-2 rounded-full"
-                              }`}
-                          >
-                            {i !== 2 ? (
-                              <Attendee attendee={attendee} />
-                            ) : (
-                              <div className="w-[40px] h-[40px] grid place-content-center transform -translate-x-8 border-2 rounded-full bg-secondary">
-                                {event.attendees.length - 3}+
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                  </div> */}
-                </div>
-              ))}
-          <Button className="w-full bg-primary hover:bg-primary/80">
-            See more
-          </Button>
+        <div className="border col-span-2 h-[400px] rounded-md p-2 space-y-2 overflow-y-auto">
+          {
+            isLoading ? <Skeleton /> :
+              <MyResponsiveBar data={attendees} />
+          }
         </div>
       </div>
     </div>

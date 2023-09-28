@@ -21,6 +21,10 @@ export const getUserById = async (
       },
       include: {
         event: {
+          include: {
+            transaction: true,
+            attendees: true,
+          },
           orderBy: {
             date: "asc",
           },

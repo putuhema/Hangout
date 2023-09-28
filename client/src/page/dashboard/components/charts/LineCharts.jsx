@@ -1,21 +1,21 @@
 import {
-  BarChart,
-  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   Legend,
   ResponsiveContainer,
+  LineChart,
+  Line,
 } from "recharts";
 
 const MyResponsiveLine = ({ data }) => {
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <BarChart
-        data={data}
+      <LineChart
         width={500}
         height={300}
+        data={data}
         margin={{
           top: 5,
           right: 30,
@@ -24,12 +24,13 @@ const MyResponsiveLine = ({ data }) => {
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
+        <XAxis dataKey="date" />
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="attendees" fill="#2563eb" />
-      </BarChart>
+        <Line type="monotone" dataKey="transaction" stroke="#2563eb" activeDot={{ r: 8 }} />
+        {/* <Line type="monotone" dataKey="uv" stroke="#82ca9d" /> */}
+      </LineChart>
     </ResponsiveContainer>
   );
 };

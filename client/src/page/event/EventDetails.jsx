@@ -5,7 +5,7 @@ import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 
 import { FormatToIDR } from "@/lib/utils";
 import { format } from "date-fns";
-import { ArrowLeft, Heart, SeparatorHorizontal, Share, Star, Ticket } from "lucide-react";
+import { ArrowLeft, Heart, Share, Star, Ticket } from "lucide-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "@clerk/clerk-react";
@@ -36,13 +36,10 @@ const EventDetails = () => {
     (category) => category.value === event.category,
   )[0] : {};
 
-  const eventRating =
-    isFetched && event.reviews.length > 0
-      ? event.reviews.reduce(
-        (acc, curr) => acc + (curr.rating ? curr.rating : 0),
-        0,
-      ) / event.reviews.filter((review) => review.rating !== null).length
-      : -1;
+  const eventRating = isFetched && event.reviews.length > 0
+    ? event.reviews.reduce((acc, curr) => acc + (curr.rating || 0), 0) / event.reviews.filter(review => review.rating !== null).length
+    : -1;
+
 
   let ratingEvaluate = "";
   if (eventRating > 0 && eventRating <= 1.0) {
@@ -241,7 +238,9 @@ const EventDetails = () => {
                       <Ticket className="text-primary" />
                       <p>Get Ticket</p>
                     </span>
+
                     {
+                      event.promo &&
                       event.promo.used <= event.promo.limit && (
                         <p className="text-xs my-2 text-muted-foreground">{event.promo.used} / {event.promo.limit} people used this promo</p>
                       )
