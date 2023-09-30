@@ -41,8 +41,6 @@ const Overview = () => {
   }))
 
 
-  // calculate how many transaction that happen on a unique date
-
   const overalRating = revFetched ? rev.reviews.reduce((acc, curr) => acc + curr.rating, 0) / rev.reviews.length : 0
   let ratingEvaluate = "";
   if (overalRating > 0 && overalRating <= 1.0) {

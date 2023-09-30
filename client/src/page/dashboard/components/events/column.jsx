@@ -9,11 +9,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { FormatToIDR } from "@/lib/utils";
 import { format } from "date-fns";
-import { ArrowUpDown, MoreHorizontal, Trash } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { categories } from "@/constant";
 import { Link } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
-import services from "@/services";
+import DeleteEventButton from "./DeleteEventButton";
 export const columns = [
   {
     id: "select",
@@ -107,18 +106,6 @@ export const columns = [
     id: "actions",
     cell: ({ row }) => {
       const event = row.original;
-      const { mutate } = useMutation({
-        mutationFn: async () => {
-          return services.delete(`/events/${event.id}`)
-        }
-      })
-
-      const handleOnSubmit = (e) => {
-        e.preventDefault()
-        mutate()
-      }
-
-
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -139,11 +126,7 @@ export const columns = [
             </Link>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <form onSubmit={handleOnSubmit}>
-                <button type="submit" className="flex gap-2 items-center text-red-400 text-foreground">
-                  <Trash className="w-4 h-4 text-red-500" /> Delete
-                </button >
-              </form>
+              <DeleteEventButton eventId={event.id} />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
