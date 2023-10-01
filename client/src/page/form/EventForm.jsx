@@ -45,8 +45,8 @@ const emptyForm = {
   location: "",
   date: new Date(),
   time: {
-    hours: getHours(new Date()),
-    minutes: getMinutes(new Date()),
+    hours: String(getHours(new Date())),
+    minutes: String(getMinutes(new Date())),
     type: "PM",
   },
   description: "",
@@ -130,7 +130,7 @@ const EventForm = () => {
           <ArrowLeft className="w-6 h-6" onClick={() => navigate(-1)} />
           <h2 className="font-bold text-lg">
             {
-              !!eventId ? 'Lets edit your event' : 'Lets create your event'
+              eventId ? 'Lets edit your event' : 'Lets create your event'
             }
           </h2>
         </span>

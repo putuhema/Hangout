@@ -491,15 +491,6 @@ export const postRegister = async (
     const { eventId, userId, referal, newReferral, ownerId, price, promoId } =
       req.body;
 
-    await prisma.attendee.create({
-      data: {
-        eventId: Number(eventId),
-        userId: Number(userId),
-      },
-    });
-
-    // determines whether a referral has been used by a current register user,
-    // as indicated by the usedByUserId field in the database.
     const isReferralUsed = await prisma.referral.findFirst({
       where: {
         code: String(referal),
@@ -524,7 +515,7 @@ export const postRegister = async (
 
       await prisma.referral.update({
         where: {
-          ownerId: Number(ownerId),
+          ownerId: Number(isReferralUsed.ownerId),
         },
         data: {
           usedByUser: {
@@ -535,6 +526,13 @@ export const postRegister = async (
         },
       });
     }
+
+    await prisma.attendee.create({
+      data: {
+        eventId: Number(eventId),
+        userId: Number(userId),
+      },
+    });
 
     await prisma.referral.upsert({
       where: {

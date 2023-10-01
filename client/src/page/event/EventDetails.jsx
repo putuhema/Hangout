@@ -9,7 +9,7 @@ import { ArrowLeft, Heart, Share, Star, Ticket } from "lucide-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "@clerk/clerk-react";
-import services from "@/services";
+import services, { baseUrl } from "@/services";
 
 import { Separator } from "@/components/ui/separator";
 import CommentSection from "./components/CommentSection";
@@ -17,6 +17,7 @@ import Comment from "./components/Comment";
 import TransactionDialog from "./components/TransactionDialog";
 import { categories } from "@/constant";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { id } from "date-fns/locale";
 
 const EventDetails = () => {
   const navigate = useNavigate();
@@ -100,6 +101,7 @@ const EventDetails = () => {
     })
   }
 
+  // FIX: following functionality
   const isFollowing =
     isCurrentUserFetched &&
     isFetched &&
@@ -123,12 +125,12 @@ const EventDetails = () => {
             </div>
             <img
               className="absolute inset-0 z-1 rounded-md h-full w-full object-cover"
-              src={`http://localhost:3000/${event.imagePath}`}
+              src={`${baseUrl}/${event.imagePath}`}
             />
           </div>
           <div className="flex items-center justify-between">
             <p className="text-muted-foreground">
-              {format(new Date(event.date), "PPP")}
+              {format(new Date(event.date), "PPP", { locale: id })}
             </p>
             <div className="flex flex-col items-center">
               <span className="p-2 rounded-md flex items-center gap-2">

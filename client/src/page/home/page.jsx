@@ -22,6 +22,7 @@ const Home = () => {
   const { data: currentUser, isFetched } = useCurrentUser(userId);
   const [tab, setTab] = useState("All");
 
+
   const { data, isLoading } = useQuery(["events"], async () => {
     const res = await services.get("/events");
     return res.data;
@@ -113,23 +114,25 @@ const Home = () => {
         </div>
         {isSignedIn && (
           <div className="w-[350px] shrink-0 hidden xl:flex">
-            <div className="fixed flex flex-col gap-4 top-[80px] w-[1950px] right-auto max-w-[350px] p-2">
-              <div className="rounded-md shadow-sm bg-background p-2 w-full">
-                <span className="flex gap-2 items-end justify-between">
-                  <h4 className="text-lg font-bold">My Events</h4>
-                  <Link
-                    className="flex gap-1 items-center text-sm text-slate-500"
-                    to="/profile/my-events/"
-                  >
-                    See All <ChevronRight size={20} />
-                  </Link>
-                </span>
-              </div>
-              <div className="rounded-md shadow-sm h-10 bg-background p-2 w-full flex flex-col gap-2">
-                {isFetched &&
-                  currentUser.event.slice(0, 3).map((event) => (
-                    <UserCard key={event.id} event={event} />
-                  ))}
+            <div className="fixed flex flex-col gap-4 top-[80px] xl:ml-[35px] w-[1950px] right-auto max-w-[350px] p-2">
+              <div className="border bg-primary rounded-md p-2">
+                <div className="p-2 w-full">
+                  <span className="flex gap-2 items-center justify-between">
+                    <h4 className="text-lg font-bold text-primary-foreground">My Events</h4>
+                    <Link
+                      className="flex gap-1 items-center text-sm text-primary-foreground"
+                      to="/profile/my-events/"
+                    >
+                      See All <ChevronRight size={20} />
+                    </Link>
+                  </span>
+                </div>
+                <div className="p-2 w-full flex flex-col gap-2">
+                  {isFetched &&
+                    currentUser.event.slice(0, 3).map((event) => (
+                      <UserCard key={event.id} event={event} />
+                    ))}
+                </div>
               </div>
             </div>
           </div>
