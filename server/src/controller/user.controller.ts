@@ -165,6 +165,12 @@ export const webhook = async (
           email,
         },
       });
+    } else if (eventType === "user.deleted") {
+      await prisma.user.delete({
+        where: {
+          externalId: id as string,
+        },
+      });
     }
     res.status(200).json({
       success: true,
@@ -176,7 +182,7 @@ export const webhook = async (
   }
 };
 
-type EventType = "user.created" | "user.updated" | "*";
+type EventType = "user.created" | "user.updated" | "user.deleted" | "*";
 type Email = {
   email_address: string;
   id: string;

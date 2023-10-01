@@ -101,7 +101,7 @@ const EventDetails = () => {
     })
   }
 
-  // FIX: following functionality
+
   const isFollowing =
     isCurrentUserFetched &&
     isFetched &&

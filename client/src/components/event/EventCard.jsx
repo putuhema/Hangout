@@ -1,32 +1,26 @@
 import { format } from "date-fns";
 import { Heart } from "lucide-react";
 import { Badge } from "../ui/badge";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { formatToUnits } from "@/lib/utils";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useAuth } from "@clerk/clerk-react";
-import services from "@/services";
+import services, { baseUrl } from "@/services";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 const EventCard = ({ event }) => {
 
-  const { data: favorites, isFetched: favoritesFetched } = useQuery({
-    queryKey: ["favorites", event.id],
-    queryFn: async () => {
-      const res = await services.get(`/events/favorites/${event.id}`,)
-      return res.data
-    },
-    refetchInterval: 1000
-  })
-  const isUserFavorite = !!favorites && favoritesFetched ? favorites.eventId === event.id : false
   const { userId } = useAuth();
   const { data: currentUser, isFetched } = useCurrentUser(userId)
+
   const eventMutation = useMutation({
     mutationFn: async (event) => {
       return services.post(`/events/favorites`, event);
     },
   });
+
+  const isUserFavorite = isFetched
+    && currentUser.favorites.some(fav => fav.userId === currentUser.id && fav.eventId === event.id)
 
   const handleOnSubmit = (e) => {
     e.preventDefault()
@@ -41,7 +35,7 @@ const EventCard = ({ event }) => {
     <div className="relative flex flex-col justify-between rounded-lg bg-black group shadow-sm border overflow-hidden border-border h-[250px]  w-full z-[1]">
       <img
         className="absolute rounded-lg h-full w-full object-cover inset-0 opacity-80 transform group-hover:scale-110 group-hover:opacity-100 transition-all duration-200"
-        src={`http://localhost:3000/${event.imagePath}`}
+        src={`${baseUrl}/${event.imagePath}`}
       />
       <div className="flex items-start justify-between p-2">
         <span className=" top-2 left-2 bg-white/30 border-border border backdrop-blur-md w-max px-2 py-1 rounded-md flex flex-col items-center justify-center">
