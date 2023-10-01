@@ -5,7 +5,7 @@ import MyFavoritesCard from "./components/MyFavoritesCard";
 
 const MyFavorites = () => {
   const { userId } = useAuth();
-  const { data, isFetched } = useCurrentUser(userId, 1000)
+  const { data, isFetched } = useCurrentUser(userId)
 
   return (
     <>

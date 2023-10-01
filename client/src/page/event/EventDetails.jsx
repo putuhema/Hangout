@@ -30,7 +30,6 @@ const EventDetails = () => {
       const res = await services.get(`/events/${eventId}`);
       return res.data;
     },
-    refetchInterval: 1000,
   });
 
   const category = isFetched ? categories.filter(

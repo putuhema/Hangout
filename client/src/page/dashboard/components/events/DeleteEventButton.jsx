@@ -1,11 +1,17 @@
 import services from "@/services"
-import { useMutation } from "@tanstack/react-query"
+import { useAuth } from "@clerk/clerk-react"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Trash } from "lucide-react"
 
 const DeleteEventButton = ({ eventId }) => {
+    const { userId } = useAuth()
+    const queryClient = useQueryClient()
     const { mutate } = useMutation({
         mutationFn: async () => {
             return services.delete(`/events/${eventId}`)
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["user", userId] })
         }
     })
 

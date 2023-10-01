@@ -14,8 +14,6 @@ const Comment = ({ review, isChild }) => {
       const res = await services.get(`/events/reply/${review.id}`);
       return res.data;
     },
-    enabled: !!review.id,
-    refetchInterval: 1000
   });
 
 

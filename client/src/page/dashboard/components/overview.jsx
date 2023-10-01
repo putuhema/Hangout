@@ -12,7 +12,7 @@ import MyResponsiveBar from "./charts/BarCharts";
 const Overview = () => {
 
   const { userId } = useAuth();
-  const { data, isFetched, isLoading } = useCurrentUser(userId, 1000)
+  const { data, isFetched, isLoading } = useCurrentUser(userId)
   const id = isFetched ? data.id : 0
   const { data: rev, isFetched: revFetched } = useQuery({
     queryKey: ['event', id],
@@ -20,7 +20,6 @@ const Overview = () => {
       const res = await services.get(`/events/reviews/${id}`)
       return res.data
     },
-    enabled: !!id
   })
 
   const transaction = isFetched ? data.event.map(event => event.transaction) : []
@@ -28,7 +27,6 @@ const Overview = () => {
 
   const revenue = transaction.flat().reduce((prev, curr) => prev + Number(curr.price), 0)
 
-  console.log(attendees)
 
   const uniqueDates = {}
   for (const t of transaction.flat()) {

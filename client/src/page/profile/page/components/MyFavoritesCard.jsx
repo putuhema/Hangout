@@ -1,16 +1,21 @@
 import services from "@/services";
-import { useMutation } from "@tanstack/react-query";
+import { useAuth } from "@clerk/clerk-react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import format from "date-fns/format";
 import { Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const MyFavoritesCard = ({ favEventId, event, userId }) => {
-
+  const queryClient = useQueryClient()
+  const { userId: externalId } = useAuth()
   const isUserFavorite = favEventId === event.id
   const eventMutation = useMutation({
     mutationFn: async (event) => {
       return services.post(`/events/favorites`, event);
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user", externalId] })
+    }
   });
 
   const handleOnSubmit = (e) => {

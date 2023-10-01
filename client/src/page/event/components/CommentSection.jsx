@@ -12,7 +12,7 @@ import { eventComment } from "@/schema";
 import { useAuth, useUser } from "@clerk/clerk-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import services from "@/services";
 import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
@@ -20,6 +20,7 @@ import ReviewStar from "./ReviewStar";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 const CommentSection = ({ event, isChild, commentId }) => {
+  const queryClient = useQueryClient()
   const { userId } = useAuth();
   const { data: currentUser, isFetched } = useCurrentUser(userId)
   const { user, isSignedIn } = useUser();
@@ -35,6 +36,10 @@ const CommentSection = ({ event, isChild, commentId }) => {
     mutationFn: async (comment) => {
       return services.post("/events/reviews", comment);
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["event", String(event.id)] })
+      queryClient.invalidateQueries({ queryKey: ["reply", commentId] })
+    }
   });
 
   const onSubmit = (values) => {
