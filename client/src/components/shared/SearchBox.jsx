@@ -23,7 +23,7 @@ const SearchBox = () => {
   const { isSearch } = useSelector((state) => state.events);
   const [keyword, setKeyword] = useState("");
   const [debounceKeyword] = useDebounce(keyword, 1000);
-  // Filters hold object that contains filter conditions for [date, price, category].
+
   const [filters, setFilters] = useState(["", "", ""]);
   const isShow = filters.filter((filter) => filter.length > 0).length > 0;
 

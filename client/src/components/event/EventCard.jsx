@@ -3,20 +3,22 @@ import { Heart } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { Link } from "react-router-dom";
 import { formatToUnits } from "@/lib/utils";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@clerk/clerk-react";
 import services, { baseUrl } from "@/services";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 const EventCard = ({ event }) => {
-
   const { userId } = useAuth();
+  const queryClient = useQueryClient()
+
   const { data: currentUser, isFetched } = useCurrentUser(userId)
 
   const eventMutation = useMutation({
-    mutationFn: async (event) => {
-      return services.post(`/events/favorites`, event);
-    },
+    mutationFn: async (event) => services.post(`/events/favorites`, event),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user", String(userId)] })
+    }
   });
 
   const isUserFavorite = isFetched
@@ -33,6 +35,7 @@ const EventCard = ({ event }) => {
 
   return (
     <div className="relative flex flex-col justify-between rounded-lg bg-black group shadow-sm border overflow-hidden border-border h-[250px]  w-full z-[1]">
+
       <img
         className="absolute rounded-lg h-full w-full object-cover inset-0 opacity-80 transform group-hover:scale-110 group-hover:opacity-100 transition-all duration-200"
         src={`${baseUrl}/${event.imagePath}`}

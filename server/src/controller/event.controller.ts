@@ -647,12 +647,17 @@ export const postFavorite = async (
 ) => {
   try {
     const { userId, eventId } = req.body;
+
     const isFavorite = await prisma.favorites.findFirst({
       where: {
         eventId: Number(eventId),
+        AND: {
+          userId: Number(userId),
+        },
       },
     });
-    if (Boolean(isFavorite)) {
+
+    if (isFavorite) {
       const favorite = await prisma.favorites.delete({
         where: {
           userId_eventId: {
@@ -661,7 +666,6 @@ export const postFavorite = async (
           },
         },
       });
-
       return res.json(favorite);
     }
 

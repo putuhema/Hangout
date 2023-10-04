@@ -33,9 +33,7 @@ const CommentSection = ({ event, isChild, commentId }) => {
   });
 
   const { mutate, isLoading } = useMutation({
-    mutationFn: async (comment) => {
-      return services.post("/events/reviews", comment);
-    },
+    mutationFn: async (comment) => services.post("/events/reviews", comment),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["event", String(event.id)] })
       queryClient.invalidateQueries({ queryKey: ["reply", commentId] })
@@ -88,8 +86,8 @@ const CommentSection = ({ event, isChild, commentId }) => {
               <FormItem>
                 <FormControl>
                   <Textarea
-                    className="w-full resize-none"
-                    rows={isChild ? "1" : "4"}
+                    className="w-full resize-none focus:ring-blue-500 focus:border-blue-500 focus:outline-primary form-textarea"
+                    rows={isChild ? "1" : "3"}
                     {...field}
                   />
                 </FormControl>

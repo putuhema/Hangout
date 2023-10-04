@@ -1,7 +1,7 @@
 import services from "@/services";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-export const useCurrentUser = (externalId, refetch = false) => {
+export const useCurrentUser = (externalId) => {
   const queryClient = useQueryClient();
 
   const { data, isLoading, isFetched } = useQuery({
@@ -15,7 +15,6 @@ export const useCurrentUser = (externalId, refetch = false) => {
       return res.data;
     },
     enabled: Boolean(externalId),
-    refetchInterval: refetch
   });
 
   return { data, isLoading, isFetched };

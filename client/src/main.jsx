@@ -9,7 +9,13 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import ClerkProviderRouter from "./ClerkProviderRouter";
 import "./index.css";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false
+    }
+  }
+});
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
